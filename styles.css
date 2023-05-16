@@ -77,6 +77,8 @@ body {
     border-radius: 4px;
     background-color: #f1f1f1; /* Set light gray background color for form fields */
     color: #333333; /* Set text color for form fields */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow properties */
+
   }
 
   .form-group textarea {
@@ -90,11 +92,13 @@ body {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Shadow properties */
   }
-
+  
   .form-group button:hover {
     background-color: #131924;
   }
+  
 
     /* WebKit (Chrome, Safari, and Opera) */
     ::-webkit-scrollbar {
