@@ -1,0 +1,112 @@
+/* Center the container element vertically and horizontally */
+.container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Add typing effect */
+  .typewriter {
+    overflow: hidden; /* Ensures the text is hidden initially */
+    white-space: nowrap; /* Prevents line breaks */
+    letter-spacing: .15em; /* Adjusts the spacing between letters */
+    border-right: .15em solid orange; /* Creates the typing cursor effect */
+    animation: typing 7s steps(75), blink-caret .75s step-end infinite;
+    width: auto; /* Start with 0 width */
+    max-width: 220px;
+  }
+  
+  /* Typing animation */
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: calc(100% + .15em); /* Adjust width calculation to include cursor width */
+    }
+  }
+  
+  /* Blinking cursor animation */
+  @keyframes blink-caret {
+    from, to {
+      border-color: transparent;
+    }
+    50% {
+      border-color: orange;
+    }
+  }
+
+
+
+
+
+
+
+body {
+    background: linear-gradient(to bottom right, #1d1d1d, #182230);
+    color: #ffffff;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: background-position 0.3s ease-in-out; /* Add transition effect to the background position */
+  }
+
+  .form-container {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0); /* Add a semi-transparent white background to the form container */
+    padding: 20px;
+    border-radius: 4px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f1f1f1; /* Set light gray background color for form fields */
+    color: #333333; /* Set text color for form fields */
+  }
+
+  .form-group textarea {
+    resize: vertical; /* Only allow vertical resizing */
+  }
+
+  .form-group button {
+    background-color: #222e42;
+    color: rgb(0, 0, 0);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .form-group button:hover {
+    background-color: #131924;
+  }
+
+    /* WebKit (Chrome, Safari, and Opera) */
+    ::-webkit-scrollbar {
+        width: 8px;
+      }
+    
+      ::-webkit-scrollbar-track {
+        background-color: #333333;
+      }
+    
+      ::-webkit-scrollbar-thumb {
+        background-color: #182230;
+        border-radius: 4px;
+      }
+    
