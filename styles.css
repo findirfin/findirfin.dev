@@ -27,7 +27,7 @@ body {
 
 
 /* Center the container element vertically and horizontally */
-.typewriter-container {
+.helloworld {
   height: 100vh;
   display: flex;
   align-items: center;
