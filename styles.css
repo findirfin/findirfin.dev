@@ -1,3 +1,8 @@
+html {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: large;
+}
+
 body {
   color: #ffffff;
   background-attachment: fixed;
@@ -39,7 +44,6 @@ body {
   max-width: 400px;
   margin: 0 auto;
   background-color: rgba(255, 255, 255, 0);
-  /* Add a semi-transparent white background to the form container */
   padding: 20px;
   border-radius: 4px;
 }
@@ -65,13 +69,10 @@ body {
   /* Set text color for form fields */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   /* Shadow properties */
-
-}
-
-.form-group textarea {
   resize: vertical;
-  /* Only allow vertical resizing */
+
 }
+
 
 .form-group button {
   background-color: #222e42;
