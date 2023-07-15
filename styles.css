@@ -108,6 +108,41 @@ body {
 
 @media only screen and (max-width: 1023px) {
   /* Add your mobile styles here */
+  h1 {
+    font-size: 200px;
+    margin-left: 10%;
+  }
+
+  .form-container {
+    font-size: 50px;
+    margin: 5px;
+    max-width: 90%;
+  }
+
+  .form-group input,
+.form-group textarea {
+  width: 100%;
+  height: 50px;
+  /* Set light gray background color for form fields */
+  color: #333333;
+  /* Set text color for form fields */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Shadow properties */
+  resize: vertical;
+
+}
+
+.form-group button {
+  font-size: 50px;
+  background-color: #222e42;
+  color: rgb(255, 255, 255);
+  padding: 20px 40px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  /* Shadow properties */
+}
 
 
 }
