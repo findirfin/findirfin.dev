@@ -131,7 +131,11 @@ body {
     border-radius: 15px;
     /* Shadow properties */
     resize: vertical;
+    font-size: 90px;
+  }
 
+  .form-group textarea {
+    height: 210px;
   }
 
   .form-group button {
