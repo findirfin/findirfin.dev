@@ -131,7 +131,7 @@ body {
     border-radius: 15px;
     /* Shadow properties */
     resize: vertical;
-    font-size: 90px;
+    font-size: 75px;
   }
 
   .form-group textarea {
