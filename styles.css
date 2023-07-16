@@ -40,6 +40,8 @@ body {
 }
 
 
+
+
 .form-container {
   max-width: 400px;
   margin: 0 auto;
@@ -131,7 +133,7 @@ body {
     border-radius: 15px;
     /* Shadow properties */
     resize: vertical;
-    font-size: 75px;
+    font-size: 50px;
   }
 
   .form-group textarea {
