@@ -57,6 +57,11 @@ body {
 */
 
 
+
+
+
+
+
 .form-container {
   max-width: 400px;
   margin: 0 auto;
@@ -137,12 +142,18 @@ a:hover:after {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #333333;
+  background-color: #182230;
 }
 
 ::-webkit-scrollbar-thumb {
   background-color: #182230;
   border-radius: 4px;
+}
+
+.lorem {
+  margin-left: 20%;
+  max-width: 60%;
+  margin-right: 20%;
 }
 
 
