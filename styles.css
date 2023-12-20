@@ -93,8 +93,7 @@ body {
 a {
   text-decoration: none;
   position: relative;
-  color: lightgray;
-  font-weight: bold;
+  color: white;
 }
 
 a:after {
