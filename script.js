@@ -41,7 +41,7 @@ $(document).ready(function() {
       });
 
 
-
+      /*
       const letters = "AaBbCcDdEeFfGHhIiJKkLlMmNnOoPpQRrSsTtUuVvWwXxYyZz ";
       //const letters = "01";
 
@@ -72,7 +72,7 @@ $(document).ready(function() {
           iteration += 1 / 3;
         }, 30);
       }
-
+*/
 
   });
   
