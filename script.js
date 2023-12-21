@@ -59,7 +59,7 @@ $(document).ready(function() {
             image.style.transition = "opacity 0.5s ease-in-out";
             image.style.opacity = 0;
             image.style.borderRadius = "10px";
-            image.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.5)";
+            image.style.boxShadow = "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)";
 
             
       
