@@ -39,6 +39,10 @@ body {
   justify-content: center;
 }
 
+.helloworldcontainer img {
+  width: 40%;
+}
+
 .helloworld {
   display: flex;
   align-items: center;
@@ -158,10 +162,14 @@ a:hover:after {
 
 
 
-@media (max-width: 600px) {
+@media (min-width: 600px) {
   h1 {
     font-size: 200px;
     margin-left: 10%;
+  }
+
+  .helloworldcontainer img {
+    width: 90%;
   }
 
   .form-container {

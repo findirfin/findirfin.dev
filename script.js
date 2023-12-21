@@ -54,7 +54,7 @@ $(document).ready(function() {
           image.src = imagePath;
           image.onload = function() {
             // Set image size and animation
-            image.style.width = "40%";
+            //image.style.width = "40%";
             image.style.height = "auto";
             image.style.transition = "opacity 0.5s ease-in-out";
             image.style.opacity = 0;
