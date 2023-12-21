@@ -157,9 +157,8 @@ a:hover:after {
 }
 
 
-/*
-@media only screen and (max-width: 1023px) {
 
+@media (max-width: 600px) {
   h1 {
     font-size: 200px;
     margin-left: 10%;
@@ -199,7 +198,8 @@ a:hover:after {
 
 
 }
-*/
+
 footer {
   width: 100%;
 }
+
