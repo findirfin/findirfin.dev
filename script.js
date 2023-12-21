@@ -41,8 +41,43 @@ $(document).ready(function() {
       });
 
 
+      let completed = false;
+      window.addEventListener('scroll', function() {
+        const helloWorldContainer = document.querySelector('.helloworldcontainer');
+        const helloWorldText = document.querySelector('.helloworld');
+        const imagePath = "assets/favicon.png"; // Replace with the actual path to your image
+        let scrollvarient = 40;
+        
+      
+        if (window.scrollY > scrollvarient && completed == false) { // Adjust the scroll threshold as needed
+          const image = new Image();
+          image.src = imagePath;
+          image.onload = function() {
+            // Set image size and animation
+            image.style.width = "40%";
+            image.style.height = "auto";
+            image.style.transition = "opacity 0.5s ease-in-out";
+            image.style.opacity = 0;
+            image.style.borderRadius = "10px";
+            image.style.boxShadow = "0 2px 4px 0 rgba(0, 0, 0, 0.5)";
+
+            
+      
+            // Replace text and animate image in
+            helloWorldText.replaceWith(image);
+            setTimeout(function() {
+              image.style.opacity = 1;
+            }, 100); // Adjust delay for animation duration
 
 
+          };
+
+          
+        } 
+        
+      });
+      
+      
 
 
       /*

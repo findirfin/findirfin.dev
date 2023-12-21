@@ -157,10 +157,9 @@ a:hover:after {
 }
 
 
-
+/*
 @media only screen and (max-width: 1023px) {
 
-  /* Add your mobile styles here */
   h1 {
     font-size: 200px;
     margin-left: 10%;
@@ -176,12 +175,9 @@ a:hover:after {
   .form-group textarea { 
     width: 100%;
     height: 70px;
-    /* Set light gray background color for form fields */
     color: #333333;
-    /* Set text color for form fields */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     border-radius: 15px;
-    /* Shadow properties */
     resize: vertical;
     font-size: 50px;
   }
@@ -199,12 +195,11 @@ a:hover:after {
     border-radius: 10px;
     cursor: pointer;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    /* Shadow properties */
   }
 
 
 }
-
+*/
 footer {
   width: 100%;
 }
