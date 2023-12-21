@@ -162,53 +162,54 @@ a:hover:after {
 
 
 
-@media (min-width: 600px) {
-  h1 {
-    font-size: 200px;
-    margin-left: 10%;
-  }
+  @media (max-width: 767px) { /* Target mobile screens up to 767px wide */
 
-  .helloworldcontainer img {
-    width: 90%;
+    h1 {
+      font-size: 200px;
+      margin-left: 10%;
+    }
+  
+    .helloworldcontainer img {
+      width: 90%;
+    }
+  
+    .form-container {
+      font-size: 50px;
+      margin: 5px;
+      max-width: 90%;
+    }
+  
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      height: 70px;
+      color: #333333;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      resize: vertical;
+      font-size: 50px;
+    }
+  
+    .form-group textarea {
+      height: 210px;
+    }
+  
+    .form-group button {
+      font-size: 50px;
+      background-color: #222e42;
+      color: rgb(255, 255, 255);
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  
+    .social {
+      font-size: 50px;
+    }
   }
-
-  .form-container {
-    font-size: 50px;
-    margin: 5px;
-    max-width: 90%;
-  }
-
-  .form-group input,
-  .form-group textarea { 
-    width: 100%;
-    height: 70px;
-    color: #333333;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 15px;
-    resize: vertical;
-    font-size: 50px;
-  }
-
-  .form-group textarea {
-    height: 210px;
-  }
-
-  .form-group button {
-    font-size: 50px;
-    background-color: #222e42;
-    color: rgb(255, 255, 255);
-    padding: 20px 40px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  .social {
-    font-size: 50px;
-  }
-
-}
+  
 
 footer {
   width: 100%;
