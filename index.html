@@ -6,7 +6,8 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&family=Roboto+Mono:wght@300&display=swap"
+    rel="stylesheet">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/ua-parser-js/dist/ua-parser.min.js"></script>
   <script src="script.js"></script>
@@ -26,15 +27,53 @@
 <body>
 
   <div class="helloworldcontainer">
-  <h1 class="helloworld" data-value="Hello World">Hello World</h1>
-</div>
+    <h1 class="helloworld" data-value="Hello World">Hello World</h1>
+  </div>
 
-<div class="lorem">
-  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin ipsum ut augue rhoncus, a tincidunt felis dictum. Cras et velit vitae tortor mattis congue. Praesent a tempus nibh. Morbi sodales sodales arcu, nec suscipit ligula lacinia quis. Sed at congue purus. Vivamus feugiat mauris sit amet diam dapibus, id dictum nisl convallis. Proin et massa vitae neque consectetur aliquam. Sed sagittis sem vel erat lacinia, et bibendum diam tempor.
+  <div class="lorem">
+    <p>    
+      <p id="demolition">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin ipsum ut augue rhoncus, a tincidunt
+      felis dictum. Cras et velit vitae tortor mattis congue. Praesent a tempus nibh. Morbi sodales sodales arcu, nec
+      suscipit ligula lacinia quis. Sed at congue purus. Vivamus feugiat mauris sit amet diam dapibus, id dictum nisl
+      convallis. Proin et massa vitae neque consectetur aliquam. Sed sagittis sem vel erat lacinia, et bibendum diam
+      tempor.
 
-    Sed sed libero lectus. Integer id rhoncus tellus, nec venenatis enim. Aenean suscipit metus vel sapien molestie, sed elementum dui accumsan. Nullam vestibulum odio libero, quis vulputate quam laoreet ut. Fusce et mauris pulvinar, tincidunt ante sed, molestie purus. Sed ac ultrices leo, eget consectetur arcu.
-  </p>
-</div>
+      Sed sed libero lectus. Integer id rhoncus tellus, nec venenatis enim. Aenean suscipit metus vel sapien molestie,
+      sed elementum dui accumsan. Nullam vestibulum odio libero, quis vulputate quam laoreet ut. Fusce et mauris
+      pulvinar, tincidunt ante sed, molestie purus. Sed ac ultrices leo, eget consectetur arcu.
+      </p>
+      <script> //typing script
+        var i = 0;
+        var demoElement = document.getElementById("demolition");
+        var txt = demoElement.textContent; // Grab the text from HTML
+        demoElement.textContent = ""; // Delete the text from HTML
+        var speed = 4; //smaller is faster
+    
+        function typeWriter() {
+          if (i < txt.length) {
+            document.getElementById("demolition").innerHTML += txt.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+          }
+        }
+    
+        // Observe the "demo" paragraph using IntersectionObserver
+        const targetElement = document.getElementById("demolition");
+        const observer = new IntersectionObserver(entries => {
+          if (entries[0].intersectionRatio >= 0.5) {
+            typeWriter(); // Start the typewriter effect
+            observer.unobserve(targetElement); // Unobserve to prevent repeats
+          }
+        });
+        observer.observe(targetElement);
+      </script>
+    </p>
+  </div>
+
+
+
+
 
   <div class="form-container">
     <form action="https://formspree.io/f/mknaeqbp" method="POST">
@@ -61,147 +100,167 @@
     <marquee behavior="scroll" direction="left" scrollamount="25">
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
 
 
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
       <a href="https://www.youtube.com/@findirfin" target="_blank">YouTube</a>,
       <a href="https://bsky.app/profile/findirfin.dev" target="_blank">BlueSky</a>,
-      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,  
-      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv" target="_blank">Harbor/Polycentric</a>,
+      <a href="https://www.twitter.com/@findirfin" target="_blank">&#120143</a>,
+      <a href="https://harbor.social/CAESRwokCAESIHIBP315gKeGr2m80MOm0nB4SNtcwHKUg9uwVvcnSVTKEh9odHRwczovL3NydjEtc3RnLnBvbHljZW50cmljLmlv"
+        target="_blank">Harbor/Polycentric</a>,
       <a href="https://mastodon.social/@findirfin" target="_blank">Mastadon</a>,
-      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,  
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,  
-      
+      <a href="tel:+1 (573) 227-3044" target="_blank"> +1 (573) 227-3044</a>,
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
+
 
     </marquee>
   </div>
