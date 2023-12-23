@@ -260,3 +260,11 @@ footer {
   margin-top: 10px;
   font-style: italic;
 }
+ 
+.donation-space {
+  margin: 0 auto;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
