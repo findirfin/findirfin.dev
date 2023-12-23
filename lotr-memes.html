@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Page Title</title>
-  <meta charset="UTF-8">
+    <title>Page Title -</title>
+    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LOTR Memes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,7 +35,8 @@
     
       // Get the date in the format "YYYY-MM-DD".
       var formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    
+      // Set the page title to the formatted date.
+      document.title = "LOTR Meme | " + formattedDate;
       // Get the image URL.
       var imageUrl = "https://findirfin.dev/lotr-memes/images/" + formattedDate + ".png";
     
@@ -47,7 +48,7 @@
       console.log(image);
     
       // Replace the existing image with the new image.
-      document.querySelector(".meme").replaceChild(image, document.querySelector(".meme"));
+      document.querySelector(".meme").src = imageUrl;
     </script>
     
     
