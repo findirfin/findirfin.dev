@@ -268,3 +268,10 @@ footer {
   align-items: center;
   justify-content: center;
 }
+
+.disclaimer {
+  text-align: center;
+  font-size: 14px;
+  color: #ffffff;
+  margin-top: 10px;
+}
