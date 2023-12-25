@@ -163,7 +163,7 @@ a:hover:after {
   text-align: center;
 }
 
-.advert1-container {
+.meme-link-container {
   margin-left: 20%;
   max-width: 60%;
   margin-right: 20%;
@@ -171,7 +171,7 @@ a:hover:after {
 }
 
 
-.advert1 {
+.meme-link {
   width: 100%;
   border: 5px solid #ccc;
   border-radius: 8px;
@@ -179,24 +179,24 @@ a:hover:after {
   background-color: #1d355a;
 }
 
-.advert1-preview {
+.meme-link-preview {
   height: 150px;
   width: 150px;
   display: flex;
   justify-content: flex-start;
 }
 
-.advert1-text {
+.meme-link-text {
   flex-direction: column;
   text-align: left;
 }
 
-.advert1-title {
+.meme-link-title {
   margin-left: 20px;
   margin-top: 5px;
 }
 
-.advert1-description {
+.meme-link-description {
   margin-left: 20px;
 
 }
