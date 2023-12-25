@@ -11,25 +11,24 @@ body {
   transition: background-position 0.3s ease-in-out;
   /* Add transition effect to the background position */
   /*background: linear-gradient(-45deg, #000000, #1d2531, #182230, #000000);*/
+  animation: pulse 10s infinite;
   background: #1d2531;
   background-size: 400% 400%;
-  animation: gradient 15s ease infinite;
   height: 100%;
 }
 
-@keyframes gradient {
+
+@keyframes pulse {
   0% {
-    background-position: 0% 50%;
+    background-color: #1d2531; 
   }
-
   50% {
-    background-position: 100% 50%;
+    background-color: #14253f;
   }
-
   100% {
-    background-position: 0% 50%;
+    background-color: #2a2f35;
   }
-}
+} 
 
 
 /* Center the container element vertically and horizontally */
