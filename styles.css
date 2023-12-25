@@ -20,15 +20,17 @@ body {
 
 @keyframes pulse {
   0% {
-    background-color: #1d2531; 
+    background-color: #1d2531;
   }
+
   50% {
     background-color: #14253f;
   }
+
   100% {
     background-color: #1d2531;
   }
-} 
+}
 
 
 /* Center the container element vertically and horizontally */
@@ -110,17 +112,17 @@ a:after {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;  
+  bottom: 0;
   height: 2px;
   background: #ffffff;
   transform-origin: right top;
-  transform: scale(0, 1); 
+  transform: scale(0, 1);
   transition: transform .2s ease-out;
 }
 
 a:hover:after {
   transform-origin: left top;
-  transform: scale(1, 1); 
+  transform: scale(1, 1);
 }
 
 
@@ -172,13 +174,13 @@ a:hover:after {
 .advert-preview {
   height: 150px;
   width: 150px;
-  display: flex; 
-  justify-content: flex-start; 
+  display: flex;
+  justify-content: flex-start;
 }
 
 .advert-text {
- flex-direction: column;
-text-align: left;
+  flex-direction: column;
+  text-align: left;
 }
 
 .advert-title {
@@ -187,73 +189,79 @@ text-align: left;
 }
 
 .advert-description {
-    margin-left: 20px;
+  margin-left: 20px;
 
 }
 
-  @media (max-width: 767px) { /* Target mobile screens up to 767px wide */
 
-    h1 {
-      font-size: 20vw;
-      margin-left: 10%;
-    }
-  
-    p {
-      font-size: 20px;
-      width: 100%;
-    }
 
-    .helloworldcontainer img {
-      width: 90%;
-    }
-  
-    .form-container {
-      font-size: 30px;
-      margin: 5px;
-      max-width: 90%;
-    }
-  
-    .form-group input,
-    .form-group textarea {
-      width: 100%;
-      height: 50px;
-      color: #333333;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      border-radius: 15px;
-      resize: vertical;
-      font-size: 30px;
-    }
-  
-    .form-group textarea {
-      height: 70px;
-    }
-  
-    .form-group button {
-      font-size: 50px;
-      background-color: #222e42;
-      color: rgb(255, 255, 255);
-      padding: 20px 40px;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      width: 100%;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-  
-    .social {
-      font-size: 50px;
-    }
 
-    .lorem {
-      margin-left: 5%;
-      margin-right: 5%;
-      width: 90%;
-      
-    }
 
+
+@media (max-width: 767px) {
+  /* Target mobile screens up to 767px wide */
+
+  h1 {
+    font-size: 20vw;
+    margin-left: 10%;
+  }
+
+  p {
+    font-size: 20px;
+    width: 100%;
+  }
+
+  .helloworldcontainer img {
+    width: 90%;
+  }
+
+  .form-container {
+    font-size: 30px;
+    margin: 5px;
+    max-width: 90%;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    height: 50px;
+    color: #333333;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    resize: vertical;
+    font-size: 30px;
+  }
+
+  .form-group textarea {
+    height: 70px;
+  }
+
+  .form-group button {
+    font-size: 50px;
+    background-color: #222e42;
+    color: rgb(255, 255, 255);
+    padding: 20px 40px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .social {
+    font-size: 50px;
+  }
+
+  .lorem {
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 90%;
 
   }
-  
+
+
+}
+
 
 footer {
   width: 100%;
@@ -289,7 +297,7 @@ footer {
   margin-top: 10px;
   font-style: italic;
 }
- 
+
 .donation-space {
   margin: 0 auto;
   width: 50%;
@@ -304,4 +312,3 @@ footer {
   color: #ffffff;
   margin-top: 10px;
 }
-
