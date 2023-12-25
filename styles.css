@@ -269,6 +269,11 @@ a:hover:after {
 
   }
 
+  .meme-link-description {
+    flex-direction: column;
+    text-align: left;
+    font-size: 0.1px;
+  }
 
 }
 
