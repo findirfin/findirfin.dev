@@ -201,7 +201,9 @@ a:hover:after {
 
 }
 
-
+.meme-link a:hover:after {
+  transform: scale(0, 0);
+}
 
 
 
@@ -284,7 +286,7 @@ footer {
   border-radius: 4px;
   min-width: 400px;
   min-height: 75px;
-  max-width: 90vw;
+  max-width: 75vw;
   margin-left: auto;
   margin-right: auto;
 }
