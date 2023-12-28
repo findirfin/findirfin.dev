@@ -16,6 +16,19 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ua-parser-js/dist/ua-parser.min.js"></script>
     <!-- <script src="script.js"></script> -->
+
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(function(OneSignal) {
+    OneSignal.init({
+      appId: "8e3ac090-01e8-47f4-b9f3-edb7cecb65aa",
+    });
+  });
+</script>
+
+
 </head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-PQRQR4NPY0"></script>
@@ -65,6 +78,7 @@
         <div class="caption">
             I do not own any of these images, they are sourced from all over the information super highway.
         </div>
+        <div class='onesignal-customlink-container'></div>
         <!-- <div class="donation-space">
             <p>
                 <script src="https://liberapay.com/findirfin/widgets/button.js"></script>
