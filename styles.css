@@ -279,6 +279,15 @@ a:hover:after {
     display: none;
   }
 
+  .home-button {
+    display: none;
+  }
+  
+  .share-button {
+    display: none;
+  }
+  
+
 }
 
 
