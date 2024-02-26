@@ -342,6 +342,7 @@ footer {
   left: 0;    
   top: 0;
   margin: 10px;  /* Add some margin around the button container */
+  display: none;
 }
 
 .home-button {
@@ -362,3 +363,10 @@ footer {
   opacity: 0.5;
   margin-top: 10px;
 }
+
+@media (min-width: 768px) {
+  .button-container {
+    display: block;
+  }
+}
+

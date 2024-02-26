@@ -46,7 +46,7 @@
             <div class="button-container">
                 <a href="index.html" style="text-decoration: none;"><img src="assets/home-button.png" alt="home button"
                         class="home-button"></a>
-                <a href="" id="shareButton" style="text-decoration: none;"><img src="assets/share-button.png" alt="share button"
+                <a href="" style="text-decoration: none;"><img src="assets/share-button.png" alt="share button"
                         class="share-button"></a>
             </div>
 
@@ -76,21 +76,6 @@
                 // Replace the existing image with the new image.
                 document.querySelector(".meme").src = imageUrl;
             </script>
-            <script>
-                const shareButton = document.getElementById("shareButton");
-              
-                shareButton.addEventListener("click", () => {
-                  // Create a temporary element to hold sharing data
-                  const shareData = document.createElement("a");
-              
-                  // Set the data to be shared
-                  shareData.href = "https://sharethis.com/website-tips/2018/10/creative-share-button-examples/"; // Replace with your actual URL
-                  shareData.title = "Share this page";
-              
-                  // Trigger the native share dialog
-                  shareData.click();
-                });
-              </script>
             <div class="caption">
                 I do not own any of these images, they are sourced from all over the information super highway.
             </div>
