@@ -107,7 +107,7 @@ a {
   color: white;
 }
 
-a:after {
+/*a:after {
   content: '';
   position: absolute;
   left: 0;
@@ -124,6 +124,7 @@ a:hover:after {
   transform-origin: left top;
   transform: scale(1, 1);
 }
+*/
 
 
 .form-group button {
@@ -331,5 +332,33 @@ footer {
   text-align: center;
   font-size: 14px;
   color: #ffffff;
+  margin-top: 10px;
+}
+
+
+
+.button-container {
+  position: fixed; 
+  left: 0;    
+  top: 0;
+  margin: 10px;  /* Add some margin around the button container */
+}
+
+.home-button {
+  display: block;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  text-decoration: none;  /* Remove default link underline */
+  opacity: 0.5;
+}
+
+.share-button {
+  display: block;
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  text-decoration: none;  /* Remove default link underline */
+  opacity: 0.5;
   margin-top: 10px;
 }

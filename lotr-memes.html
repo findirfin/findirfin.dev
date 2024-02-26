@@ -18,15 +18,7 @@
     <!-- <script src="script.js"></script> -->
 
 
-  <!--  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-<script>
-  window.OneSignalDeferred = window.OneSignalDeferred || [];
-  OneSignalDeferred.push(function(OneSignal) {
-    OneSignal.init({
-      appId: "8e3ac090-01e8-47f4-b9f3-edb7cecb65aa",
-    });
-  });
-</script>  -->
+
 
 
 </head>
@@ -49,52 +41,78 @@
     <main>
         <!-- page content -->
 
-
-        <div>
-            <img class="meme" src="" alt="lord of the rings meme for today">
-        </div>
-        <script> // Get the current date, insert image and replace title
-            // Get the current date.
-            var date = new Date();
-
-            // Get the date in the format "YYYY-MM-DD".
-            var formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-            // Set the page title to the formatted date.
-            document.title = "LOTR Meme | " + formattedDate;
-            // Get the image URL.
-            var imageUrl = "https://findirfin.dev/lotr-memes/images/" + formattedDate + ".png";
-
-            // Create an image element.
-            var image = document.createElement("img");
+        <body>
+            <!-- home button for navbar-->
+            <div class="button-container">
+                <a href="index.html" style="text-decoration: none;"><img src="assets/home-button.png" alt="home button"
+                        class="home-button"></a>
+                <a href="" id="shareButton" style="text-decoration: none;"><img src="assets/share-button.png" alt="share button"
+                        class="share-button"></a>
+            </div>
 
 
-            // Set the image's src attribute to the image URL.
-            image.src = imageUrl;
-            console.log(image);
+            <div>
+                <img class="meme" src="" alt="lord of the rings meme for today">
+            </div>
+            <script> // Get the current date, insert image and replace title
+                // Get the current date.
+                var date = new Date();
 
-            // Replace the existing image with the new image.
-            document.querySelector(".meme").src = imageUrl;
-        </script>
-        <div class="caption">
-            I do not own any of these images, they are sourced from all over the information super highway.
-        </div>
-        <div class="donation-space">
-          <!--  <div class='onesignal-customlink-container'></div>   -->
+                // Get the date in the format "YYYY-MM-DD".
+                var formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                // Set the page title to the formatted date.
+                document.title = "LOTR Meme | " + formattedDate;
+                // Get the image URL.
+                var imageUrl = "https://findirfin.dev/lotr-memes/images/" + formattedDate + ".png";
 
-            <!-- <p>
+                // Create an image element.
+                var image = document.createElement("img");
+
+
+                // Set the image's src attribute to the image URL.
+                image.src = imageUrl;
+                console.log(image);
+
+                // Replace the existing image with the new image.
+                document.querySelector(".meme").src = imageUrl;
+            </script>
+            <script>
+                const shareButton = document.getElementById("shareButton");
+              
+                shareButton.addEventListener("click", () => {
+                  // Create a temporary element to hold sharing data
+                  const shareData = document.createElement("a");
+              
+                  // Set the data to be shared
+                  shareData.href = "https://sharethis.com/website-tips/2018/10/creative-share-button-examples/"; // Replace with your actual URL
+                  shareData.title = "Share this page";
+              
+                  // Trigger the native share dialog
+                  shareData.click();
+                });
+              </script>
+            <div class="caption">
+                I do not own any of these images, they are sourced from all over the information super highway.
+            </div>
+            <div class="donation-space">
+                <!--  <div class='onesignal-customlink-container'></div>   -->
+
+                <!-- <p>
                 <script src="https://liberapay.com/findirfin/widgets/button.js"></script>
                 <noscript><a href="https://liberapay.com/findirfin/donate"><img alt="Donate using Liberapay"
                             src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
             </p>-->
-        </div> 
-        <div class="comments">
-            <p class="disclaimer">
-                Comments are reset every day. Check <a href="https://github.com/findirfin/findirfin.dev-interactions/issues">github</a> for previous comments.
-            </p>
-            <script src="https://utteranc.es/client.js" repo="findirfin/findirfin.dev-interactions"
-                issue-term="title" label="💬interaction" theme="dark-blue" crossorigin="anonymous" async>
-                </script>
-        </div>
+            </div>
+            <div class="comments">
+                <p class="disclaimer">
+                    Comments are reset every day. Check <a
+                        href="https://github.com/findirfin/findirfin.dev-interactions/issues">github</a> for previous
+                    comments.
+                </p>
+                <script src="https://utteranc.es/client.js" repo="findirfin/findirfin.dev-interactions"
+                    issue-term="title" label="💬interaction" theme="dark-blue" crossorigin="anonymous" async>
+                    </script>
+            </div>
 
     </main>
 
