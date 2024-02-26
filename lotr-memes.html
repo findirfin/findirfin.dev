@@ -43,10 +43,30 @@
 
         <body>
             <!-- home button for navbar-->
+            <script>
+                const shareButton = document.getElementById('shareButton');
+                
+                shareButton.addEventListener('click', async () => {
+                  if (navigator.share) {
+                    try {
+                      await navigator.share({
+                        title: 'Example Title',
+                        text: 'Check out this link!',
+                        url: 'https://www.example.com'
+                      });
+                      console.log('Shared successfully');
+                    } catch (error) {
+                      console.error('Error sharing:', error);
+                    }
+                  } else {
+                    console.log('Web Share API not supported');
+                  }
+                });
+                </script>
             <div class="button-container">
                 <a href="index.html" style="text-decoration: none;"><img src="assets/home-button.png" alt="home button"
                         class="home-button"></a>
-                <a href="" style="text-decoration: none;"><img src="assets/share-button.png" alt="share button"
+                <a href="#" id="shareButton"  style="text-decoration: none;"><img src="assets/share-button.png" alt="share button"
                         class="share-button"></a>
             </div>
 
