@@ -349,12 +349,12 @@ footer {
 }
 
 
-
+/*
 .button-container {
   position: fixed; 
   left: 0;    
   top: 0;
-  margin: 10px;  /* Add some margin around the button container */
+  margin: 10px;  /* Add some margin around the button container 
 }
 
 .home-button {
@@ -362,7 +362,7 @@ footer {
   width: 60px;
   height: 60px;
   cursor: pointer;
-  text-decoration: none;  /* Remove default link underline */
+  text-decoration: none;  /* Remove default link underline 
   opacity: 0.5;
 }
 
@@ -371,7 +371,25 @@ footer {
   width: 60px;
   height: 60px;
   cursor: pointer;
-  text-decoration: none;  /* Remove default link underline */
+  text-decoration: none;  /* Remove default link underline 
   opacity: 0.5;
   margin-top: 10px;
+}
+
+*/
+
+
+
+.about {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+.social_icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 10px; /* Adjust for spacing between links */
+  cursor: pointer;
 }

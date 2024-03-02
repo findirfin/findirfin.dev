@@ -20,7 +20,7 @@
   <meta property="og:description" content="...">
   <meta property="og:image" content="https://www.findirfin.dev/assets/favicon.png">
 
-<!--
+  <!--
   <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
   <script>
     window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -53,6 +53,24 @@
     <h1 class="helloworld" data-value="Hello World">Hello World</h1>
   </div>
 
+  <div class="about">
+    <div class="social_links_containers">
+      <a href="https://github.com/findirfin" target="_blank" class="social">
+        <img src="assets/github.png" alt="github" class="social_icon">
+      </a>
+
+      <a href="https://www.youtube.com/@findirfin" target="_blank" class="social">
+        <img src="assets/youtube.png" alt="youtube" class="social_icon">
+      </a>
+
+      <a href="mailto:contact@findirfin.dev" target="_blank" class="social">
+        <img src="assets/email.png" alt="email" class="social_icon">
+      </a>
+
+
+    </div>
+  </div>
+
   <div class="meme-link-container">
     <p>
     <div class="meme-link">
@@ -64,9 +82,10 @@
           <h2 class="meme-link-title">Daily LOTR Meme</h2>
         </a>
         <a href="https://findirfin.dev/lotr-memes">
-        <p class="meme-link-description">New Lord of the rings meme every day. Sourced from all over the internet and
-          curated by me. </p>
-          
+          <p class="meme-link-description">New Lord of the rings meme every day. Sourced from all over the internet
+            and
+            curated by me. </p>
+
         </a>
       </div>
 
@@ -74,48 +93,7 @@
     </p>
   </div>
 
- <!-- 
-  <div class="lorem">
-    <p>
-    <p id="demolition">
-
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sollicitudin ipsum ut augue rhoncus, a tincidunt
-      felis dictum. Cras et velit vitae tortor mattis congue. Praesent a tempus nibh. Morbi sodales sodales arcu, nec
-      suscipit ligula lacinia quis. Sed at congue purus. Vivamus feugiat mauris sit amet diam dapibus, id dictum nisl
-      convallis. Proin et massa vitae neque consectetur aliquam. Sed sagittis sem vel erat lacinia, et bibendum diam
-      tempor.
-
-      Sed sed libero lectus. Integer id rhoncus tellus, nec venenatis enim. Aenean suscipit metus vel sapien molestie,
-      sed elementum dui accumsan. Nullam vestibulum odio libero, quis vulputate quam laoreet ut. Fusce et mauris
-      pulvinar, tincidunt ante sed, molestie purus. Sed ac ultrices leo, eget consectetur arcu.
-    </p>
-    <script> //typing script
-      var i = 0;
-      var demoElement = document.getElementById("demolition");
-      var txt = demoElement.textContent; // Grab the text from HTML
-      demoElement.textContent = ""; // Delete the text from HTML
-      var speed = 3; //smaller is faster
-
-      function typeWriter() {
-        if (i < txt.length) {
-          document.getElementById("demolition").innerHTML += txt.charAt(i);
-          i++;
-          setTimeout(typeWriter, speed);
-        }
-      }
-
-      // Observe the "demo" paragraph using IntersectionObserver
-      const targetElement = document.getElementById("demolition");
-      const observer = new IntersectionObserver(entries => {
-        if (entries[0].intersectionRatio >= 0.5) {
-          typeWriter(); // Start the typewriter effect
-          observer.unobserve(targetElement); // Unobserve to prevent repeats
-        }
-      });
-      observer.observe(targetElement);
-    </script>
-    </p>
-  </div>
+  <!-- 
 
 
 
