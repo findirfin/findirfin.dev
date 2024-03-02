@@ -395,18 +395,16 @@ footer {
   justify-content: space-between; /* This will space out the child divs evenly */
   align-items: center; /* This will vertically align the child divs in the middle */
   align-items: flex-start;
-
 }
 
 .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
-  width: 40%;
   background-color: lightgray;
   color: black;
   border-radius: 10px;
   width: 30%;
-  height: auto;
+  height: 100%;
 } 
 
 .card img {
@@ -417,9 +415,105 @@ footer {
 }
 
 .card:hover {
+  background-color: white;
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 .card_container {
   padding: 2px 16px;
+}
+
+
+
+
+
+.written_content {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.filterDiv {
+  float: left;
+  background-color: lightgray;
+  color: black;
+  border-radius: 10px;
+  text-align: center;
+  margin: 2px;
+  margin-bottom: 10px;
+  display: none;
+  min-width: 250px;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  height: 100px;
+  background-size: cover;
+  filter: blur(2px);
+}
+
+.title_link {
+  background-color: rgba(211, 211, 211, 0.479);
+  color: #000000;
+  transition: 0.3s;
+}
+
+.title_link:hover {
+  background-color: white;
+}
+
+.filterDiv:hover {
+  background-color: white;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  filter: blur(0px);
+}
+
+.show {
+  display: block;
+  max-width: 100%;
+}
+
+.filter_container {
+  margin-top: 20px;
+  display: flex;
+  width: 100%;
+  overflow-x: scroll;
+}
+
+
+.written_content ::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Style scrollbar track */
+.written_content ::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+/* Style scrollbar thumb */
+.written_content ::-webkit-scrollbar-thumb {
+  background-color: #131313;
+  border-radius: 5px;
+}
+
+/* Style scrollbar thumb on hover */
+.written_content ::-webkit-scrollbar-thumb:hover {
+  background-color: #000000;
+}
+
+/* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: lightgray;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background-color: white;
+}
+
+.btn.active {
+  background-color: black;
+  color: white;
 }
