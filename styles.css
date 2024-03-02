@@ -333,13 +333,6 @@ footer {
   font-style: italic;
 }
 
-.donation-space {
-  margin: 0 auto;
-  width: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 .disclaimer {
   text-align: center;
@@ -384,7 +377,7 @@ footer {
   display: flex;
   justify-content: center;
   width: 100%;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
 }
 
 .social_icon {
@@ -392,4 +385,41 @@ footer {
   height: 40px;
   margin: 0 10px; /* Adjust for spacing between links */
   cursor: pointer;
+}
+
+
+.projects {
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  justify-content: space-between; /* This will space out the child divs evenly */
+  align-items: center; /* This will vertically align the child divs in the middle */
+  align-items: flex-start;
+
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  width: 40%;
+  background-color: lightgray;
+  color: black;
+  border-radius: 10px;
+  width: 30%;
+  height: auto;
+} 
+
+.card img {
+  border-radius: 10px 10px 0 0;
+}
+.card a {
+  color: black;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.card_container {
+  padding: 2px 16px;
 }
