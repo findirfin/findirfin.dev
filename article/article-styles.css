@@ -75,11 +75,15 @@ html {
 .navhome img {
   width: 20px;
   height: 20px;
-  margin-right: 5px;
   margin-top: 4px;
+  margin-right: 5px;
   float: left;
+  transition: 0.5s;
 }
 
+.navhome:hover img {
+    padding-right: 5px;
+}
 
 .title {
     display: flex;
@@ -154,6 +158,13 @@ html {
     margin-bottom: 10px;
 }
 
+.content h3 {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 
 
 
@@ -171,4 +182,24 @@ html {
     }
     
   
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Style scrollbar track */
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  
+  /* Style scrollbar thumb */
+  ::-webkit-scrollbar-thumb {
+    background-color: #00000060;
+    border-radius: 5px;
+  }
+  
+  /* Style scrollbar thumb on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #000000;
   }

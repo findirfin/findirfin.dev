@@ -148,13 +148,18 @@ a:hover:after {
 }
 
 ::-webkit-scrollbar-track {
-  background-color: #182230;
+  background-color: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #182230;
+  background-color: #0000007a;
   border-radius: 4px;
 }
+
+  /* Style scrollbar thumb on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #000000;
+  }
 
 .lorem {
   margin-left: 20%;
