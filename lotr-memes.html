@@ -48,7 +48,30 @@
                 <a href="index.html" style="text-decoration: none;"><img src="assets/home-button.png" alt="home button"
                         class="home-button"></a>
                 <a href="#" style="text-decoration: none;"><img src="assets/share-button.png" alt="share button"
-                        class="share-button"></a> ---> 
+                        class="share-button"></a> --->
+            </div>
+
+            <div class="percentage_container">
+                <p class="percentage" id="percentage">year percentage loading...</p>
+                <script>
+                    const today = new Date();
+                    const year = today.getFullYear();
+
+                    // Get the number of milliseconds in a year
+                    const millisecondsInYear = new Date(year + 1, 0, 1) - new Date(year, 0, 1);
+
+                    // Get the milliseconds elapsed so far this year
+                    const millisecondsElapsed = today - new Date(year, 0, 1);
+
+                    // Calculate the percentage of the year that has happened
+                    const percentage = (millisecondsElapsed / millisecondsInYear) * 100;
+
+                    // Get the paragraph element with id "percentage"
+                    const paragraph = document.getElementById("percentage");
+
+                    // Set the paragraph content to the formatted percentage
+                    paragraph.textContent = `${percentage.toFixed(2)}% of the year has passed.`;
+                </script>
             </div>
 
 

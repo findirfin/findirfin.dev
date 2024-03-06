@@ -311,7 +311,7 @@ footer {
   outline-width: 8px !important;
   outline-style: solid !important;
   background-color: #1d2531;
-  margin-top: 20px;
+  margin-top: 80px;
   margin-bottom: 20px;
   width: 90vw;
   min-width: 400px;
@@ -521,4 +521,24 @@ footer {
 .btn.active {
   background-color: black;
   color: white;
+}
+
+
+
+
+
+.percentage_container {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 70px;
+  background-color: #00000000;
+  color: white;
+  backdrop-filter: blur(10px)
+}
+
+.percentage_container p {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
