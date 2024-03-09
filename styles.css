@@ -428,10 +428,6 @@ footer {
   padding: 2px 16px;
 }
 
-
-
-
-
 .written_content {
   margin-left: 10%;
   margin-right: 10%;
@@ -439,8 +435,6 @@ footer {
 
 .filterDiv {
   float: left;
-  background-color: lightgray;
-  color: black;
   border-radius: 10px;
   text-align: center;
   margin: 2px;
@@ -450,24 +444,51 @@ footer {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   height: 100px;
-  background-size: cover;
-  filter: blur(2px);
+  position: relative;
+  overflow: hidden;
+}
+
+.filterDiv img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  filter: blur(0px);
 }
 
 .title_link {
-  background-color: rgba(211, 211, 211, 0.479);
+  background-color: rgba(255, 255, 255, 0.534);
+  /*background-color: rgba(211, 211, 211, 0.479);*/
   color: #000000;
-  transition: 0.3s;
-}
-
-.title_link:hover {
-  background-color: white;
-}
-
-.filterDiv:hover {
-  background-color: white;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  transition: 0.5s;
   filter: blur(0px);
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  padding: 5px;
+  text-align: center;
+}
+
+/*.title_link:hover {
+  background-color: white;
+}*/
+
+.filterDiv:hover img {
+  transition: .5s;
+  filter: blur(0px);
+}
+
+.filterDiv img {
+  transition: .5s;
+  filter: blur(3px);
+}
+
+.filterDiv:hover .title_link {
+  filter: blur(20px);
+  color: #ffffff00;
+  background-color: #ffffff00;
 }
 
 .show {
@@ -481,7 +502,6 @@ footer {
   width: 100%;
   overflow-x: scroll;
 }
-
 
 .written_content ::-webkit-scrollbar {
   width: 10px;
