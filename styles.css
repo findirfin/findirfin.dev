@@ -313,10 +313,8 @@ footer {
   background-color: #1d2531;
   margin-top: 80px;
   margin-bottom: 20px;
-  width: 90vw;
-  min-width: 400px;
-  min-height: 75px;
-  max-width: 75vw;
+  width: 50%;
+  height: auto;
   margin-left: auto;
   margin-right: auto;
 }
