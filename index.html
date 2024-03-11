@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Hello World - findirfin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&family=Roboto+Mono:wght@300&display=swap"
+    rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ua-parser-js/dist/ua-parser.min.js"></script>
+  <script src="script.js"></script>
+
+  <meta name="description" content="My personal website. Daily LOTR memes.">
+  <meta name="keywords" content="LOTR, Memes, Daily LOTR memes, Daily LOTR, Lord of the Rings memes, ">
+
+  <meta property="og:title" content="findirfin.dev. Stuff I make and write. Memes.">
+  <meta property="og:description" content="...">
+  <meta property="og:image" content="https://www.findirfin.dev/assets/favicon.png">
+
+  <!--
+  <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+  <script>
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    OneSignalDeferred.push(function(OneSignal) {
+      OneSignal.init({
+        appId: "8e3ac090-01e8-47f4-b9f3-edb7cecb65aa",
+      });
+    });
+  </script>
+
+-->
+
+</head>
+
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PQRQR4NPY0"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag('js', new Date());
+
+  gtag('config', 'G-PQRQR4NPY0');
+</script>
+
+
+<body>
+
+  <div class="helloworldcontainer">
+    <h1 class="helloworld" data-value="Hello World">Hello World</h1>
+  </div>
+
+  <div class="about">
+    <div class="social_links_containers">
+      <a href="https://github.com/findirfin" target="_blank" class="social">
+        <img src="assets/github.png" alt="github" class="social_icon">
+      </a>
+
+      <a href="https://www.youtube.com/@findirfin" target="_blank" class="social">
+        <img src="assets/youtube.png" alt="youtube" class="social_icon">
+      </a>
+
+      <a href="mailto:contact@findirfin.dev" target="_blank" class="social">
+        <img src="assets/email.png" alt="email" class="social_icon">
+      </a>
+
+
+    </div>
+  </div>
+
+  <div class="projects">
+
+
+    <div class="card">
+      <a href="https://findirfin.dev/lotr-memes" target="_blank">
+        <img src="assets/memes_avatar.png" alt="LOTR_MEME" style="width:100%">
+        <div class="card_container">
+          <h4><b>Daily LOTR Meme</b></h4>
+          <p>A Lord of the Rings Meme for every day.</p>
+        </div>
+      </a>
+    </div>
+
+
+    <div class="card">
+      <a href="https://github.com/findirfin/pico-ducky-resources" target="_blank">
+        <img src="assets/ducky.png" alt="HACKING" style="width:100%">
+        <div class="card_container">
+          <h4><b>Pico Ducky Resources</b></h4>
+          <p>Resources to complete Network Chuck's Toutorial.</p>
+          <p>The original tutorial is linked on the github.</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="card">
+      <a href="https://github.com/findirfin/findirfin.dev" target="_blank">
+        <img src="assets/source_code.png" alt="Website" style="width:100%">
+        <div class="card_container">
+          <h4><b>Source Code for Website</b></h4>
+          <p>The source code for this website right here. Contribute if you want I guess.</p>
+        </div>
+      </a>
+    </div>
+
+
+  </div>
+
+  <div class="written_content">
+    <h2>Articles</h2>
+
+    <div id="myBtnContainer">
+      <button class="btn active" onclick="filterSelection('all')"> Show all</button>
+      <button class="btn" onclick="filterSelection('how')"> How To</button>
+      <button class="btn" onclick="filterSelection('opinion')"> Opinion</button>
+      <button class="btn" onclick="filterSelection('news')"> News</button>
+      <button class="btn" onclick="filterSelection('internal')"> Internal Articles</button>
+      <button class="btn" onclick="filterSelection('external')"> External Links</button>
+    </div>
+
+    <div class="filter_container">
+      <a href="https://brave.com/bitcoin-wallet/">
+        <div class="filterDiv news external">
+          <img src="./assets/brave_wallet.png" alt="Brave Wallet">
+          <p class="title_link">Brave Wallet Supports BTC</p>
+        </div>
+      </a>
+      <a href="https://signal.org/blog/phone-number-privacy-usernames/">
+        <div class="filterDiv news external">
+          <img src="./assets/signal_usernames.png" alt="Signal Usernames">
+          <p class="title_link">Signal Usernames</p>
+        </div>
+      </a>
+      <a href="https://www.bleepingcomputer.com/news/security/new-executive-order-bans-mass-sale-of-personal-data-to-china-russia/">
+        <div class="filterDiv news external">
+          <img src="./assets/biden.png" alt="Biden Dictate">
+          <p class="title_link">Biden Dictate Halts Data Sales to China, Russia</p>
+        </div>
+      </a>
+      <a href="https://proton.me/blog/how-to-share-pdf">
+        <div class="filterDiv how external opinion">
+          <img src="./assets/pdf.png" alt="PDF">
+          <p class="title_link">How to Privately, Securely Share a PDF</p>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    filterSelection("all")
+    function filterSelection(c) {
+      var x, i;
+      x = document.getElementsByClassName("filterDiv");
+      if (c == "all") c = "";
+      for (i = 0; i < x.length; i++) {
+        w3RemoveClass(x[i], "show");
+        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+      }
+    }
+
+    function w3AddClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        if (arr1.indexOf(arr2[i]) == -1) { element.className += " " + arr2[i]; }
+      }
+    }
+
+    function w3RemoveClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        while (arr1.indexOf(arr2[i]) > -1) {
+          arr1.splice(arr1.indexOf(arr2[i]), 1);
+        }
+      }
+      element.className = arr1.join(" ");
+    }
+
+    // Add active class to the current button (highlight it)
+    var btnContainer = document.getElementById("myBtnContainer");
+    var btns = btnContainer.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+    }
+  </script>
+
+  <!--
+  <div class="meme-link-container">
+    <p>
+    <div class="meme-link">
+      <a href="https://findirfin.dev/lotr-memes">
+        <img src="https://findirfin.dev/assets/meme-preview.png" alt="meme-link" class="meme-link-preview">
+      </a>
+      <div class="meme-link-text">
+        <a href="https://findirfin.dev/lotr-memes">
+          <h2 class="meme-link-title">Daily LOTR Meme</h2>
+        </a>
+        <a href="https://findirfin.dev/lotr-memes">
+          <p class="meme-link-description">New Lord of the rings meme every day. Sourced from all over the internet
+            and
+            curated by me. </p>
+
+        </a>
+      </div>
+
+    </div>
+    </p>
+  </div>
+  -->
+  <!-- 
+
+
+
+
+
+  <div class="form-container">
+    <form action="https://formspree.io/f/mknaeqbp" method="POST">
+      <div class="form-group">
+        <input type="hidden" name="user-info" id="user-info-display" rows="5" cols="50" readonly>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Your Message:</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit">Send</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="social">
+      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
+      <a href="https://github.com/findirfin" target="_blank">GitHub</a>,
+  </div>
+-->
+
+
+
+</body>
+<footer>
+
+</footer>
+
+</html>

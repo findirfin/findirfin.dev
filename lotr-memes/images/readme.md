@@ -1,0 +1,1 @@
+Images are to be added with the name being the date that you want it to appear, in the format YYYY-MM-DD.png Make sure its a PNG

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Today's LOTR Meme</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOTR Memes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="assets/favicon.png" type="image/png">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&family=Roboto+Mono:wght@300&display=swap"
+        rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ua-parser-js/dist/ua-parser.min.js"></script>
+    <!-- <script src="script.js"></script> -->
+
+
+
+
+
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PQRQR4NPY0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-PQRQR4NPY0');
+</script>
+
+<body>
+
+    <header>
+        <!-- header content -->
+    </header>
+
+    <main>
+        <!-- page content -->
+
+        <body>
+            <!-- 
+           
+            <div class="button-container">
+                <a href="index.html" style="text-decoration: none;"><img src="assets/home-button.png" alt="home button"
+                        class="home-button"></a>
+                <a href="#" style="text-decoration: none;"><img src="assets/share-button.png" alt="share button"
+                        class="share-button"></a> --->
+            </div>
+
+            <div class="percentage_container">
+                <p class="percentage" id="percentage">year percentage loading...</p>
+                <script>
+                    const today = new Date();
+                    const year = today.getFullYear();
+
+                    // Get the number of milliseconds in a year
+                    const millisecondsInYear = new Date(year + 1, 0, 1) - new Date(year, 0, 1);
+
+                    // Get the milliseconds elapsed so far this year
+                    const millisecondsElapsed = today - new Date(year, 0, 1);
+
+                    // Calculate the percentage of the year that has happened
+                    const percentage = (millisecondsElapsed / millisecondsInYear) * 100;
+
+                    // Get the paragraph element with id "percentage"
+                    const paragraph = document.getElementById("percentage");
+
+                    // Set the paragraph content to the formatted percentage
+                    paragraph.textContent = `${percentage.toFixed(2)}% of the year has passed.`;
+                </script>
+            </div>
+
+
+
+            <div>
+                <img class="meme" src="" alt="lord of the rings meme for today">
+            </div>
+            <script> // Get the current date, insert image and replace title
+                // Get the current date.
+                var date = new Date();
+
+                // Get the date in the format "YYYY-MM-DD".
+                var formattedDate = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                // Set the page title to the formatted date.
+                document.title = "LOTR Meme | " + formattedDate;
+                // Get the image URL.
+                var imageUrl = "https://findirfin.dev/lotr-memes/images/" + formattedDate + ".png";
+
+                // Create an image element.
+                var image = document.createElement("img");
+
+
+                // Set the image's src attribute to the image URL.
+                image.src = imageUrl;
+                console.log(image);
+
+                // Replace the existing image with the new image.
+                document.querySelector(".meme").src = imageUrl;
+            </script>
+            <div class="caption">
+                I do not own any of these images, they are sourced from all over the information super highway.
+            </div>
+            <div class="donation-space">
+                <!--  <div class='onesignal-customlink-container'></div>   -->
+
+                <!-- <p>
+                <script src="https://liberapay.com/findirfin/widgets/button.js"></script>
+                <noscript><a href="https://liberapay.com/findirfin/donate"><img alt="Donate using Liberapay"
+                            src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
+            </p>-->
+            </div>
+            <div class="comments">
+                <p class="disclaimer">
+                    Comments are reset every day. Check <a
+                        href="https://github.com/findirfin/findirfin.dev-interactions/issues">github</a> for previous
+                    comments.
+                </p>
+                <script src="https://utteranc.es/client.js" repo="findirfin/findirfin.dev-interactions"
+                    issue-term="title" label="💬interaction" theme="dark-blue" crossorigin="anonymous" async>
+                    </script>
+            </div>
+
+    </main>
+
+    <footer>
+        <!-- footer content -->
+    </footer>
+
+</body>
+
+</html>
