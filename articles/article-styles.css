@@ -38,7 +38,7 @@ html {
   a {
     text-decoration: none;
     position: relative;
-    color: white;
+    color: lightblue;
   }
   
   .content a:after {
@@ -48,7 +48,7 @@ html {
     right: 0;
     bottom: 0;
     height: 2px;
-    background: #ffffff;
+    background: white;
     transform-origin: right top;
     transform: scale(0, 1);
     transition: transform .2s ease-out;
