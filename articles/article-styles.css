@@ -137,7 +137,6 @@ html {
   padding-right: 20px;
   margin-left: 5px;
   width: fit-content;
-  max-width: 30px;
   cursor: pointer;
   margin-bottom: 0px;
   margin-top: 30px;
@@ -147,7 +146,7 @@ html {
 
 .copylink img {
   height: 30px;
-  width: 30spx;
+  width: 30px;
   border-radius: 7px;
   margin-top: 10px;
   margin-bottom: 10px;
