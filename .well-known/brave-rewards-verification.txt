@@ -1,0 +1,4 @@
+This is a Brave Creators publisher verification file.
+
+Domain: findirfin.dev
+Token: 768c514c9c9d0fc55c6ed21b582d29e525aaf95f518bacb5a6bbd8a08dd8a1ba
