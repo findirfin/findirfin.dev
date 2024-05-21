@@ -322,6 +322,7 @@ footer {
   margin-right: auto;
   max-height: 100vh;
   width: auto;
+  max-width: 90%;
 }
 
 .meme img {
