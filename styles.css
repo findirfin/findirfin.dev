@@ -14,7 +14,7 @@ body {
   animation: pulse 10s infinite;
   background: #1d2531;
   background-size: 400% 400%;
-  height: 100%;
+  min-height: 100%;
 }
 
 
@@ -630,4 +630,19 @@ footer {
   border-radius: 5px;
   display: flex;
   justify-content: center;
+}
+
+footer {
+  margin-top: 50px;
+  min-height: 20px;
+  font-size: 15px;
+
+}
+
+footer p {
+  text-align: center;
+}
+
+footer a {
+  padding: 10px;
 }

@@ -234,3 +234,17 @@ html {
 
 
 
+  footer {
+    margin-top: 50px;
+    min-height: 20px;
+    font-size: 15px;
+  
+  }
+  
+  footer p {
+    text-align: center;
+  }
+  
+  footer a {
+    padding: 10px;
+  }
