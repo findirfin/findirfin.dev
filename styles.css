@@ -646,3 +646,23 @@ footer p {
 footer a {
   padding: 10px;
 }
+
+
+.upload {
+  background-color: #3535352f;
+  color: white;
+  cursor: pointer;
+  border-style: dashed;
+  border-color: #000000;
+  border-width: 2px;
+  text-align: left;
+  font-size: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+}
