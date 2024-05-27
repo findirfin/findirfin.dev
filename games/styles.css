@@ -270,8 +270,17 @@ h6 {
   border-radius: 20px;
   background-color: #0000008f;
   padding: 15px;
+  margin: 15px;
 }
 
 .gamelink img {
   border-radius: 10px;
+  max-width: 70%;
+  height: min-content;
+}
+
+.gamelink a {
+  display: flex;
+  justify-content: center;  
+  align-items: center;
 }
