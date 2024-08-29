@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Meme Creator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .meme-container {
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+        }
+        .meme-text {
+            position: absolute;
+            padding: 5px;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            color: white;
+            text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+            cursor: move;
+            user-select: none;
+        }
+        .top-text { top: 0; left: 0; right: 0; }
+        .bottom-text { bottom: 0; left: 0; right: 0; }
+        input, button, select {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover { background-color: #45a049; }
+        #memeImage {
+            max-width: 100%;
+            height: auto;
+        }
+        input:disabled, select:disabled {
+            background-color: #f0f0f0;
+            cursor: not-allowed;
+        }
+        #customTextContainer { margin-top: 10px; }
+        .custom-text-input {
+            display: flex;
+            margin-bottom: 5px;
+        }
+        .custom-text-input input, .custom-text-input select {
+            flex-grow: 1;
+            margin-right: 5px;
+            margin-bottom: 0;
+        }
+        .custom-text-input button {
+            width: auto;
+        }
+        .text-style-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .text-style-options select {
+            width: 48%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Advanced Meme Creator</h1>
+    <select id="memeType">
+        <option value="simple">Simple Meme</option>
+        <option value="custom">Custom Meme</option>
+    </select>
+    <input type="file" id="imageFile" accept="image/*">
+    <input type="text" id="imageUrl" placeholder="Enter image URL">
+    <button id="loadUrlImage">Load URL Image</button>
+    <div id="simpleTextInputs">
+        <div class="text-style-options">
+            <select id="simpleFontSize" disabled>
+                <option value="24px">Small</option>
+                <option value="36px" selected>Medium</option>
+                <option value="48px">Large</option>
+            </select>
+            <select id="simpleFont" disabled>
+                <option value="Impact, sans-serif" selected>Impact</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="'Times New Roman', serif">Times New Roman</option>
+            </select>
+        </div>
+        <input type="text" id="topText" placeholder="Top Text" disabled>
+        <input type="text" id="bottomText" placeholder="Bottom Text" disabled>
+    </div>
+    <div id="customTextContainer" style="display:none;">
+        <div class="text-style-options">
+            <select id="customFontSize">
+                <option value="24px">Small</option>
+                <option value="36px" selected>Medium</option>
+                <option value="48px">Large</option>
+            </select>
+            <select id="customFont">
+                <option value="Impact, sans-serif" selected>Impact</option>
+                <option value="Arial, sans-serif">Arial</option>
+                <option value="'Times New Roman', serif">Times New Roman</option>
+            </select>
+        </div>
+        <div class="custom-text-input">
+            <input type="text" placeholder="Custom Text" disabled>
+            <button class="addTextBtn" disabled>Add Text</button>
+        </div>
+    </div>
+    <div class="meme-container" id="memeContainer">
+        <img src="/api/placeholder/600/400" alt="Meme" id="memeImage">
+        <div class="meme-text top-text" id="topTextOutput"></div>
+        <div class="meme-text bottom-text" id="bottomTextOutput"></div>
+    </div>
+    <button id="createMeme" disabled>Create Meme</button>
+
+    <script>
+        const topTextInput = document.getElementById('topText');
+        const bottomTextInput = document.getElementById('bottomText');
+        const topTextOutput = document.getElementById('topTextOutput');
+        const bottomTextOutput = document.getElementById('bottomTextOutput');
+        const createMemeButton = document.getElementById('createMeme');
+        const imageFileInput = document.getElementById('imageFile');
+        const imageUrlInput = document.getElementById('imageUrl');
+        const loadUrlImageButton = document.getElementById('loadUrlImage');
+        const memeImage = document.getElementById('memeImage');
+        const memeContainer = document.getElementById('memeContainer');
+        const memeTypeSelect = document.getElementById('memeType');
+        const simpleTextInputs = document.getElementById('simpleTextInputs');
+        const customTextContainer = document.getElementById('customTextContainer');
+        const customTextInput = customTextContainer.querySelector('input');
+        const addTextBtn = customTextContainer.querySelector('button');
+        const simpleFontSize = document.getElementById('simpleFontSize');
+        const simpleFont = document.getElementById('simpleFont');
+        const customFontSize = document.getElementById('customFontSize');
+        const customFont = document.getElementById('customFont');
+
+        const defaultImageSrc = '/api/placeholder/600/400';
+        let isDefaultImage = true;
+
+        function updateSimpleMemeText() {
+            topTextOutput.textContent = topTextInput.value;
+            bottomTextOutput.textContent = bottomTextInput.value;
+            applyTextStyle(topTextOutput);
+            applyTextStyle(bottomTextOutput);
+        }
+
+        function applyTextStyle(element) {
+            if (memeTypeSelect.value === 'simple') {
+                element.style.fontSize = simpleFontSize.value;
+                element.style.fontFamily = simpleFont.value;
+            }
+        }
+
+        function setImage(src) {
+            isDefaultImage = false;
+            memeImage.src = src;
+            enableInputs();
+        }
+
+        function resetToDefaultImage() {
+            if (!isDefaultImage) {
+                memeImage.src = defaultImageSrc;
+                isDefaultImage = true;
+                disableInputs();
+            }
+        }
+
+        function enableInputs() {
+            createMemeButton.disabled = false;
+            if (memeTypeSelect.value === 'simple') {
+                topTextInput.disabled = false;
+                bottomTextInput.disabled = false;
+                simpleFontSize.disabled = false;
+                simpleFont.disabled = false;
+            } else {
+                customTextInput.disabled = false;
+                addTextBtn.disabled = false;
+                customFontSize.disabled = false;
+                customFont.disabled = false;
+            }
+        }
+
+        function disableInputs() {
+            topTextInput.disabled = true;
+            bottomTextInput.disabled = true;
+            customTextInput.disabled = true;
+            addTextBtn.disabled = true;
+            createMemeButton.disabled = true;
+            simpleFontSize.disabled = true;
+            simpleFont.disabled = true;
+            customFontSize.disabled = true;
+            customFont.disabled = true;
+            topTextInput.value = '';
+            bottomTextInput.value = '';
+            updateSimpleMemeText();
+        }
+
+        function switchMemeType() {
+            if (memeTypeSelect.value === 'simple') {
+                simpleTextInputs.style.display = 'block';
+                customTextContainer.style.display = 'none';
+                topTextOutput.style.display = 'block';
+                bottomTextOutput.style.display = 'block';
+                updateSimpleMemeText();
+            } else {
+                simpleTextInputs.style.display = 'none';
+                customTextContainer.style.display = 'block';
+                topTextOutput.style.display = 'none';
+                bottomTextOutput.style.display = 'none';
+            }
+            if (!isDefaultImage) {
+                enableInputs();
+            }
+        }
+
+        function addCustomText() {
+            const text = customTextInput.value.trim();
+            if (text) {
+                const textElement = document.createElement('div');
+                textElement.className = 'meme-text';
+                textElement.textContent = text;
+                textElement.style.left = '50%';
+                textElement.style.top = '50%';
+                textElement.style.transform = 'translate(-50%, -50%)';
+                textElement.style.fontSize = customFontSize.value;
+                textElement.style.fontFamily = customFont.value;
+                memeContainer.appendChild(textElement);
+                customTextInput.value = '';
+                makeDraggable(textElement);
+            }
+        }
+
+        function makeDraggable(element) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            element.onmousedown = dragMouseDown;
+
+            function dragMouseDown(e) {
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                element.style.top = (element.offsetTop - pos2) + "px";
+                element.style.left = (element.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        topTextInput.addEventListener('input', updateSimpleMemeText);
+        bottomTextInput.addEventListener('input', updateSimpleMemeText);
+        memeTypeSelect.addEventListener('change', switchMemeType);
+        simpleFontSize.addEventListener('change', updateSimpleMemeText);
+        simpleFont.addEventListener('change', updateSimpleMemeText);
+
+        imageFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (e) => setImage(e.target.result);
+                reader.readAsDataURL(file);
+            }
+        });
+
+        loadUrlImageButton.addEventListener('click', () => {
+            const imageUrl = imageUrlInput.value.trim();
+            if (imageUrl) {
+                setImage(imageUrl);
+            } else {
+                alert('Please enter a valid image URL');
+            }
+        });
+
+        memeImage.addEventListener('error', () => {
+            if (!isDefaultImage) {
+                alert('Failed to load image. Please try another URL or file.');
+                resetToDefaultImage();
+            }
+        });
+
+        createMemeButton.addEventListener('click', () => {
+            const customInputDisplay = customTextContainer.style.display;
+            customTextContainer.style.display = 'none';
+
+            html2canvas(memeContainer, {
+                useCORS: true,
+                allowTaint: true
+            }).then(canvas => {
+                customTextContainer.style.display = customInputDisplay;
+
+                canvas.toBlob(blob => {
+                    if (navigator.share) {
+                        const file = new File([blob], 'meme.png', { type: 'image/png' });
+                        navigator.share({
+                            files: [file],
+                            title: 'Check out my meme!',
+                            text: 'I created this meme using the Advanced Meme Creator.'
+                        }).then(() => console.log('Shared successfully'))
+                          .catch((error) => console.log('Error sharing:', error));
+                    } else {
+                        const link = document.createElement('a');
+                        link.download = 'meme.png';
+                        link.href = URL.createObjectURL(blob);
+                        link.click();
+                        URL.revokeObjectURL(link.href);
+                    }
+                }, 'image/png');
+            });
+        });
+
+        addTextBtn.addEventListener('click', addCustomText);
+
+        // Initial state
+        switchMemeType();
+        disableInputs();
+    </script>
+</body>
+</html>
