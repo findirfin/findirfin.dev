@@ -9,50 +9,34 @@
 <body>
     <h1>Advanced Meme Creator</h1>
 
-    <select id="memeType">
-        <option value="simple">Simple Meme</option>
-        <option value="custom">Custom Meme</option>
-    </select>
-
     <input type="file" id="imageFile" accept="image/*">
     <input type="text" id="imageUrl" placeholder="Enter image URL">
     <button id="loadUrlImage">Load URL Image</button>
 
-    <div id="simpleTextInputs">
-        <input type="text" id="topText" placeholder="Top Text">
-        <input type="text" id="bottomText" placeholder="Bottom Text">
-        <div class="text-style-options">
-            <select id="simpleFont">
-                <option value="Impact">Impact</option>
-                <option value="Arial">Arial</option>
-                <option value="Times New Roman">Times New Roman</option>
-            </select>
-        </div>
+    <div class="text-controls">
+        <input type="text" id="topTextInput" placeholder="Top Text">
+        <input type="text" id="bottomTextInput" placeholder="Bottom Text">
     </div>
 
-    <div id="customTextContainer" style="display:none;">
-        <div class="text-style-options">
-            <select id="customFontSize">
-                <option value="24px">Small</option>
-                <option value="36px">Medium</option>
-                <option value="48px">Large</option>
-            </select>
-            <select id="customFont">
-                <option value="Impact">Impact</option>
-                <option value="Arial">Arial</option>
-                <option value="Times New Roman">Times New Roman</option>
-            </select>
-        </div>
-        <div class="custom-text-input">
-            <input type="text" placeholder="Enter custom text">
-            <button>Add Text</button>
-        </div>
+    <div class="text-controls">
+        <input type="text" id="newTextInput" placeholder="Enter custom text">
+        <select id="fontSize">
+            <option value="24px">Small</option>
+            <option value="36px">Medium</option>
+            <option value="48px">Large</option>
+        </select>
+        <select id="fontFamily">
+            <option value="Impact">Impact</option>
+            <option value="Arial">Arial</option>
+            <option value="Times New Roman">Times New Roman</option>
+        </select>
+        <button id="addTextBtn">Add Text</button>
     </div>
 
     <div id="memeContainer" class="meme-container">
         <img id="memeImage" src="/api/placeholder/600/400" alt="Meme">
-        <div id="topTextOutput" class="meme-text top-text"></div>
-        <div id="bottomTextOutput" class="meme-text bottom-text"></div>
+        <div id="topTextOutput" class="meme-text">Top Text</div>
+        <div id="bottomTextOutput" class="meme-text">Bottom Text</div>
     </div>
 
     <button id="createMeme">Create Meme</button>

@@ -35,9 +35,6 @@ h1 {
     user-select: none;
 }
 
-.top-text { top: 5%; left: 5%; right: 5%; }
-.bottom-text { bottom: 5%; left: 5%; right: 5%; }
-
 input, button, select {
     display: block;
     width: 100%;
@@ -70,84 +67,37 @@ button:disabled {
     display: block;
 }
 
-input:disabled, select:disabled {
-    background-color: #ecf0f1;
-    cursor: not-allowed;
-}
-
-#customTextContainer { margin-top: 20px; }
-
-.custom-text-input {
-    display: flex;
-    margin-bottom: 15px;
-}
-
-.custom-text-input input, .custom-text-input select {
-    flex-grow: 1;
-    margin-right: 10px;
-    margin-bottom: 0;
-}
-
-.custom-text-input button {
-    width: auto;
-    padding: 12px 20px;
-}
-
-.text-style-options {
+.text-controls {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
 }
 
-.text-style-options select {
-    width: 48%;
+.text-controls input,
+.text-controls select,
+.text-controls button {
+    margin-right: 10px;
+    margin-bottom: 0;
 }
 
-#memeTypeSelect {
-    margin-bottom: 20px;
+.text-controls input {
+    flex-grow: 1;
 }
 
-.file-input-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-    width: 100%;
-}
-
-.file-input-wrapper input[type=file] {
-    font-size: 100px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    cursor: pointer;
-}
-
-.file-input-wrapper .btn {
-    display: inline-block;
-    padding: 12px;
-    background-color: #3498db;
-    color: white;
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-#imageUrlInput {
-    margin-bottom: 10px;
+.text-controls button {
+    width: auto;
 }
 
 @media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
-    .text-style-options {
+    .text-controls {
         flex-direction: column;
     }
 
-    .text-style-options select {
+    .text-controls input,
+    .text-controls select,
+    .text-controls button {
         width: 100%;
+        margin-right: 0;
         margin-bottom: 10px;
     }
 }

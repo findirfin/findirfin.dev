@@ -1,50 +1,27 @@
-const topTextInput = document.getElementById('topText');
-const bottomTextInput = document.getElementById('bottomText');
-const topTextOutput = document.getElementById('topTextOutput');
-const bottomTextOutput = document.getElementById('bottomTextOutput');
-const createMemeButton = document.getElementById('createMeme');
+const memeImage = document.getElementById('memeImage');
+const memeContainer = document.getElementById('memeContainer');
 const imageFileInput = document.getElementById('imageFile');
 const imageUrlInput = document.getElementById('imageUrl');
 const loadUrlImageButton = document.getElementById('loadUrlImage');
-const memeImage = document.getElementById('memeImage');
-const memeContainer = document.getElementById('memeContainer');
-const memeTypeSelect = document.getElementById('memeType');
-const simpleTextInputs = document.getElementById('simpleTextInputs');
-const customTextContainer = document.getElementById('customTextContainer');
-const customTextInput = customTextContainer.querySelector('input');
-const addTextBtn = customTextContainer.querySelector('button');
-const simpleFont = document.getElementById('simpleFont');
-const customFontSize = document.getElementById('customFontSize');
-const customFont = document.getElementById('customFont');
+const createMemeButton = document.getElementById('createMeme');
+const newTextInput = document.getElementById('newTextInput');
+const addTextBtn = document.getElementById('addTextBtn');
+const fontSizeSelect = document.getElementById('fontSize');
+const fontFamilySelect = document.getElementById('fontFamily');
+const topTextInput = document.getElementById('topTextInput');
+const bottomTextInput = document.getElementById('bottomTextInput');
+const topTextOutput = document.getElementById('topTextOutput');
+const bottomTextOutput = document.getElementById('bottomTextOutput');
 
 const defaultImageSrc = '/api/placeholder/600/400';
 let isDefaultImage = true;
-
-function updateSimpleMemeText() {
-    topTextOutput.textContent = topTextInput.value;
-    bottomTextOutput.textContent = bottomTextInput.value;
-    fitTextToContainer(topTextOutput);
-    fitTextToContainer(bottomTextOutput);
-}
-
-function fitTextToContainer(element) {
-    const maxWidth = memeImage.offsetWidth * 0.9;
-    const maxHeight = memeImage.offsetHeight * 0.25;
-    let fontSize = 100;
-    element.style.fontSize = fontSize + 'px';
-
-    while ((element.offsetWidth > maxWidth || element.offsetHeight > maxHeight) && fontSize > 10) {
-        fontSize--;
-        element.style.fontSize = fontSize + 'px';
-    }
-}
 
 function setImage(src) {
     isDefaultImage = false;
     memeImage.src = src;
     memeImage.onload = () => {
         enableInputs();
-        updateSimpleMemeText();
+        updateMemeText();
     };
 }
 
@@ -58,65 +35,97 @@ function resetToDefaultImage() {
 
 function enableInputs() {
     createMemeButton.disabled = false;
-    if (memeTypeSelect.value === 'simple') {
-        topTextInput.disabled = false;
-        bottomTextInput.disabled = false;
-        simpleFont.disabled = false;
-    } else {
-        customTextInput.disabled = false;
-        addTextBtn.disabled = false;
-        customFontSize.disabled = false;
-        customFont.disabled = false;
-    }
+    newTextInput.disabled = false;
+    addTextBtn.disabled = false;
+    fontSizeSelect.disabled = false;
+    fontFamilySelect.disabled = false;
+    topTextInput.disabled = false;
+    bottomTextInput.disabled = false;
 }
 
 function disableInputs() {
+    createMemeButton.disabled = true;
+    newTextInput.disabled = true;
+    addTextBtn.disabled = true;
+    fontSizeSelect.disabled = true;
+    fontFamilySelect.disabled = true;
     topTextInput.disabled = true;
     bottomTextInput.disabled = true;
-    customTextInput.disabled = true;
-    addTextBtn.disabled = true;
-    createMemeButton.disabled = true;
-    simpleFont.disabled = true;
-    customFontSize.disabled = true;
-    customFont.disabled = true;
-    topTextInput.value = '';
-    bottomTextInput.value = '';
-    updateSimpleMemeText();
 }
 
-function switchMemeType() {
-    if (memeTypeSelect.value === 'simple') {
-        simpleTextInputs.style.display = 'block';
-        customTextContainer.style.display = 'none';
-        topTextOutput.style.display = 'block';
-        bottomTextOutput.style.display = 'block';
-        updateSimpleMemeText();
+// Modify the updateMemeText function to force a layout recalculation
+function updateMemeText() {
+    updateAndResizeText(topTextOutput, topTextInput.value || 'Top Text', true);
+    updateAndResizeText(bottomTextOutput, bottomTextInput.value || 'Bottom Text', false);
+    
+    // Force a layout recalculation
+    void topTextOutput.offsetHeight;
+    void bottomTextOutput.offsetHeight;
+}
+
+// Add an event listener for image load to ensure text is sized correctly when image dimensions change
+memeImage.addEventListener('load', updateMemeText);
+
+
+function getTextWidth(text, font) {
+    const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
+    const context = canvas.getContext("2d");
+    context.font = font;
+    const metrics = context.measureText(text);
+    return metrics.width;
+}
+
+function updateAndResizeText(textElement, text, isTop) {
+    textElement.textContent = text;
+    
+    const maxWidth = memeImage.offsetWidth * 0.9;
+    const maxHeight = memeImage.offsetHeight * 0.2;
+    
+    const minFontSize = 16;
+    const maxFontSize = 100;
+    let fontSize = maxFontSize;
+
+    textElement.style.width = maxWidth + 'px';
+    textElement.style.whiteSpace = 'nowrap'; // Prevent wrapping for accurate width measurement
+
+    do {
+        textElement.style.fontSize = `${fontSize}px`;
+        const textWidth = getTextWidth(text, `${fontSize}px Impact`); // Assumes 'Impact' font, adjust if needed
+
+        if (textWidth <= maxWidth && textElement.offsetHeight <= maxHeight) {
+            break; // Font size is good
+        }
+
+        fontSize -= 1;
+    } while (fontSize > minFontSize);
+
+    textElement.style.whiteSpace = 'normal'; // Allow wrapping for final display
+
+    // Position the text
+    textElement.style.left = '50%';
+    textElement.style.transform = 'translateX(-50%)';
+    
+    if (isTop) {
+        textElement.style.top = '5%';
     } else {
-        simpleTextInputs.style.display = 'none';
-        customTextContainer.style.display = 'block';
-        topTextOutput.style.display = 'none';
-        bottomTextOutput.style.display = 'none';
-    }
-    if (!isDefaultImage) {
-        enableInputs();
+        textElement.style.bottom = '5%';
     }
 }
 
-function addCustomText() {
-    const text = customTextInput.value.trim();
-    if (text) {
-        const textElement = document.createElement('div');
-        textElement.className = 'meme-text';
-        textElement.textContent = text;
-        textElement.style.left = '50%';
-        textElement.style.top = '50%';
-        textElement.style.transform = 'translate(-50%, -50%)';
-        textElement.style.fontSize = customFontSize.value;
-        textElement.style.fontFamily = customFont.value;
-        memeContainer.appendChild(textElement);
-        customTextInput.value = '';
-        makeDraggable(textElement);
-    }
+
+
+function addMemeText(text) {
+    const textElement = document.createElement('div');
+    textElement.className = 'meme-text';
+    textElement.textContent = text;
+    textElement.style.fontSize = fontSizeSelect.value;
+    textElement.style.fontFamily = fontFamilySelect.value;
+    textElement.style.left = '50%';
+    textElement.style.top = '50%';
+    textElement.style.transform = 'translate(-50%, -50%)';
+
+    memeContainer.appendChild(textElement);
+    makeDraggable(textElement);
 }
 
 function makeDraggable(element) {
@@ -139,6 +148,7 @@ function makeDraggable(element) {
         pos4 = e.clientY;
         element.style.top = (element.offsetTop - pos2) + "px";
         element.style.left = (element.offsetLeft - pos1) + "px";
+        element.style.transform = 'none';
     }
 
     function closeDragElement() {
@@ -146,11 +156,6 @@ function makeDraggable(element) {
         document.onmousemove = null;
     }
 }
-
-topTextInput.addEventListener('input', updateSimpleMemeText);
-bottomTextInput.addEventListener('input', updateSimpleMemeText);
-memeTypeSelect.addEventListener('change', switchMemeType);
-simpleFont.addEventListener('change', updateSimpleMemeText);
 
 imageFileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
@@ -177,16 +182,22 @@ memeImage.addEventListener('error', () => {
     }
 });
 
-createMemeButton.addEventListener('click', () => {
-    const customInputDisplay = customTextContainer.style.display;
-    customTextContainer.style.display = 'none';
+addTextBtn.addEventListener('click', () => {
+    const text = newTextInput.value.trim();
+    if (text) {
+        addMemeText(text);
+        newTextInput.value = '';
+    }
+});
 
+topTextInput.addEventListener('input', updateMemeText);
+bottomTextInput.addEventListener('input', updateMemeText);
+
+createMemeButton.addEventListener('click', () => {
     html2canvas(memeContainer, {
         useCORS: true,
         allowTaint: true
     }).then(canvas => {
-        customTextContainer.style.display = customInputDisplay;
-
         canvas.toBlob(blob => {
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
@@ -199,7 +210,6 @@ createMemeButton.addEventListener('click', () => {
                 }).then(() => console.log('Shared successfully'))
                   .catch((error) => console.log('Error sharing:', error));
             } else {
-                // Download the image on desktop platforms
                 const link = document.createElement('a');
                 link.download = 'meme.png';
                 link.href = URL.createObjectURL(blob);
@@ -210,10 +220,13 @@ createMemeButton.addEventListener('click', () => {
     });
 });
 
-addTextBtn.addEventListener('click', addCustomText);
+// Initialize default text
+updateMemeText();
+makeDraggable(topTextOutput);
+makeDraggable(bottomTextOutput);
 
-window.addEventListener('resize', updateSimpleMemeText);
+// Handle window resize
+window.addEventListener('resize', updateMemeText);
 
 // Initial state
-switchMemeType();
 disableInputs();
