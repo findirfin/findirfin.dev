@@ -1,0 +1,153 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f4f8;
+    color: #333;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+}
+
+.meme-container {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.meme-text {
+    position: absolute;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    text-shadow: 2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000;
+    cursor: move;
+    user-select: none;
+}
+
+.top-text { top: 5%; left: 5%; right: 5%; }
+.bottom-text { bottom: 5%; left: 5%; right: 5%; }
+
+input, button, select {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover { background-color: #2980b9; }
+
+button:disabled {
+    background-color: #bdc3c7;
+    cursor: not-allowed;
+}
+
+#memeImage {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+input:disabled, select:disabled {
+    background-color: #ecf0f1;
+    cursor: not-allowed;
+}
+
+#customTextContainer { margin-top: 20px; }
+
+.custom-text-input {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.custom-text-input input, .custom-text-input select {
+    flex-grow: 1;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+.custom-text-input button {
+    width: auto;
+    padding: 12px 20px;
+}
+
+.text-style-options {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.text-style-options select {
+    width: 48%;
+}
+
+#memeTypeSelect {
+    margin-bottom: 20px;
+}
+
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    width: 100%;
+}
+
+.file-input-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-input-wrapper .btn {
+    display: inline-block;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#imageUrlInput {
+    margin-bottom: 10px;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .text-style-options {
+        flex-direction: column;
+    }
+
+    .text-style-options select {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}
