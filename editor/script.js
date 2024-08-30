@@ -13,7 +13,7 @@ const bottomTextInput = document.getElementById('bottomTextInput');
 const topTextOutput = document.getElementById('topTextOutput');
 const bottomTextOutput = document.getElementById('bottomTextOutput');
 
-const defaultImageSrc = '/api/placeholder/600/400';
+const defaultImageSrc = 'https://findirfin.dev/editor/assets/placeholder.png';
 let isDefaultImage = true;
 
 function setImage(src) {
