@@ -67,6 +67,7 @@ function updateMemeText() {
 memeImage.addEventListener('load', updateMemeText);
 
 
+
 function getTextWidth(text, font) {
     const canvas = getTextWidth.canvas || (getTextWidth.canvas = document.createElement("canvas"));
     const context = canvas.getContext("2d");
@@ -75,22 +76,28 @@ function getTextWidth(text, font) {
     return metrics.width;
 }
 
+function isMobile() {
+    return window.matchMedia("(max-width: 767px)").matches;
+}
+
 function updateAndResizeText(textElement, text, isTop) {
     textElement.textContent = text;
     
     const maxWidth = memeImage.offsetWidth * 0.9;
-    const maxHeight = memeImage.offsetHeight * 0.2;
+    const maxHeight = memeImage.offsetHeight * (isMobile() ? 0.3 : 0.2); // Increased height allowance for mobile
     
-    const minFontSize = 16;
-    const maxFontSize = 100;
+    const minFontSize = isMobile() ? 24 : 16; // Larger minimum font size for mobile
+    const maxFontSize = isMobile() ? 60 : 100; // Adjusted maximum font size for mobile
     let fontSize = maxFontSize;
 
     textElement.style.width = maxWidth + 'px';
     textElement.style.whiteSpace = 'nowrap'; // Prevent wrapping for accurate width measurement
 
+    const fontFamily = window.getComputedStyle(textElement).fontFamily;
+
     do {
         textElement.style.fontSize = `${fontSize}px`;
-        const textWidth = getTextWidth(text, `${fontSize}px Impact`); // Assumes 'Impact' font, adjust if needed
+        const textWidth = getTextWidth(text, `${fontSize}px ${fontFamily}`);
 
         if (textWidth <= maxWidth && textElement.offsetHeight <= maxHeight) {
             break; // Font size is good
@@ -110,7 +117,20 @@ function updateAndResizeText(textElement, text, isTop) {
     } else {
         textElement.style.bottom = '5%';
     }
+
+    // Adjust line height for better readability, especially on mobile
+    textElement.style.lineHeight = isMobile() ? '1.2' : '1';
 }
+
+function updateMemeText() {
+    updateAndResizeText(topTextOutput, topTextInput.value || 'Top Text', true);
+    updateAndResizeText(bottomTextOutput, bottomTextInput.value || 'Bottom Text', false);
+    
+    // Force a layout recalculation
+    void topTextOutput.offsetHeight;
+    void bottomTextOutput.offsetHeight;
+}
+
 
 
 
@@ -227,6 +247,13 @@ makeDraggable(bottomTextOutput);
 
 // Handle window resize
 window.addEventListener('resize', updateMemeText);
+
+// Add event listeners for orientation change and resize
+window.addEventListener('orientationchange', updateMemeText);
+window.addEventListener('resize', updateMemeText);
+
+// Initial call to set up text
+updateMemeText();
 
 // Initial state
 disableInputs();
