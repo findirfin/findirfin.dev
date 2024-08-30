@@ -666,3 +666,19 @@ footer a {
   display: flex;
   justify-content: center;
 }
+
+.secret-link {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease-in-out, visibility 0s linear 10s;
+}
+
+.secret:hover .secret-link {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 1s ease-in-out 10s, visibility 0s linear 10s;
+}
+
+.secret {
+  text-align: center;
+}
