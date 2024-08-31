@@ -8,119 +8,42 @@ document.addEventListener('DOMContentLoaded', function() {
     // Image upload
     document.getElementById('imageUpload').addEventListener('change', function(e) {
         const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(f) {
-            fabric.Image.fromURL(f.target.result, function(img) {
-                // Calculate scaling factor to fit image within canvas
-                const scaleFactor = Math.min(
-                    canvas.width / img.width,
-                    canvas.height / img.height
-                );
-                
-                // Set image as background
-                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-                    scaleX: scaleFactor,
-                    scaleY: scaleFactor,
-                    // Center the image
-                    left: (canvas.width - img.width * scaleFactor) / 2,
-                    top: (canvas.height - img.height * scaleFactor) / 2
-                });
-            });
-        };
-        reader.readAsDataURL(file);
+        loadImageToCanvas(file);
     });
 
-// Collapsible functionality
-const collapsibles = document.querySelectorAll(".collapse-btn");
-collapsibles.forEach(coll => {
-    coll.addEventListener("click", function() {
-        this.classList.toggle("active");
-        const content = this.nextElementSibling;
-        if (content.style.maxHeight) {
-            content.style.maxHeight = null;
-        } else {
-            content.style.maxHeight = content.scrollHeight + "px";
-        }
+    // Collapsible functionality
+    const collapsibles = document.querySelectorAll(".collapse-btn");
+    collapsibles.forEach(coll => {
+        coll.addEventListener("click", function() {
+            this.classList.toggle("active");
+            const content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
     });
-});
 
-   // Text editing options
-   document.getElementById('fontFamily').addEventListener('change', updateTextStyle);
-   document.getElementById('fontSize').addEventListener('change', updateTextStyle);
-   document.getElementById('fontColor').addEventListener('change', updateTextStyle);
-   document.getElementById('boldBtn').addEventListener('click', toggleBold);
-   document.getElementById('italicBtn').addEventListener('click', toggleItalic);
-   document.getElementById('underlineBtn').addEventListener('click', toggleUnderline);
+    // Text editing options
+    document.getElementById('fontFamily').addEventListener('change', updateTextStyle);
+    document.getElementById('fontSize').addEventListener('change', updateTextStyle);
+    document.getElementById('fontColor').addEventListener('change', updateTextStyle);
+    document.getElementById('boldBtn').addEventListener('click', toggleBold);
+    document.getElementById('italicBtn').addEventListener('click', toggleItalic);
+    document.getElementById('underlineBtn').addEventListener('click', toggleUnderline);
 
-   function updateTextStyle() {
-       const activeObject = canvas.getActiveObject();
-       if (activeObject && activeObject.type === 'i-text') {
-           activeObject.set({
-               fontFamily: document.getElementById('fontFamily').value,
-               fontSize: parseInt(document.getElementById('fontSize').value),
-               fill: document.getElementById('fontColor').value
-           });
-           canvas.renderAll();
-       }
-   }
-
-   function toggleBold() {
-       const activeObject = canvas.getActiveObject();
-       if (activeObject && activeObject.type === 'i-text') {
-           activeObject.set('fontWeight', activeObject.fontWeight === 'bold' ? 'normal' : 'bold');
-           canvas.renderAll();
-       }
-   }
-
-   function toggleItalic() {
-       const activeObject = canvas.getActiveObject();
-       if (activeObject && activeObject.type === 'i-text') {
-           activeObject.set('fontStyle', activeObject.fontStyle === 'italic' ? 'normal' : 'italic');
-           canvas.renderAll();
-       }
-   }
-
-   function toggleUnderline() {
-       const activeObject = canvas.getActiveObject();
-       if (activeObject && activeObject.type === 'i-text') {
-           activeObject.set('underline', !activeObject.underline);
-           canvas.renderAll();
-       }
-   }
-
-   // Modify the addTextBtn event listener
-   document.getElementById('addTextBtn').addEventListener('click', function() {
-       const text = new fabric.IText('Enter text', {
-           left: 50,
-           top: 50,
-           fontFamily: document.getElementById('fontFamily').value,
-           fontSize: parseInt(document.getElementById('fontSize').value),
-           fill: document.getElementById('fontColor').value
-       });
-       canvas.add(text);
-       canvas.setActiveObject(text);
-   });
-
-
-    // Meme template
-    document.getElementById('memeTemplate').addEventListener('change', function(e) {
-        const template = e.target.value;
-        if (template) {
-            fabric.Image.fromURL(`${template}.jpg`, function(img) {
-                // Use the same scaling logic for templates
-                const scaleFactor = Math.min(
-                    canvas.width / img.width,
-                    canvas.height / img.height
-                );
-                
-                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-                    scaleX: scaleFactor,
-                    scaleY: scaleFactor,
-                    left: (canvas.width - img.width * scaleFactor) / 2,
-                    top: (canvas.height - img.height * scaleFactor) / 2
-                });
-            });
-        }
+    // Add text button
+    document.getElementById('addTextBtn').addEventListener('click', function() {
+        const text = new fabric.IText('Enter text', {
+            left: 50,
+            top: 50,
+            fontFamily: document.getElementById('fontFamily').value,
+            fontSize: parseInt(document.getElementById('fontSize').value),
+            fill: document.getElementById('fontColor').value
+        });
+        canvas.add(text);
+        canvas.setActiveObject(text);
     });
 
     // Image filter
@@ -138,9 +61,6 @@ collapsibles.forEach(coll => {
         }
     });
 
-
-    
-
     // Draw on image
     document.getElementById('drawBtn').addEventListener('click', function() {
         canvas.isDrawingMode = !canvas.isDrawingMode;
@@ -155,6 +75,7 @@ collapsibles.forEach(coll => {
         canvas.freeDrawingBrush.width = parseInt(e.target.value, 10);
     });
 
+    // Add image dropdown functionality
     const addImageButton = document.querySelector('.add-image-button');
     const addImageDropdown = document.querySelector('.add-image-dropdown');
 
@@ -186,21 +107,7 @@ collapsibles.forEach(coll => {
         }
     });
 
-    function addImageToLibrary(imageUrl) {
-        const imageLibrary = document.querySelector('.image-library');
-        const newImg = document.createElement('img');
-        newImg.src = imageUrl;
-        newImg.alt = 'Custom Sticker';
-        newImg.addEventListener('click', function() {
-            fabric.Image.fromURL(this.src, function(img) {
-                img.scale(0.5);
-                canvas.add(img);
-            });
-        });
-        imageLibrary.insertBefore(newImg, imageLibrary.lastElementChild);
-    }
-
-    // Existing image library code
+    // Image library functionality
     document.querySelectorAll('.image-library img').forEach(img => {
         img.addEventListener('click', function() {
             fabric.Image.fromURL(this.src, function(img) {
@@ -247,4 +154,130 @@ collapsibles.forEach(coll => {
             }
         }, 'image/png');
     });
+
+    // Initialize the carousel
+    initCarousel();
 });
+
+function updateTextStyle() {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set({
+            fontFamily: document.getElementById('fontFamily').value,
+            fontSize: parseInt(document.getElementById('fontSize').value),
+            fill: document.getElementById('fontColor').value
+        });
+        canvas.renderAll();
+    }
+}
+
+function toggleBold() {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set('fontWeight', activeObject.fontWeight === 'bold' ? 'normal' : 'bold');
+        canvas.renderAll();
+    }
+}
+
+function toggleItalic() {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set('fontStyle', activeObject.fontStyle === 'italic' ? 'normal' : 'italic');
+        canvas.renderAll();
+    }
+}
+
+function toggleUnderline() {
+    const activeObject = canvas.getActiveObject();
+    if (activeObject && activeObject.type === 'i-text') {
+        activeObject.set('underline', !activeObject.underline);
+        canvas.renderAll();
+    }
+}
+
+function addImageToLibrary(imageUrl) {
+    const imageLibrary = document.querySelector('.image-library');
+    const newImg = document.createElement('img');
+    newImg.src = imageUrl;
+    newImg.alt = 'Custom Sticker';
+    newImg.addEventListener('click', function() {
+        fabric.Image.fromURL(this.src, function(img) {
+            img.scale(0.5);
+            canvas.add(img);
+        });
+    });
+    imageLibrary.insertBefore(newImg, imageLibrary.lastElementChild);
+}
+
+function initCarousel() {
+    const content = document.querySelector('.carousel-content');
+    const prevBtn = document.querySelector('.carousel-button.prev');
+    const nextBtn = document.querySelector('.carousel-button.next');
+    const scrollAmount = 100; // Width of one image
+
+    prevBtn.addEventListener('click', () => {
+        content.scrollBy(-scrollAmount, 0);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        content.scrollBy(scrollAmount, 0);
+    });
+
+    // Add click event listeners to template images
+    const templateImages = document.querySelectorAll('.carousel-content img');
+    templateImages.forEach(img => {
+        img.addEventListener('click', function() {
+            const template = this.getAttribute('data-template');
+            applyMemeTemplate(template);
+        });
+    });
+}
+
+function applyMemeTemplate(template) {
+    if (template === 'blank') {
+        canvas.clear();
+        canvas.setBackgroundColor('#ffffff', canvas.renderAll.bind(canvas));
+    } else {
+        fabric.Image.fromURL(`editor2/assets/${template}.png`, function(img) {
+            canvas.clear(); // Clear the canvas before adding the new template
+            const scaleFactor = Math.min(
+                canvas.width / img.width,
+                canvas.height / img.height
+            );
+            
+            img.set({
+                scaleX: scaleFactor,
+                scaleY: scaleFactor,
+                left: (canvas.width - img.width * scaleFactor) / 2,
+                top: (canvas.height - img.height * scaleFactor) / 2
+            });
+            
+            canvas.add(img);
+            canvas.renderAll();
+        });
+    }
+}
+
+function loadImageToCanvas(file) {
+    const reader = new FileReader();
+    reader.onload = function(f) {
+        fabric.Image.fromURL(f.target.result, function(img) {
+            canvas.clear(); // Clear the canvas before adding the new image
+            const scaleFactor = Math.min(
+                canvas.width / img.width,
+                canvas.height / img.height
+            );
+            
+            img.set({
+                scaleX: scaleFactor,
+                scaleY: scaleFactor,
+                left: (canvas.width - img.width * scaleFactor) / 2,
+                top: (canvas.height - img.height * scaleFactor) / 2
+            });
+            
+            canvas.add(img);
+            canvas.renderAll();
+        });
+    };
+    reader.readAsDataURL(file);
+}

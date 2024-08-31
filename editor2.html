@@ -30,12 +30,6 @@
                     <button id="underlineBtn">Underline</button>
                 </div>
             </div>
-            <select id="memeTemplate">
-                <option value="">Select Meme Template</option>
-                <option value="template1">Drake Hotline Bling</option>
-                <option value="template2">Distracted Boyfriend</option>
-                <option value="template3">Two Buttons</option>
-            </select>
             <select id="imageFilter">
                 <option value="">Select Image Filter</option>
                 <option value="grayscale">Grayscale</option>
@@ -72,11 +66,25 @@
         </div>
         <div class="canvas-area">
             <canvas id="memeCanvas" width="600" height="600"></canvas>
-            <button id="saveMemeBtn">Save Meme</button>
+            <button id="saveMemeBtn" class="save-button">Save Meme</button>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
-    <script src="editor2/script.js"></script>
+    <div class="meme-template-carousel">
+        <h3>Meme Templates</h3>
+        <div class="carousel-container">
+            <button class="carousel-button prev">&lt;</button>
+            <div class="carousel-content">
+                <img src="editor2/assets/blank_template.png" alt="Blank Template" data-template="blank">
+                <img src="editor2/assets/template1.png" alt="Drake Hotline Bling" data-template="template1">
+                <img src="editor2/assets/template2.png" alt="Distracted Boyfriend" data-template="template2">
+                <img src="editor2/assets/template3.png" alt="Two Buttons" data-template="template3">
+            </div>
+            <button class="carousel-button next">&gt;</button>
+        </div>
+    </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+<script src="editor2/script.js"></script>
 </body>
 </html>

@@ -248,3 +248,86 @@ input[type="range"]::-moz-range-thumb {
 .custom-image-upload input[type="file"] {
     margin-bottom: 5px;
 }
+
+.save-button {
+    background-color: #27ae60;
+    color: white;
+    font-weight: bold;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 15px;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    width: 600px;
+}
+
+.save-button:hover {
+    background-color: #2ecc71;
+    transform: scale(1.05);
+}
+
+.save-button:active {
+    transform: scale(0.95);
+}
+
+.meme-template-carousel {
+    margin-top: 20px;
+}
+
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.carousel-content {
+    display: flex;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    width: 300px;
+}
+
+.carousel-content img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.carousel-content img:hover {
+    border-color: #3498db;
+}
+
+.carousel-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 8px;  /* Reduced padding */
+    font-size: 14px;   /* Smaller font size */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 50%; /* Make buttons circular */
+    width: 30px;       /* Set a fixed width */
+    height: 30px;      /* Set a fixed height */
+    display: flex;     /* Use flexbox for centering */
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-button:hover {
+    background-color: #2980b9;
+}
+
+/* Ensure the canvas area can accommodate the new carousel */
+.canvas-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#memeCanvas {
+    margin-bottom: 20px;
+}
