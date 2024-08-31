@@ -9,9 +9,27 @@
 <body>
     <h1>Advanced Meme Creator</h1>
 
-    <input type="file" id="imageFile" accept="image/*">
-    <input type="text" id="imageUrl" placeholder="Enter image URL">
-    <button id="loadUrlImage">Load URL Image</button>
+    <div class="image-upload-container">
+        <div class="image-source-tabs">
+          <button id="uploadTab" class="image-source-tab active">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            Upload
+          </button>
+          <button id="urlTab" class="image-source-tab">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>
+            URL
+          </button>
+        </div>
+        <div class="image-source-content">
+          <div id="uploadSection" class="image-source-section active">
+            <input type="file" id="imageFile" accept="image/*">
+          </div>
+          <div id="urlSection" class="image-source-section">
+            <input type="text" id="imageUrl" placeholder="Enter image URL">
+            <button id="loadUrlImage">Load</button>
+          </div>
+        </div>
+      </div>
 
     <div class="text-controls">
         <input type="text" id="topTextInput" placeholder="Top Text">

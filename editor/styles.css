@@ -101,3 +101,76 @@ button:disabled {
         margin-bottom: 10px;
     }
 }
+
+
+.image-upload-container {
+    margin: 0 auto 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .image-source-tabs {
+    display: flex;
+    background-color: #f5f5f5;
+  }
+  
+  .image-source-tab {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #333;
+    transition: background-color 0.3s ease;
+  }
+  
+  .image-source-tab:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .image-source-tab.active {
+    background-color: #fff;
+    font-weight: bold;
+  }
+  
+  .image-source-content {
+    padding: 15px;
+  }
+  
+  .image-source-section {
+    display: none;
+  }
+  
+  .image-source-section.active {
+    display: flex;
+    gap: 10px;
+  }
+  
+  #imageFile,
+  #imageUrl {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  #loadUrlImage {
+    padding: 8px 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  #loadUrlImage:hover {
+    background-color: #2980b9;
+  }

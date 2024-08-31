@@ -12,6 +12,10 @@ const topTextInput = document.getElementById('topTextInput');
 const bottomTextInput = document.getElementById('bottomTextInput');
 const topTextOutput = document.getElementById('topTextOutput');
 const bottomTextOutput = document.getElementById('bottomTextOutput');
+const uploadTab = document.getElementById('uploadTab');
+const urlTab = document.getElementById('urlTab');
+const uploadSection = document.getElementById('uploadSection');
+const urlSection = document.getElementById('urlSection');
 
 const defaultImageSrc = 'https://findirfin.dev/editor/assets/placeholder.png';
 let isDefaultImage = true;
@@ -176,6 +180,22 @@ function makeDraggable(element) {
         document.onmousemove = null;
     }
 }
+
+function switchTab(activeTab, activeSection, inactiveTab, inactiveSection) {
+    activeTab.classList.add('active');
+    activeSection.classList.add('active');
+    inactiveTab.classList.remove('active');
+    inactiveSection.classList.remove('active');
+  }
+  
+  uploadTab.addEventListener('click', () => {
+    switchTab(uploadTab, uploadSection, urlTab, urlSection);
+  });
+  
+  urlTab.addEventListener('click', () => {
+    switchTab(urlTab, urlSection, uploadTab, uploadSection);
+  });
+  
 
 imageFileInput.addEventListener('change', (event) => {
     const file = event.target.files[0];
