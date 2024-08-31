@@ -153,7 +153,52 @@ document.addEventListener('DOMContentLoaded', function() {
         canvas.freeDrawingBrush.width = parseInt(e.target.value, 10);
     });
 
-    // Image library
+    const addImageButton = document.querySelector('.add-image-button');
+    const addImageDropdown = document.querySelector('.add-image-dropdown');
+
+    addImageButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        addImageDropdown.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!addImageDropdown.contains(e.target) && e.target !== addImageButton) {
+            addImageDropdown.classList.remove('active');
+        }
+    });
+
+    // Custom image upload to library
+    document.getElementById('addToLibraryBtn').addEventListener('click', function() {
+        const fileInput = document.getElementById('customImageUpload');
+        const file = fileInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                addImageToLibrary(e.target.result);
+                addImageDropdown.classList.remove('active');
+                fileInput.value = ''; // Clear the file input
+            };
+            reader.readAsDataURL(file);
+        } else {
+            alert('Please select an image to add to the library.');
+        }
+    });
+
+    function addImageToLibrary(imageUrl) {
+        const imageLibrary = document.querySelector('.image-library');
+        const newImg = document.createElement('img');
+        newImg.src = imageUrl;
+        newImg.alt = 'Custom Sticker';
+        newImg.addEventListener('click', function() {
+            fabric.Image.fromURL(this.src, function(img) {
+                img.scale(0.5);
+                canvas.add(img);
+            });
+        });
+        imageLibrary.insertBefore(newImg, imageLibrary.lastElementChild);
+    }
+
+    // Existing image library code
     document.querySelectorAll('.image-library img').forEach(img => {
         img.addEventListener('click', function() {
             fabric.Image.fromURL(this.src, function(img) {
