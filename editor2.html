@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Meme Creator</title>
+    <link rel="stylesheet" href="editor2/styles.css">
+</head>
+<body>
+    <h1>Advanced Meme Creator</h1>
+    
+    <div class="container">
+        <div class="tools">
+            <h2>Tools</h2>
+            <input type="file" id="imageUpload" accept="image/*">
+            <button id="addTextBtn">Add Text</button>
+            <div class="collapsible">
+                <button class="collapse-btn">Text Editing Options</button>
+                <div class="collapse-content">
+                    <select id="fontFamily">
+                        <option value="Arial">Arial</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Courier">Courier</option>
+                    </select>
+                    <input type="number" id="fontSize" min="8" max="72" value="40">
+                    <input type="color" id="fontColor" value="#000000">
+                    <button id="boldBtn">Bold</button>
+                    <button id="italicBtn">Italic</button>
+                    <button id="underlineBtn">Underline</button>
+                </div>
+            </div>
+            <select id="memeTemplate">
+                <option value="">Select Meme Template</option>
+                <option value="template1">Drake Hotline Bling</option>
+                <option value="template2">Distracted Boyfriend</option>
+                <option value="template3">Two Buttons</option>
+            </select>
+            <select id="imageFilter">
+                <option value="">Select Image Filter</option>
+                <option value="grayscale">Grayscale</option>
+                <option value="sepia">Sepia</option>
+                <option value="invert">Invert</option>
+            </select>
+            <button id="drawBtn">Draw on Image</button>
+            <div>
+                <input type="color" id="drawColor">
+                <input type="range" id="drawSize" min="1" max="20" value="5">
+            </div>
+            <h3>Image Library</h3>
+            <div class="image-library">
+                <img src="editor2/assets/sunglasses.png" alt="Sticker 1">
+                <img src="editor2/assets/chad.png" alt="Sticker 2">
+                <img src="editor2/assets/wojak.png" alt="Sticker 3">
+                <img src="editor2/assets/bubble.png" alt="Sticker 4">
+            </div>
+        </div>
+        <div class="canvas-area">
+            <canvas id="memeCanvas" width="600" height="600"></canvas>
+            <button id="saveMemeBtn">Save Meme</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script src="editor2/script.js"></script>
+</body>
+</html>
