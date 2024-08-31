@@ -42,10 +42,15 @@
                 <option value="sepia">Sepia</option>
                 <option value="invert">Invert</option>
             </select>
-            <button id="drawBtn">Draw on Image</button>
-            <div>
-                <input type="color" id="drawColor">
-                <input type="range" id="drawSize" min="1" max="20" value="5">
+            <div class="collapsible">
+                <button class="collapse-btn">Drawing Options</button>
+                <div class="collapse-content">
+                    <button id="drawBtn">Draw on Image</button>
+                    <div>
+                        <input type="color" id="drawColor">
+                        <input type="range" id="drawSize" min="1" max="20" value="5">
+                    </div>
+                </div>
             </div>
             
             <h3>Image Library</h3>

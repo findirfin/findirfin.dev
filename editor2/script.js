@@ -30,17 +30,19 @@ document.addEventListener('DOMContentLoaded', function() {
         reader.readAsDataURL(file);
     });
 
-   // Collapsible functionality
-   const coll = document.querySelector(".collapse-btn");
-   coll.addEventListener("click", function() {
-       this.classList.toggle("active");
-       const content = this.nextElementSibling;
-       if (content.style.maxHeight) {
-           content.style.maxHeight = null;
-       } else {
-           content.style.maxHeight = content.scrollHeight + "px";
-       }
-   });
+// Collapsible functionality
+const collapsibles = document.querySelectorAll(".collapse-btn");
+collapsibles.forEach(coll => {
+    coll.addEventListener("click", function() {
+        this.classList.toggle("active");
+        const content = this.nextElementSibling;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    });
+});
 
    // Text editing options
    document.getElementById('fontFamily').addEventListener('change', updateTextStyle);

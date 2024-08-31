@@ -187,6 +187,11 @@ input[type="range"]::-moz-range-thumb {
     margin-bottom: 10px;
 }
 
+
+.collapsible {
+    margin-bottom: 10px;
+}
+
 .collapse-btn {
     background-color: #f1f1f1;
     color: #444;
@@ -211,9 +216,11 @@ input[type="range"]::-moz-range-thumb {
     background-color: #f9f9f9;
 }
 
-.collapse-content.active {
-    max-height: 500px;
+/* Add this new rule to ensure proper spacing in the drawing options */
+.collapse-content #drawBtn {
+    margin-top: 10px;
 }
+
 
 #fontFamily, #fontSize {
     width: 100%;
