@@ -31,6 +31,39 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add rotation cursor
     fabric.Object.prototype.controls.mtr.cursorStyle = 'pointer';
 
+
+    fabric.Image.filters.PoliticalPoster = fabric.util.createClass(fabric.Image.filters.BaseFilter, {
+        type: 'PoliticalPoster',
+    
+        applyTo2d: function(options) {
+            var imageData = options.imageData,
+                data = imageData.data,
+                len = data.length,
+                i;
+    
+            for (i = 0; i < len; i += 4) {
+                var r = data[i];
+                var g = data[i + 1];
+                var b = data[i + 2];
+    
+                // Convert to grayscale
+                var gray = 0.299 * r + 0.587 * g + 0.114 * b;
+    
+                // Apply high contrast
+                gray = gray > 128 ? 255 : 0;
+    
+                // Apply a color tint (e.g., red for this example)
+                data[i] = gray + 50; // Red channel
+                data[i + 1] = gray * 0.7; // Green channel
+                data[i + 2] = gray * 0.7; // Blue channel
+            }
+        }
+    });
+    
+    fabric.Image.filters.PoliticalPoster.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+    
+
+
     // Image upload
     document.getElementById('imageUpload').addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -87,19 +120,36 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Image filter
-    document.getElementById('imageFilter').addEventListener('change', function(e) {
-        const filter = e.target.value;
-        if (filter) {
-            canvas.getObjects().forEach(obj => {
-                if (obj.type === 'image') {
-                    obj.filters = [];
-                    obj.filters.push(new fabric.Image.filters[filter.charAt(0).toUpperCase() + filter.slice(1)]());
-                    obj.applyFilters();
-                }
-            });
-            canvas.renderAll();
+    fabric.Image.filters.PoliticalPoster = fabric.util.createClass(fabric.Image.filters.BaseFilter, {
+        type: 'PoliticalPoster',
+    
+        applyTo2d: function(options) {
+            var imageData = options.imageData,
+                data = imageData.data,
+                len = data.length,
+                i;
+    
+            for (i = 0; i < len; i += 4) {
+                var r = data[i];
+                var g = data[i + 1];
+                var b = data[i + 2];
+    
+                // Convert to grayscale
+                var gray = 0.299 * r + 0.587 * g + 0.114 * b;
+    
+                // Apply high contrast
+                gray = gray > 128 ? 255 : 0;
+    
+                // Apply a color tint (e.g., red for this example)
+                data[i] = gray + 50; // Red channel
+                data[i + 1] = gray * 0.7; // Green channel
+                data[i + 2] = gray * 0.7; // Blue channel
+            }
         }
     });
+    
+    fabric.Image.filters.PoliticalPoster.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+    
 
     // Draw on image
     document.getElementById('drawBtn').addEventListener('click', function() {
