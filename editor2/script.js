@@ -328,6 +328,34 @@ function convertToUppercase() {
     }
 }
 
+function loadImageToCanvas(file) {
+    const reader = new FileReader();
+    reader.onload = function(f) {
+        fabric.Image.fromURL(f.target.result, function(img) {
+            canvas.clear(); // Clear the canvas before adding the new image
+            const scaleFactor = Math.min(
+                canvas.width / img.width,
+                canvas.height / img.height
+            );
+            
+            img.set({
+                scaleX: scaleFactor,
+                scaleY: scaleFactor,
+                left: (canvas.width - img.width * scaleFactor) / 2,
+                top: (canvas.height - img.height * scaleFactor) / 2,
+                selectable: false,
+                movable: false,
+                lockMovementX: true,
+                lockMovementY: true
+            });
+            
+            canvas.add(img);
+            canvas.renderAll();
+        });
+    };
+    reader.readAsDataURL(file);
+}
+
 function applyMemeTemplate(template) {
     if (template === 'blank') {
         canvas.clear();
@@ -344,7 +372,11 @@ function applyMemeTemplate(template) {
                 scaleX: scaleFactor,
                 scaleY: scaleFactor,
                 left: (canvas.width - img.width * scaleFactor) / 2,
-                top: (canvas.height - img.height * scaleFactor) / 2
+                top: (canvas.height - img.height * scaleFactor) / 2,
+                selectable: false,
+                movable: false,
+                lockMovementX: true,
+                lockMovementY: true
             });
             
             canvas.add(img);
@@ -352,28 +384,4 @@ function applyMemeTemplate(template) {
             canvas.renderAll();
         });
     }
-}
-
-function loadImageToCanvas(file) {
-    const reader = new FileReader();
-    reader.onload = function(f) {
-        fabric.Image.fromURL(f.target.result, function(img) {
-            canvas.clear(); // Clear the canvas before adding the new image
-            const scaleFactor = Math.min(
-                canvas.width / img.width,
-                canvas.height / img.height
-            );
-            
-            img.set({
-                scaleX: scaleFactor,
-                scaleY: scaleFactor,
-                left: (canvas.width - img.width * scaleFactor) / 2,
-                top: (canvas.height - img.height * scaleFactor) / 2
-            });
-            
-            canvas.add(img);
-            canvas.renderAll();
-        });
-    };
-    reader.readAsDataURL(file);
 }

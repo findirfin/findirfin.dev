@@ -12,7 +12,10 @@
     <div class="container">
         <div class="tools">
             <h2>Tools</h2>
-            <input type="file" id="imageUpload" accept="image/*">
+            <div class="file-input-wrapper">
+                <input type="file" id="imageUpload" accept="image/*" class="file-input">
+                <label for="imageUpload" class="file-input-label">Choose background image</label>
+            </div>
             <button id="addTextBtn">Add Text</button>
             <div class="collapsible">
                 <button class="collapse-btn">Text Editing Options</button>
