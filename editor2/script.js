@@ -1,9 +1,37 @@
 let canvas;
 let isDrawing = false;
 
+
 document.addEventListener('DOMContentLoaded', function() {
     canvas = new fabric.Canvas('memeCanvas');
     canvas.isDrawingMode = false;
+
+    // Customize controls
+    fabric.Object.prototype.transparentCorners = false;
+    fabric.Object.prototype.cornerColor = 'white';
+    fabric.Object.prototype.cornerStrokeColor = '#444444';
+    fabric.Object.prototype.cornerStyle = 'circle';
+    fabric.Object.prototype.borderColor = '#444444';
+    fabric.Object.prototype.cornerSize = 12;
+    fabric.Object.prototype.cornerStrokeWidth = 2;
+
+    // Change selection color for objects
+    fabric.Object.prototype.set({
+        borderColor: '#2c3e50',
+        borderScaleFactor: 2,
+        borderDashArray: [5, 5]
+    });
+
+    // Change selection rectangle color and style
+    canvas.selectionColor = 'rgba(46, 204, 113, 0.2)';
+    canvas.selectionBorderColor = '#27ae60';
+    canvas.selectionLineWidth = 2;
+    canvas.selectionDashArray = [6, 6];
+
+
+    // Add rotation cursor
+    fabric.Object.prototype.controls.mtr.cursorStyle = 'pointer';
+
 
     // Image upload
     document.getElementById('imageUpload').addEventListener('change', function(e) {
@@ -157,6 +185,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize the carousel
     initCarousel();
+
+    // New event listener for object selection
+    canvas.on('object:selected', function(e) {
+        const selectedObject = e.target;
+        if (selectedObject.type === 'i-text') {
+            document.getElementById('fontFamily').value = selectedObject.fontFamily;
+            document.getElementById('fontSize').value = selectedObject.fontSize;
+            document.getElementById('fontColor').value = selectedObject.fill;
+        }
+    });
 });
 
 function updateTextStyle() {
