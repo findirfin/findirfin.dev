@@ -1,36 +1,6 @@
 let canvas;
 let isDrawing = false;
-
-// Add the new filter definition
-fabric.Image.filters.PoliticalPoster = fabric.util.createClass(fabric.Image.filters.BaseFilter, {
-    type: 'PoliticalPoster',
-
-    applyTo2d: function(options) {
-        var imageData = options.imageData,
-            data = imageData.data,
-            len = data.length,
-            i;
-
-        for (i = 0; i < len; i += 4) {
-            var r = data[i];
-            var g = data[i + 1];
-            var b = data[i + 2];
-
-            // Convert to grayscale
-            var gray = 0.299 * r + 0.587 * g + 0.114 * b;
-
-            // Apply high contrast
-            gray = gray > 128 ? 255 : 0;
-
-            // Apply a color tint (e.g., red for this example)
-            data[i] = gray + 50; // Red channel
-            data[i + 1] = gray * 0.7; // Green channel
-            data[i + 2] = gray * 0.7; // Blue channel
-        }
-    }
-});
-
-fabric.Image.filters.PoliticalPoster.fromObject = fabric.Image.filters.BaseFilter.fromObject;
+let isAllCaps = true; // New variable to track all caps state
 
 document.addEventListener('DOMContentLoaded', function() {
     canvas = new fabric.Canvas('memeCanvas');
@@ -61,6 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add rotation cursor
     fabric.Object.prototype.controls.mtr.cursorStyle = 'pointer';
 
+
+
+    
+
     // Image upload
     document.getElementById('imageUpload').addEventListener('change', function(e) {
         const file = e.target.files[0];
@@ -88,18 +62,32 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('boldBtn').addEventListener('click', toggleBold);
     document.getElementById('italicBtn').addEventListener('click', toggleItalic);
     document.getElementById('underlineBtn').addEventListener('click', toggleUnderline);
+    document.getElementById('allCapsBtn').addEventListener('click', toggleAllCaps); // New event listener
 
     // Add text button
     document.getElementById('addTextBtn').addEventListener('click', function() {
-        const text = new fabric.IText('Enter text', {
+        const text = new fabric.IText(isAllCaps ? 'ENTER TEXT' : 'Enter text', {
             left: 50,
             top: 50,
-            fontFamily: document.getElementById('fontFamily').value,
-            fontSize: parseInt(document.getElementById('fontSize').value),
-            fill: document.getElementById('fontColor').value
+            fontFamily: 'Impact, Arial, sans-serif',
+            fontSize: 40,
+            fontWeight: 'bold',
+            fill: 'white',
+            stroke: 'black',
+            strokeWidth: 2,
+            textAlign: 'center'
         });
+
+        // Apply all caps if it's enabled
+        if (isAllCaps) {
+            text.on('changed', function() {
+                this.text = this.text.toUpperCase();
+            });
+        }
+
         canvas.add(text);
         canvas.setActiveObject(text);
+        updateTextStyleControls(text);
     });
 
     // Image filter
@@ -109,11 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
             canvas.getObjects().forEach(obj => {
                 if (obj.type === 'image') {
                     obj.filters = [];
-                    if (filter === 'politicalPoster') {
-                        obj.filters.push(new fabric.Image.filters.PoliticalPoster());
-                    } else {
-                        obj.filters.push(new fabric.Image.filters[filter.charAt(0).toUpperCase() + filter.slice(1)]());
-                    }
+                    obj.filters.push(new fabric.Image.filters[filter.charAt(0).toUpperCase() + filter.slice(1)]());
                     obj.applyFilters();
                 }
             });
@@ -222,23 +206,35 @@ document.addEventListener('DOMContentLoaded', function() {
     canvas.on('object:selected', function(e) {
         const selectedObject = e.target;
         if (selectedObject.type === 'i-text') {
-            document.getElementById('fontFamily').value = selectedObject.fontFamily;
-            document.getElementById('fontSize').value = selectedObject.fontSize;
-            document.getElementById('fontColor').value = selectedObject.fill;
+            updateTextStyleControls(selectedObject);
         }
     });
+
+    // Initialize the all caps button state
+    document.getElementById('allCapsBtn').classList.add('active');
 });
 
 function updateTextStyle() {
     const activeObject = canvas.getActiveObject();
     if (activeObject && activeObject.type === 'i-text') {
         activeObject.set({
-            fontFamily: document.getElementById('fontFamily').value,
+            fontFamily: document.getElementById('fontFamily').value + ', Arial, sans-serif',
             fontSize: parseInt(document.getElementById('fontSize').value),
-            fill: document.getElementById('fontColor').value
+            fill: document.getElementById('fontColor').value,
+            stroke: activeObject.fill === 'white' ? 'black' : 'white',
+            strokeWidth: 2
         });
+        if (isAllCaps) {
+            activeObject.text = activeObject.text.toUpperCase();
+        }
         canvas.renderAll();
     }
+}
+
+function updateTextStyleControls(textObject) {
+    document.getElementById('fontFamily').value = textObject.fontFamily.split(',')[0];
+    document.getElementById('fontSize').value = textObject.fontSize;
+    document.getElementById('fontColor').value = textObject.fill;
 }
 
 function toggleBold() {
@@ -263,6 +259,23 @@ function toggleUnderline() {
         activeObject.set('underline', !activeObject.underline);
         canvas.renderAll();
     }
+}
+
+function toggleAllCaps() {
+    isAllCaps = !isAllCaps;
+    document.getElementById('allCapsBtn').classList.toggle('active');
+    
+    canvas.getObjects('i-text').forEach(function(textObject) {
+        if (isAllCaps) {
+            textObject.text = textObject.text.toUpperCase();
+            textObject.on('changed', function() {
+                this.text = this.text.toUpperCase();
+            });
+        } else {
+            textObject.off('changed');
+        }
+    });
+    canvas.renderAll();
 }
 
 function addImageToLibrary(imageUrl) {
@@ -303,6 +316,18 @@ function initCarousel() {
     });
 }
 
+function convertToUppercase() {
+    if (isAllCaps) {
+        canvas.getObjects('i-text').forEach(function(textObject) {
+            textObject.text = textObject.text.toUpperCase();
+            textObject.on('changed', function() {
+                this.text = this.text.toUpperCase();
+            });
+        });
+        canvas.renderAll();
+    }
+}
+
 function applyMemeTemplate(template) {
     if (template === 'blank') {
         canvas.clear();
@@ -323,6 +348,7 @@ function applyMemeTemplate(template) {
             });
             
             canvas.add(img);
+            convertToUppercase(); // Convert any existing text to uppercase
             canvas.renderAll();
         });
     }
