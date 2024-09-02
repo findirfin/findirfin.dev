@@ -161,56 +161,18 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
+    // Save meme
     document.getElementById('saveMemeBtn').addEventListener('click', function() {
         if (!canvas.lowerCanvasEl.toBlob) {
             alert('Your browser does not support the required functionality to save images.');
             return;
         }
-    
-        // Get the bounding box of all objects on the canvas
-        const objects = canvas.getObjects();
-        if (objects.length === 0) {
-            alert('There is nothing to save on the canvas.');
-            return;
-        }
-    
-        let left = canvas.width;
-        let top = canvas.height;
-        let right = 0;
-        let bottom = 0;
-    
-        objects.forEach(function(obj) {
-            const objBounds = obj.getBoundingRect();
-            left = Math.min(left, objBounds.left);
-            top = Math.min(top, objBounds.top);
-            right = Math.max(right, objBounds.left + objBounds.width);
-            bottom = Math.max(bottom, objBounds.top + objBounds.height);
-        });
-    
-        // Add some padding
-        const padding = 10;
-        left = Math.max(0, left - padding);
-        top = Math.max(0, top - padding);
-        right = Math.min(canvas.width, right + padding);
-        bottom = Math.min(canvas.height, bottom + padding);
-    
-        const width = right - left;
-        const height = bottom - top;
-    
-        // Create a new canvas with the cropped dimensions
-        const croppedCanvas = document.createElement('canvas');
-        croppedCanvas.width = width;
-        croppedCanvas.height = height;
-        const ctx = croppedCanvas.getContext('2d');
-    
-        // Draw the cropped portion of the original canvas onto the new canvas
-        ctx.drawImage(canvas.lowerCanvasEl, left, top, width, height, 0, 0, width, height);
-    
-        croppedCanvas.toBlob(function(blob) {
+
+        canvas.lowerCanvasEl.toBlob(function(blob) {
             try {
                 const timestamp = new Date().getTime();
                 const fileName = `meme_${timestamp}.png`;
-    
+
                 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
                     const reader = new FileReader();
                     reader.onload = function(e) {
@@ -299,7 +261,6 @@ function toggleUnderline() {
     }
 }
 
-
 function toggleAllCaps() {
     isAllCaps = !isAllCaps;
     document.getElementById('allCapsBtn').classList.toggle('active');
@@ -330,8 +291,6 @@ function addImageToLibrary(imageUrl) {
     });
     imageLibrary.insertBefore(newImg, imageLibrary.lastElementChild);
 }
-
-
 
 function initCarousel() {
     const content = document.querySelector('.carousel-content');
@@ -368,17 +327,6 @@ function convertToUppercase() {
         canvas.renderAll();
     }
 }
-
-
-function resizeCanvas() {
-    const canvasContainer = document.querySelector('.canvas-area');
-    canvas.setWidth(canvasContainer.clientWidth);
-    canvas.setHeight(canvasContainer.clientHeight);
-    canvas.renderAll();
-}
-
-window.addEventListener('load', resizeCanvas);
-window.addEventListener('resize', resizeCanvas);
 
 function loadImageToCanvas(file) {
     const reader = new FileReader();
