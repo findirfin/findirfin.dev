@@ -1,62 +1,86 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f0f4f8;
-    color: #333;
-}
-
-h1, h2, h3 {
-    color: #2c3e50;
-}
-
-h1 {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-/* Layout */
-.container {
-    display: flex;
-    gap: 20px;
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.tools {
-    width: 300px;
-}
-
-.canvas-area {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Canvas */
-#memeCanvas {
+body, html {
+    margin: 0;
+    padding: 0;
     width: 100%;
-    height: 600px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 20px;
+    height: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
 }
 
-/* Form Elements */
+#memeCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.toggle-sidebar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    cursor: pointer;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.toggle-sidebar:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    width: 350px;
+    height: 100%;
+    background-color: #f8f9fa;
+    transition: right 0.3s ease;
+    overflow-y: auto;
+    padding: 30px;
+    box-sizing: border-box;
+    z-index: 999;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.open {
+    right: 0;
+}
+
+.tool-section {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.tool-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    font-size: 18px;
+    font-weight: bold;
+}
+
 button, select, input[type="file"], input[type="color"], input[type="range"] {
     display: block;
     width: 100%;
-    margin-bottom: 15px;
-    padding: 12px 20px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    margin-bottom: 12px;
+    padding: 10px;
     box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
 }
 
 button {
@@ -64,33 +88,25 @@ button {
     color: white;
     border: none;
     cursor: pointer;
-    transition: all 0.3s ease;
+    font-size: 14px;
     font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
     background-color: #2980b9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
 
-button:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-select {
-    appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-    background-size: 16px;
+select, input[type="number"] {
+    font-size: 14px;
+    background-color: #f8f9fa;
 }
 
 input[type="color"] {
     height: 40px;
     padding: 2px;
+    background-color: #f8f9fa;
 }
 
 input[type="range"] {
@@ -126,143 +142,64 @@ input[type="range"]::-moz-range-thumb {
     cursor: pointer;
 }
 
-/* File Input */
-.file-input-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: block;
-    margin-bottom: 15px;
-}
-
-.file-input {
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-}
-
-.file-input-label {
-    display: block;
-    width: 100%;
-    padding: 12px 20px;
-    background-color: #575757;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Collapsible Sections */
-.collapsible {
-    margin-bottom: 15px;
-}
-
-.collapse-btn {
-    background-color: #f1f1f1;
-    color: #444;
-    cursor: pointer;
-    padding: 10px;
-    width: 100%;
-    text-align: left;
-    border: none;
-    outline: none;
-    transition: 0.4s;
-}
-
-.collapse-btn:hover {
-    background-color: #ddd;
-}
-
-.collapse-content {
-    padding: 0 10px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    background-color: #f9f9f9;
-}
-
-/* Image Library */
 .image-library {
-    margin-top: 20px;
-}
-
-.library-content {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin-bottom: 15px;
 }
 
-.image-library img,
-.add-image-button {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-    background-color: #f0f0f0;
+.image-library img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
     cursor: pointer;
-    border-radius: 4px;
-    transition: transform 0.2s;
-    padding: 5px;
-    box-sizing: border-box;
+    border-radius: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.image-library img:hover,
-.add-image-button:hover {
-    transform: scale(1.1);
-}
-
-.add-image-container {
-    position: relative;
-}
-
-.add-image-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    color: #666;
-    border: 2px dashed #ccc;
-}
-
-.add-image-dropdown {
-    position: absolute;
-    width: 200px;
-    top: 100%;
-    left: 0;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    padding: 10px;
-    display: none;
-    z-index: 10;
-}
-
-.add-image-dropdown.active {
-    display: block;
-}
-
-/* Save Button */
-.save-button {
-    background-color: #27ae60;
-    color: white;
-    font-weight: bold;
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-    width: 100%;
-    max-width: 300px;
-}
-
-.save-button:hover {
-    background-color: #2ecc71;
+.image-library img:hover {
     transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
-.save-button:active {
-    transform: scale(0.95);
+#saveMemeBtn {
+    background-color: #27ae60;
+    font-weight: bold;
+    padding: 14px;
+    font-size: 16px;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+#saveMemeBtn:hover {
+    background-color: #2ecc71;
+}
+
+/* Style for active toggle buttons */
+button.active {
+    background-color: #2ecc71;
+}
+
+button.active:hover {
+    background-color: #27ae60;
+}
+
+/* Custom scrollbar for sidebar */
+.sidebar::-webkit-scrollbar {
+    width: 8px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }

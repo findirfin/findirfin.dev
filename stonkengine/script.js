@@ -1,13 +1,22 @@
 let canvas;
 let isDrawing = false;
-let isAllCaps = true;
+let isAllCaps = false;
 
 document.addEventListener('DOMContentLoaded', initializeMemeCreator);
 
 function initializeMemeCreator() {
     canvas = new fabric.Canvas('memeCanvas');
+    resizeCanvas();
     setupCanvasProperties();
     attachEventListeners();
+
+    window.addEventListener('resize', resizeCanvas);
+}
+
+function resizeCanvas() {
+    canvas.setWidth(window.innerWidth);
+    canvas.setHeight(window.innerHeight);
+    canvas.renderAll();
 }
 
 function setupCanvasProperties() {
@@ -28,7 +37,6 @@ function customizeControls() {
         borderScaleFactor: 2,
         borderDashArray: [5, 5]
     });
-    fabric.Object.prototype.controls.mtr.cursorStyle = 'pointer';
 }
 
 function changeSelectionStyle() {
@@ -41,7 +49,7 @@ function changeSelectionStyle() {
 }
 
 function attachEventListeners() {
-    document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
+    document.getElementById('toggleSidebar').addEventListener('click', toggleSidebar);
     document.getElementById('addTextBtn').addEventListener('click', addTextToCanvas);
     document.getElementById('fontFamily').addEventListener('change', updateTextStyle);
     document.getElementById('fontSize').addEventListener('change', updateTextStyle);
@@ -50,7 +58,6 @@ function attachEventListeners() {
     document.getElementById('italicBtn').addEventListener('click', toggleItalic);
     document.getElementById('underlineBtn').addEventListener('click', toggleUnderline);
     document.getElementById('allCapsBtn').addEventListener('click', toggleAllCaps);
-    document.getElementById('imageFilter').addEventListener('change', applyImageFilter);
     document.getElementById('drawBtn').addEventListener('click', toggleDrawingMode);
     document.getElementById('drawColor').addEventListener('change', updateDrawingColor);
     document.getElementById('drawSize').addEventListener('change', updateDrawingSize);
@@ -58,48 +65,25 @@ function attachEventListeners() {
     document.getElementById('saveMemeBtn').addEventListener('click', saveMeme);
 
     setupImageLibrary();
-    setupCollapsibles();
 }
 
-function handleImageUpload(e) {
-    const file = e.target.files[0];
-    loadImageToCanvas(file);
-}
-
-function loadImageToCanvas(file) {
-    const reader = new FileReader();
-    reader.onload = function(f) {
-        fabric.Image.fromURL(f.target.result, function(img) {
-            canvas.clear();
-            const scaleFactor = Math.min(canvas.width / img.width, canvas.height / img.height);
-            img.set({
-                scaleX: scaleFactor,
-                scaleY: scaleFactor,
-                left: (canvas.width - img.width * scaleFactor) / 2,
-                top: (canvas.height - img.height * scaleFactor) / 2,
-                selectable: false,
-                movable: false,
-                lockMovementX: true,
-                lockMovementY: true
-            });
-            canvas.add(img);
-            canvas.renderAll();
-        });
-    };
-    reader.readAsDataURL(file);
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
 }
 
 function addTextToCanvas() {
     const text = new fabric.IText(isAllCaps ? 'ENTER TEXT' : 'Enter text', {
-        left: 50,
-        top: 50,
+        left: canvas.width / 2,
+        top: canvas.height / 2,
         fontFamily: 'Impact, Arial, sans-serif',
         fontSize: 40,
         fontWeight: 'bold',
         fill: 'white',
         stroke: 'black',
         strokeWidth: 2,
-        textAlign: 'center'
+        textAlign: 'center',
+        originX: 'center',
+        originY: 'center'
     });
 
     if (isAllCaps) {
@@ -200,11 +184,17 @@ function updateDrawingSize(e) {
 }
 
 function setupImageLibrary() {
-    document.querySelectorAll('.image-library img').forEach(img => {
+    document.querySelectorAll('#imageLibrary img').forEach(img => {
         img.addEventListener('click', function() {
             fabric.Image.fromURL(this.src, function(img) {
-                img.scale(0.5);
+                img.scale(0.5).set({
+                    left: canvas.width / 2,
+                    top: canvas.height / 2,
+                    originX: 'center',
+                    originY: 'center'
+                });
                 canvas.add(img);
+                canvas.setActiveObject(img);
             });
         });
     });
@@ -217,7 +207,6 @@ function addImageToLibrary() {
         const reader = new FileReader();
         reader.onload = function(e) {
             createLibraryImage(e.target.result);
-            document.querySelector('.add-image-dropdown').classList.remove('active');
             fileInput.value = '';
         };
         reader.readAsDataURL(file);
@@ -227,27 +216,23 @@ function addImageToLibrary() {
 }
 
 function createLibraryImage(imageUrl) {
-    const imageLibrary = document.querySelector('.image-library');
+    const imageLibrary = document.getElementById('imageLibrary');
     const newImg = document.createElement('img');
     newImg.src = imageUrl;
     newImg.alt = 'Custom Sticker';
     newImg.addEventListener('click', function() {
         fabric.Image.fromURL(this.src, function(img) {
-            img.scale(0.5);
+            img.scale(0.5).set({
+                left: canvas.width / 2,
+                top: canvas.height / 2,
+                originX: 'center',
+                originY: 'center'
+            });
             canvas.add(img);
+            canvas.setActiveObject(img);
         });
     });
-    imageLibrary.insertBefore(newImg, imageLibrary.lastElementChild);
-}
-
-function setupCollapsibles() {
-    document.querySelectorAll(".collapse-btn").forEach(btn => {
-        btn.addEventListener("click", function() {
-            this.classList.toggle("active");
-            const content = this.nextElementSibling;
-            content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
-        });
-    });
+    imageLibrary.appendChild(newImg);
 }
 
 function saveMeme() {
