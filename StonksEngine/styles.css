@@ -5,6 +5,7 @@ body, html {
     font-family: Arial, sans-serif;
     background-color: #f0f4f8;
     color: #333;
+    overflow: hidden;
 }
 
 .app-container {
@@ -18,14 +19,16 @@ body, html {
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     overflow-y: auto;
+    flex-shrink: 0;
+    z-index: 10;
 }
 
 .main-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    overflow-y: auto;
+    overflow: hidden;
+    position: relative;
 }
 
 .canvas-container {
@@ -33,7 +36,8 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    overflow: hidden;
+    padding: 20px;
 }
 
 #memeCanvas {
@@ -113,57 +117,18 @@ button:hover {
 }
 
 .save-button {
-    align-self: center;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
     background-color: #27ae60;
     color: white;
     font-weight: bold;
     padding: 10px 20px;
     font-size: 16px;
-    margin-bottom: 20px;
-}
-
-.meme-template-carousel {
-    position: sticky;
-    bottom: 0;
-    background-color: #f0f4f8;
-    padding: 20px 0;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.carousel-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.carousel-content {
-    display: flex;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    width: 100%;
-}
-
-.carousel-content img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color 0.3s;
-}
-
-.carousel-content img:hover {
-    border-color: #3498db;
-}
-
-.carousel-button {
-    background-color: #3498db;
-    color: white;
     border: none;
-    padding: 5px 10px;
+    border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    z-index: 10;
 }
 
 @media (max-width: 768px) {

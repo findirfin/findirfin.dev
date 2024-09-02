@@ -4,14 +4,12 @@ let isAllCaps = true;
 document.addEventListener('DOMContentLoaded', function() {
     initializeCanvas();
     setupEventListeners();
-    initializeCarousel();
 });
 
 function initializeCanvas() {
     canvas = new fabric.Canvas('memeCanvas');
-    canvas.setDimensions({ width: 600, height: 600 });
-    customizeControls();
     resizeCanvas();
+    customizeControls();
 }
 
 function customizeControls() {
@@ -241,41 +239,19 @@ function setupImageLibrary() {
     });
 }
 
-function initializeCarousel() {
-    const content = document.querySelector('.carousel-content');
-    document.querySelector('.carousel-button.prev').addEventListener('click', () => {
-        content.scrollBy(-100, 0);
-    });
-    document.querySelector('.carousel-button.next').addEventListener('click', () => {
-        content.scrollBy(100, 0);
-    });
 
-    document.querySelectorAll('.carousel-content img').forEach(img => {
-        img.addEventListener('click', function() {
-            applyMemeTemplate(this.getAttribute('data-template'));
-        });
-    });
-}
 
-function applyMemeTemplate(template) {
-    if (template === 'blank') {
-        canvas.clear();
-        canvas.setBackgroundColor('#ffffff', canvas.renderAll.bind(canvas));
-    } else {
-        fabric.Image.fromURL(`editor2/assets/${template}.png`, function(img) {
-            canvas.clear();
-            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-                scaleX: canvas.width / img.width,
-                scaleY: canvas.height / img.height
-            });
-        });
-    }
-}
+
 
 function resizeCanvas() {
     const canvasContainer = document.querySelector('.canvas-container');
-    const size = Math.min(canvasContainer.clientWidth, canvasContainer.clientHeight);
+    const width = canvasContainer.clientWidth;
+    const height = canvasContainer.clientHeight;
+    
+    // Maintain aspect ratio (e.g., square)
+    const size = Math.min(width, height) - 40; // Subtract padding
+    
     canvas.setDimensions({ width: size, height: size });
-    canvas.setZoom(size / 600);
+    canvas.setZoom(size / 600); // Assuming 600x600 is the base size
     canvas.renderAll();
 }
