@@ -1,218 +1,103 @@
 let canvas;
-let isDrawing = false;
-let isAllCaps = true; // New variable to track all caps state
+let isAllCaps = true;
 
 document.addEventListener('DOMContentLoaded', function() {
+    initializeCanvas();
+    setupEventListeners();
+    initializeCarousel();
+});
+
+function initializeCanvas() {
     canvas = new fabric.Canvas('memeCanvas');
-    canvas.isDrawingMode = false;
+    canvas.setDimensions({ width: 600, height: 600 });
+    customizeControls();
+    resizeCanvas();
+}
 
-    // Customize controls
-    fabric.Object.prototype.transparentCorners = false;
-    fabric.Object.prototype.cornerColor = 'white';
-    fabric.Object.prototype.cornerStrokeColor = '#444444';
-    fabric.Object.prototype.cornerStyle = 'circle';
-    fabric.Object.prototype.borderColor = '#444444';
-    fabric.Object.prototype.cornerSize = 12;
-    fabric.Object.prototype.cornerStrokeWidth = 2;
-
-    // Change selection color for objects
+function customizeControls() {
     fabric.Object.prototype.set({
+        transparentCorners: false,
+        cornerColor: 'white',
+        cornerStrokeColor: '#444444',
+        cornerStyle: 'circle',
+        cornerSize: 12,
+        cornerStrokeWidth: 2,
         borderColor: '#2c3e50',
         borderScaleFactor: 2,
         borderDashArray: [5, 5]
     });
 
-    // Change selection rectangle color and style
-    canvas.selectionColor = 'rgba(46, 204, 113, 0.2)';
-    canvas.selectionBorderColor = '#27ae60';
-    canvas.selectionLineWidth = 2;
-    canvas.selectionDashArray = [6, 6];
-
-    // Add rotation cursor
-    fabric.Object.prototype.controls.mtr.cursorStyle = 'pointer';
-
-
-
-    
-
-    // Image upload
-    document.getElementById('imageUpload').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        loadImageToCanvas(file);
+    canvas.set({
+        selectionColor: 'rgba(46, 204, 113, 0.2)',
+        selectionBorderColor: '#27ae60',
+        selectionLineWidth: 2,
+        selectionDashArray: [6, 6]
     });
+}
 
-    // Collapsible functionality
-    const collapsibles = document.querySelectorAll(".collapse-btn");
-    collapsibles.forEach(coll => {
-        coll.addEventListener("click", function() {
-            this.classList.toggle("active");
-            const content = this.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        });
-    });
-
-    // Text editing options
+function setupEventListeners() {
+    document.getElementById('imageUpload').addEventListener('change', handleImageUpload);
+    document.getElementById('addTextBtn').addEventListener('click', addText);
     document.getElementById('fontFamily').addEventListener('change', updateTextStyle);
     document.getElementById('fontSize').addEventListener('change', updateTextStyle);
     document.getElementById('fontColor').addEventListener('change', updateTextStyle);
     document.getElementById('boldBtn').addEventListener('click', toggleBold);
     document.getElementById('italicBtn').addEventListener('click', toggleItalic);
     document.getElementById('underlineBtn').addEventListener('click', toggleUnderline);
-    document.getElementById('allCapsBtn').addEventListener('click', toggleAllCaps); // New event listener
+    document.getElementById('allCapsBtn').addEventListener('click', toggleAllCaps);
+    document.getElementById('imageFilter').addEventListener('change', applyImageFilter);
+    document.getElementById('drawBtn').addEventListener('click', toggleDrawingMode);
+    document.getElementById('drawColor').addEventListener('change', updateDrawingColor);
+    document.getElementById('drawSize').addEventListener('change', updateDrawingSize);
+    document.getElementById('addToLibraryBtn').addEventListener('click', addImageToLibrary);
+    document.getElementById('saveMemeBtn').addEventListener('click', saveMeme);
+    
+    setupCollapsibles();
+    setupImageLibrary();
 
-    // Add text button
-    document.getElementById('addTextBtn').addEventListener('click', function() {
-        const text = new fabric.IText(isAllCaps ? 'ENTER TEXT' : 'Enter text', {
-            left: 50,
-            top: 50,
-            fontFamily: 'Impact, Arial, sans-serif',
-            fontSize: 40,
-            fontWeight: 'bold',
-            fill: 'white',
-            stroke: 'black',
-            strokeWidth: 2,
-            textAlign: 'center'
+    canvas.on('object:selected', updateTextStyleControls);
+    window.addEventListener('resize', resizeCanvas);
+}
+
+function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(f) {
+            fabric.Image.fromURL(f.target.result, function(img) {
+                canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                    scaleX: canvas.width / img.width,
+                    scaleY: canvas.height / img.height
+                });
+            });
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function addText() {
+    const text = new fabric.IText(isAllCaps ? 'ENTER TEXT' : 'Enter text', {
+        left: 50,
+        top: 50,
+        fontFamily: 'Impact, Arial, sans-serif',
+        fontSize: 40,
+        fontWeight: 'bold',
+        fill: 'white',
+        stroke: 'black',
+        strokeWidth: 2,
+        textAlign: 'center'
+    });
+
+    if (isAllCaps) {
+        text.on('changed', function() {
+            this.text = this.text.toUpperCase();
         });
+    }
 
-        // Apply all caps if it's enabled
-        if (isAllCaps) {
-            text.on('changed', function() {
-                this.text = this.text.toUpperCase();
-            });
-        }
-
-        canvas.add(text);
-        canvas.setActiveObject(text);
-        updateTextStyleControls(text);
-    });
-
-    // Image filter
-    document.getElementById('imageFilter').addEventListener('change', function(e) {
-        const filter = e.target.value;
-        if (filter) {
-            canvas.getObjects().forEach(obj => {
-                if (obj.type === 'image') {
-                    obj.filters = [];
-                    obj.filters.push(new fabric.Image.filters[filter.charAt(0).toUpperCase() + filter.slice(1)]());
-                    obj.applyFilters();
-                }
-            });
-            canvas.renderAll();
-        }
-    });
-
-    // Draw on image
-    document.getElementById('drawBtn').addEventListener('click', function() {
-        canvas.isDrawingMode = !canvas.isDrawingMode;
-        this.textContent = canvas.isDrawingMode ? 'Stop Drawing' : 'Draw on Image';
-    });
-
-    document.getElementById('drawColor').addEventListener('change', function(e) {
-        canvas.freeDrawingBrush.color = e.target.value;
-    });
-
-    document.getElementById('drawSize').addEventListener('change', function(e) {
-        canvas.freeDrawingBrush.width = parseInt(e.target.value, 10);
-    });
-
-    // Add image dropdown functionality
-    const addImageButton = document.querySelector('.add-image-button');
-    const addImageDropdown = document.querySelector('.add-image-dropdown');
-
-    addImageButton.addEventListener('click', function(e) {
-        e.stopPropagation();
-        addImageDropdown.classList.toggle('active');
-    });
-
-    document.addEventListener('click', function(e) {
-        if (!addImageDropdown.contains(e.target) && e.target !== addImageButton) {
-            addImageDropdown.classList.remove('active');
-        }
-    });
-
-    // Custom image upload to library
-    document.getElementById('addToLibraryBtn').addEventListener('click', function() {
-        const fileInput = document.getElementById('customImageUpload');
-        const file = fileInput.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                addImageToLibrary(e.target.result);
-                addImageDropdown.classList.remove('active');
-                fileInput.value = ''; // Clear the file input
-            };
-            reader.readAsDataURL(file);
-        } else {
-            alert('Please select an image to add to the library.');
-        }
-    });
-
-    // Image library functionality
-    document.querySelectorAll('.image-library img').forEach(img => {
-        img.addEventListener('click', function() {
-            fabric.Image.fromURL(this.src, function(img) {
-                img.scale(0.5);
-                canvas.add(img);
-            });
-        });
-    });
-
-    // Save meme
-    document.getElementById('saveMemeBtn').addEventListener('click', function() {
-        if (!canvas.lowerCanvasEl.toBlob) {
-            alert('Your browser does not support the required functionality to save images.');
-            return;
-        }
-
-        canvas.lowerCanvasEl.toBlob(function(blob) {
-            try {
-                const timestamp = new Date().getTime();
-                const fileName = `meme_${timestamp}.png`;
-
-                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const link = document.createElement('a');
-                        link.download = fileName;
-                        link.href = e.target.result;
-                        link.click();
-                    };
-                    reader.readAsDataURL(blob);
-                } else {
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.download = fileName;
-                    link.href = url;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(url);
-                }
-            } catch (error) {
-                console.error('Error saving meme:', error);
-                alert('An error occurred while saving the meme. Please try again.');
-            }
-        }, 'image/png');
-    });
-
-    // Initialize the carousel
-    initCarousel();
-
-    // New event listener for object selection
-    canvas.on('object:selected', function(e) {
-        const selectedObject = e.target;
-        if (selectedObject.type === 'i-text') {
-            updateTextStyleControls(selectedObject);
-        }
-    });
-
-    // Initialize the all caps button state
-    document.getElementById('allCapsBtn').classList.add('active');
-});
+    canvas.add(text);
+    canvas.setActiveObject(text);
+    updateTextStyleControls(text);
+}
 
 function updateTextStyle() {
     const activeObject = canvas.getActiveObject();
@@ -220,43 +105,36 @@ function updateTextStyle() {
         activeObject.set({
             fontFamily: document.getElementById('fontFamily').value + ', Arial, sans-serif',
             fontSize: parseInt(document.getElementById('fontSize').value),
-            fill: document.getElementById('fontColor').value,
-            stroke: activeObject.fill === 'white' ? 'black' : 'white',
-            strokeWidth: 2
+            fill: document.getElementById('fontColor').value
         });
-        if (isAllCaps) {
-            activeObject.text = activeObject.text.toUpperCase();
-        }
         canvas.renderAll();
     }
 }
 
 function updateTextStyleControls(textObject) {
-    document.getElementById('fontFamily').value = textObject.fontFamily.split(',')[0];
-    document.getElementById('fontSize').value = textObject.fontSize;
-    document.getElementById('fontColor').value = textObject.fill;
+    if (textObject && textObject.type === 'i-text') {
+        document.getElementById('fontFamily').value = textObject.fontFamily.split(',')[0];
+        document.getElementById('fontSize').value = textObject.fontSize;
+        document.getElementById('fontColor').value = textObject.fill;
+    }
 }
 
 function toggleBold() {
-    const activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set('fontWeight', activeObject.fontWeight === 'bold' ? 'normal' : 'bold');
-        canvas.renderAll();
-    }
+    modifyActiveText('fontWeight', 'bold', 'normal');
 }
 
 function toggleItalic() {
-    const activeObject = canvas.getActiveObject();
-    if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set('fontStyle', activeObject.fontStyle === 'italic' ? 'normal' : 'italic');
-        canvas.renderAll();
-    }
+    modifyActiveText('fontStyle', 'italic', 'normal');
 }
 
 function toggleUnderline() {
+    modifyActiveText('underline', true, false);
+}
+
+function modifyActiveText(property, valueA, valueB) {
     const activeObject = canvas.getActiveObject();
     if (activeObject && activeObject.type === 'i-text') {
-        activeObject.set('underline', !activeObject.underline);
+        activeObject.set(property, activeObject[property] === valueA ? valueB : valueA);
         canvas.renderAll();
     }
 }
@@ -264,7 +142,6 @@ function toggleUnderline() {
 function toggleAllCaps() {
     isAllCaps = !isAllCaps;
     document.getElementById('allCapsBtn').classList.toggle('active');
-    
     canvas.getObjects('i-text').forEach(function(textObject) {
         if (isAllCaps) {
             textObject.text = textObject.text.toUpperCase();
@@ -278,82 +155,106 @@ function toggleAllCaps() {
     canvas.renderAll();
 }
 
-function addImageToLibrary(imageUrl) {
-    const imageLibrary = document.querySelector('.image-library');
-    const newImg = document.createElement('img');
-    newImg.src = imageUrl;
-    newImg.alt = 'Custom Sticker';
-    newImg.addEventListener('click', function() {
-        fabric.Image.fromURL(this.src, function(img) {
-            img.scale(0.5);
-            canvas.add(img);
-        });
-    });
-    imageLibrary.insertBefore(newImg, imageLibrary.lastElementChild);
-}
-
-function initCarousel() {
-    const content = document.querySelector('.carousel-content');
-    const prevBtn = document.querySelector('.carousel-button.prev');
-    const nextBtn = document.querySelector('.carousel-button.next');
-    const scrollAmount = 100; // Width of one image
-
-    prevBtn.addEventListener('click', () => {
-        content.scrollBy(-scrollAmount, 0);
-    });
-
-    nextBtn.addEventListener('click', () => {
-        content.scrollBy(scrollAmount, 0);
-    });
-
-    // Add click event listeners to template images
-    const templateImages = document.querySelectorAll('.carousel-content img');
-    templateImages.forEach(img => {
-        img.addEventListener('click', function() {
-            const template = this.getAttribute('data-template');
-            applyMemeTemplate(template);
-        });
-    });
-}
-
-function convertToUppercase() {
-    if (isAllCaps) {
-        canvas.getObjects('i-text').forEach(function(textObject) {
-            textObject.text = textObject.text.toUpperCase();
-            textObject.on('changed', function() {
-                this.text = this.text.toUpperCase();
-            });
+function applyImageFilter(e) {
+    const filter = e.target.value;
+    if (filter) {
+        canvas.getObjects().forEach(obj => {
+            if (obj.type === 'image') {
+                obj.filters = [new fabric.Image.filters[filter.charAt(0).toUpperCase() + filter.slice(1)]()];
+                obj.applyFilters();
+            }
         });
         canvas.renderAll();
     }
 }
 
-function loadImageToCanvas(file) {
-    const reader = new FileReader();
-    reader.onload = function(f) {
-        fabric.Image.fromURL(f.target.result, function(img) {
-            canvas.clear(); // Clear the canvas before adding the new image
-            const scaleFactor = Math.min(
-                canvas.width / img.width,
-                canvas.height / img.height
-            );
-            
-            img.set({
-                scaleX: scaleFactor,
-                scaleY: scaleFactor,
-                left: (canvas.width - img.width * scaleFactor) / 2,
-                top: (canvas.height - img.height * scaleFactor) / 2,
-                selectable: false,
-                movable: false,
-                lockMovementX: true,
-                lockMovementY: true
+function toggleDrawingMode() {
+    canvas.isDrawingMode = !canvas.isDrawingMode;
+    document.getElementById('drawBtn').textContent = canvas.isDrawingMode ? 'Stop Drawing' : 'Draw on Image';
+}
+
+function updateDrawingColor(e) {
+    canvas.freeDrawingBrush.color = e.target.value;
+}
+
+function updateDrawingSize(e) {
+    canvas.freeDrawingBrush.width = parseInt(e.target.value, 10);
+}
+
+function addImageToLibrary() {
+    const fileInput = document.getElementById('customImageUpload');
+    const file = fileInput.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = 'Custom Sticker';
+            img.addEventListener('click', function() {
+                addImageToCanvas(this.src);
             });
-            
-            canvas.add(img);
-            canvas.renderAll();
+            document.querySelector('.image-library').insertBefore(img, document.querySelector('.add-image-container'));
+            fileInput.value = '';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function addImageToCanvas(src) {
+    fabric.Image.fromURL(src, function(img) {
+        img.scale(0.5);
+        canvas.add(img);
+        canvas.renderAll();
+    });
+}
+
+function saveMeme() {
+    if (!canvas.lowerCanvasEl.toBlob) {
+        alert('Your browser does not support the required functionality to save images.');
+        return;
+    }
+
+    canvas.lowerCanvasEl.toBlob(function(blob) {
+        const link = document.createElement('a');
+        link.download = `meme_${new Date().getTime()}.png`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        URL.revokeObjectURL(link.href);
+    }, 'image/png');
+}
+
+function setupCollapsibles() {
+    document.querySelectorAll('.collapse-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.classList.toggle('active');
+            const content = this.nextElementSibling;
+            content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + 'px';
         });
-    };
-    reader.readAsDataURL(file);
+    });
+}
+
+function setupImageLibrary() {
+    document.querySelectorAll('.image-library img').forEach(img => {
+        img.addEventListener('click', function() {
+            addImageToCanvas(this.src);
+        });
+    });
+}
+
+function initializeCarousel() {
+    const content = document.querySelector('.carousel-content');
+    document.querySelector('.carousel-button.prev').addEventListener('click', () => {
+        content.scrollBy(-100, 0);
+    });
+    document.querySelector('.carousel-button.next').addEventListener('click', () => {
+        content.scrollBy(100, 0);
+    });
+
+    document.querySelectorAll('.carousel-content img').forEach(img => {
+        img.addEventListener('click', function() {
+            applyMemeTemplate(this.getAttribute('data-template'));
+        });
+    });
 }
 
 function applyMemeTemplate(template) {
@@ -362,26 +263,19 @@ function applyMemeTemplate(template) {
         canvas.setBackgroundColor('#ffffff', canvas.renderAll.bind(canvas));
     } else {
         fabric.Image.fromURL(`editor2/assets/${template}.png`, function(img) {
-            canvas.clear(); // Clear the canvas before adding the new template
-            const scaleFactor = Math.min(
-                canvas.width / img.width,
-                canvas.height / img.height
-            );
-            
-            img.set({
-                scaleX: scaleFactor,
-                scaleY: scaleFactor,
-                left: (canvas.width - img.width * scaleFactor) / 2,
-                top: (canvas.height - img.height * scaleFactor) / 2,
-                selectable: false,
-                movable: false,
-                lockMovementX: true,
-                lockMovementY: true
+            canvas.clear();
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                scaleX: canvas.width / img.width,
+                scaleY: canvas.height / img.height
             });
-            
-            canvas.add(img);
-            convertToUppercase(); // Convert any existing text to uppercase
-            canvas.renderAll();
         });
     }
+}
+
+function resizeCanvas() {
+    const canvasContainer = document.querySelector('.canvas-container');
+    const size = Math.min(canvasContainer.clientWidth, canvasContainer.clientHeight);
+    canvas.setDimensions({ width: size, height: size });
+    canvas.setZoom(size / 600);
+    canvas.renderAll();
 }
