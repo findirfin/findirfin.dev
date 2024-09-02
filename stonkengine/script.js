@@ -157,18 +157,6 @@ function toggleAllCaps() {
     canvas.renderAll();
 }
 
-function applyImageFilter(e) {
-    const filter = e.target.value;
-    if (filter) {
-        canvas.getObjects().forEach(obj => {
-            if (obj.type === 'image') {
-                obj.filters = [new fabric.Image.filters[filter.charAt(0).toUpperCase() + filter.slice(1)]()];
-                obj.applyFilters();
-            }
-        });
-        canvas.renderAll();
-    }
-}
 
 function toggleDrawingMode() {
     canvas.isDrawingMode = !canvas.isDrawingMode;
