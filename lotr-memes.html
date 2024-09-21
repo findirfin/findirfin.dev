@@ -15,15 +15,14 @@
         rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/ua-parser-js/dist/ua-parser.min.js"></script>
-    <!-- <script src="script.js"></script> -->
 
 
 
     <script type="text/javascript">
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
         })(window, document, "clarity", "script", "ly8bu4nldl");
     </script>
 
@@ -40,35 +39,33 @@
         <!-- page content -->
 
         <body>
-            <!-- 
-           
-            <div class="button-container">
-                <a href="index.html" style="text-decoration: none;"><img src="assets/home-button.png" alt="home button"
-                        class="home-button"></a>
-                <a href="#" style="text-decoration: none;"><img src="assets/share-button.png" alt="share button"
-                        class="share-button"></a> --->
+
             </div>
 
             <div class="percentage_container">
                 <p class="percentage" id="percentage">year percentage loading...</p>
                 <script>
-                    const today = new Date();
-                    const year = today.getFullYear();
+                    function updateContent() {
+                        const today = new Date();
+                        const formattedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
 
-                    // Get the number of milliseconds in a year
-                    const millisecondsInYear = new Date(year + 1, 0, 1) - new Date(year, 0, 1);
+                        // Update page title
+                        document.title = `LOTR Meme | ${formattedDate}`;
 
-                    // Get the milliseconds elapsed so far this year
-                    const millisecondsElapsed = today - new Date(year, 0, 1);
+                        // Update meme image
+                        const imageUrl = `https://findirfin.dev/lotr-memes/images/${formattedDate}.png`;
+                        document.querySelector(".meme").src = imageUrl;
+                        document.querySelector(".meme").alt = `Lord of the Rings meme for ${formattedDate}`;
 
-                    // Calculate the percentage of the year that has happened
-                    const percentage = (millisecondsElapsed / millisecondsInYear) * 100;
+                        // Update year percentage
+                        const millisecondsInYear = new Date(today.getFullYear() + 1, 0, 1) - new Date(today.getFullYear(), 0, 1);
+                        const millisecondsElapsed = today - new Date(today.getFullYear(), 0, 1);
+                        const percentage = (millisecondsElapsed / millisecondsInYear) * 100;
+                        document.getElementById("percentage").textContent = `${percentage.toFixed(2)}% of the year has passed.`;
+                    }
 
-                    // Get the paragraph element with id "percentage"
-                    const paragraph = document.getElementById("percentage");
-
-                    // Set the paragraph content to the formatted percentage
-                    paragraph.textContent = `${percentage.toFixed(2)}% of the year has passed.`;
+                    // Call the function when the page loads
+                    document.addEventListener('DOMContentLoaded', updateContent);
                 </script>
             </div>
 
@@ -136,7 +133,9 @@
                 </div>
             </div>
             <div class="upload">
-                <a href="https://forms.gle/mdJVKnBrcrFN3Cm37"><p>Submit a Meme</p></a>
+                <a href="https://forms.gle/mdJVKnBrcrFN3Cm37">
+                    <p>Submit a Meme</p>
+                </a>
             </div>
             <script>
                 var coll = document.getElementsByClassName("collapsible");
