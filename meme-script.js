@@ -51,6 +51,7 @@ function downloadMeme() {
     a.click();
     document.body.removeChild(a);
 }
+
 function addWatermarkToMeme(imageUrl, watermarkText) {
     return new Promise((resolve, reject) => {
         const img = new Image();
@@ -62,13 +63,30 @@ function addWatermarkToMeme(imageUrl, watermarkText) {
             canvas.width = img.width;
             canvas.height = img.height;
 
+            // Draw the original image
             ctx.drawImage(img, 0, 0);
 
-            ctx.font = '20px Arial';
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            // Set up watermark text
+            ctx.font = 'bold 20px Arial';
+            const textMetrics = ctx.measureText(watermarkText);
+            const textWidth = textMetrics.width;
+            const textHeight = 20; // Approximate height of the text
+
+            // Set up background
+            const padding = 5;
+            const bgWidth = textWidth + (padding * 2);
+            const bgHeight = textHeight + (padding * 2);
+            const bgX = canvas.width - bgWidth - 10;
+            const bgY = canvas.height - bgHeight - 10;
+
+            // Draw semi-transparent background
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillRect(bgX, bgY, bgWidth, bgHeight);
+
+            // Draw watermark text
+            ctx.fillStyle = 'white';
             ctx.textAlign = 'right';
             ctx.textBaseline = 'bottom';
-
             ctx.fillText(watermarkText, canvas.width - 10, canvas.height - 10);
 
             resolve(canvas.toDataURL());
