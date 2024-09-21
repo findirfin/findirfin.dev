@@ -698,3 +698,36 @@ footer a {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px; /* Adjust this value as needed */
+}
+
+.share-button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.share-button:hover {
+  background-color: #45a049;
+}
+
+.share-button svg {
+  margin-right: 8px;
+  width: 16px;
+  height: 16px;
+}
