@@ -44,35 +44,14 @@
 
             <div class="percentage_container">
                 <p class="percentage" id="percentage">year percentage loading...</p>
-                <script>
-                    function updateContent() {
-                        const today = new Date();
-                        const formattedDate = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-
-                        // Update page title
-                        document.title = `LOTR Meme | ${formattedDate}`;
-
-                        // Update meme image
-                        const imageUrl = `https://findirfin.dev/lotr-memes/images/${formattedDate}.png`;
-                        document.querySelector(".meme").src = imageUrl;
-                        document.querySelector(".meme").alt = `Lord of the Rings meme for ${formattedDate}`;
-
-                        // Update year percentage
-                        const millisecondsInYear = new Date(today.getFullYear() + 1, 0, 1) - new Date(today.getFullYear(), 0, 1);
-                        const millisecondsElapsed = today - new Date(today.getFullYear(), 0, 1);
-                        const percentage = (millisecondsElapsed / millisecondsInYear) * 100;
-                        document.getElementById("percentage").textContent = `${percentage.toFixed(2)}% of the year has passed.`;
-                    }
-
-                    // Call the function when the page loads
-                    document.addEventListener('DOMContentLoaded', updateContent);
-                </script>
+                <script src="meme-script.js" defer></script>
             </div>
 
 
 
             <div>
-                <img class="meme" src="" alt="lord of the rings meme for today">
+                <div class="loader" id="memeLoader"></div>
+                <img class="meme" src="" alt="lord of the rings meme for today" style="display: none;">
             </div>
             <script> // Get the current date, insert image and replace title
                 // Get the current date.
