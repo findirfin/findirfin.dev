@@ -67,7 +67,7 @@ function addWatermarkToMeme(imageUrl, watermarkText) {
             ctx.drawImage(img, 0, 0);
 
             // Set up watermark text
-            ctx.font = 'bold 20px Arial';
+            ctx.font = '20px Arial';
             const textMetrics = ctx.measureText(watermarkText);
             const textWidth = textMetrics.width;
             const textHeight = 20; // Approximate height of the text
