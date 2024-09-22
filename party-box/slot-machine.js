@@ -1,3 +1,21 @@
+// Rickroll chance (1 in 75)
+function checkRickrollChance() {
+    if (Math.floor(Math.random() * 20) === 0) {
+        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        return true;
+    }
+    return false;
+}
+
+// Check for rickroll immediately
+if (checkRickrollChance()) {
+    // If rickroll triggered, stop further script execution
+    throw new Error("Rickroll initiated");
+}
+// Run the check when the page loads
+document.addEventListener('DOMContentLoaded', checkRickrollChance);
+
+
 // Simulated database of abilities
 const abilityDatabase = [
 "Draw a card, then discard a card.",
