@@ -199,7 +199,7 @@ function getRandomAbilities() {
 
 function updateCard() {
     const abilities = getRandomAbilities();
-    cardNameElement.textContent = "Randomized Spell";
+    cardNameElement.textContent = "Slot Machine";
     abilities.forEach((ability, index) => {
         abilityElements[index].textContent = `${index + 1}. ${ability}`;
     });
