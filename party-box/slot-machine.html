@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTG Slot Machine</title>
+    <link rel="stylesheet" href="party-box.css">
+    <link rel="stylesheet" href="slot-machine.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MTG Slot Machine</h1>
+        <div class="mtg-card">
+            <div class="card-frame"></div>
+            <h2 class="card-name">Slot Machine</h2>
+            <div class="card-image"></div>
+            <div class="card-type">Enchantment</div>
+            <div class="card-text">
+                <p class="ability-1"></p>
+                <p class="ability-2"></p>
+                <p class="ability-3"></p>
+            </div>
+        </div>
+        <button id="generate-btn">Reload</button>
+        <div class="ability-selection">
+            <h3>Select an ability to use:</h3>
+            <button class="ability-btn" data-index="0">Use Ability 1</button>
+            <button class="ability-btn" data-index="1">Use Ability 2</button>
+            <button class="ability-btn" data-index="2">Use Ability 3</button>
+        </div>
+    </div>
+    <script src="slot-machine.js"></script>
+</body>
+</html>

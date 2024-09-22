@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Party Box Cards - MTG Card Selector</title>
+    <link rel="stylesheet" href="party-box/party-box.css">
+    <link rel="icon" href="party-box/assets/icon.png">
+
+</head>
+<body>
+    <header>
+        <h1>Party Box Cards</h1>
+        <p>Select what card you have to continue</p>
+    </header>
+    
+    <div class="container">
+        <div class="card-grid">
+            <div class="card" onclick="selectCard('Slot Machine')">
+                <img src="party-box/assets/placeholder.png" alt="Slot Machine">
+                <h3>Slot Machine</h3>
+            </div>
+            <div class="card" onclick="selectCard('Ancestral Recall')">
+                <img src="party-box/assets/placeholder.png" alt="Ancestral Recall">
+                <h3>Ancestral Recall</h3>
+            </div>
+            <div class="card" onclick="selectCard('Time Walk')">
+                <img src="party-box/assets/placeholder.png" alt="Time Walk">
+                <h3>Time Walk</h3>
+            </div>
+            <div class="card" onclick="selectCard('Mox Sapphire')">
+                <img src="party-box/assets/placeholder.png" alt="Mox Sapphire">
+                <h3>Mox Sapphire</h3>
+            </div>
+            <div class="card" onclick="selectCard('Jace, the Mind Sculptor')">
+                <img src="party-box/assets/placeholder.png" alt="Jace, the Mind Sculptor">
+                <h3>Jace, the Mind Sculptor</h3>
+            </div>
+            <div class="card" onclick="selectCard('Liliana of the Veil')">
+                <img src="party-box/assets/placeholder.png" alt="Liliana of the Veil">
+                <h3>Liliana of the Veil</h3>
+            </div>
+        </div>
+    </div>
+
+    <script src="/party-box/party-box.js"></script>
+    <script>
+        function selectCard(cardName) {
+            window.location.href = `findirfin.dev/party-box/${cardName.toLowerCase().replace(/ /g, '-')}`;
+        }
+    </script>
+</body>
+</html>

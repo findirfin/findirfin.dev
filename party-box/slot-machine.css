@@ -1,0 +1,136 @@
+
+/* General styles */
+body {
+    font-family: 'Beleren', Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #d4af37;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* MTG Card styles */
+.mtg-card {
+    width: 375px;
+    height: 523px;
+    background-color: #171314;
+    border-radius: 18px;
+    margin: 20px auto;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.card-frame {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('./assets/background.png');
+    background-size: cover;
+    border-radius: 18px;
+}
+
+.card-name {
+    position: absolute;
+    top: 8px;
+    left: 24px;
+    right: 24px;
+    padding-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 2px #000;
+}
+
+.card-image {
+    position: absolute;
+    top: 60px;
+    left: 23px;
+    right: 23px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 228px;
+    background-color: #bbb;
+    background-image: url('./assets/slot-machine.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-type {
+    position: absolute;
+    top: 298px;
+    left: 24px;
+    right: 24px;
+    font-size: 18px;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+}
+
+.card-text {
+    position: absolute;
+    top: 330px;
+    left: 24px;
+    right: 24px;
+    bottom: 95px;
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 120px;
+    background-color: rgba(255, 255, 255, 0.438);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 14px;
+    color: #000;
+    text-align: left;
+    overflow-y: auto;
+}
+
+.card-text p {
+    margin: 5px 0;
+}
+
+/* Button styles */
+button {
+    background-color: #d4af37;
+    color: #1a1a1a;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+    font-family: 'Beleren', Arial, sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #b8960f;
+}
+
+.ability-selection {
+    margin-top: 20px;
+}
+
+/* Scrollbar styles for card text */
+.card-text::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card-text::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.card-text::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.card-text::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
