@@ -1,0 +1,24 @@
+
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Shared Note</title>
+                <style>
+                    
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .content { max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1, h2, h3 { color: #2c3e50; }
+        code { background-color: #f0f0f0; padding: 2px 4px; border-radius: 4px; }
+        pre { background-color: #f0f0f0; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    
+                </style>
+            </head>
+            <body>
+                <div class="content">
+                    To install Ubuntu on a Chromebook using chrx, follow these steps:<br><br><h14>Preparation</h14><br><br>1. Enable Developer Mode on your Chromebook. This will erase all local data, so back up any important files first[3].<br><br>2. Update your Chromebook's firmware if necessary, especially for Bay Trail, Braswell, and Apollo Lake models[4].<br><br><h23>Installation Process</h23><br><br>The installation using chrx is a two-phase process:<br><br><h29>Phase 1: Allocating Space</h29><br><br>1. Boot into Chrome OS and open the Terminal by pressing <strong>Ctrl + Alt + T</strong>[1].<br><br>2. Type `shell` and press <strong>Enter</strong> to open a shell[1].<br><br>3. Run the following command to download and execute chrx[4]:<br><br>   ```<br>   curl https://chrx.org/ | sudo tar xzfC - /usr/local && chrx<br>   ```<br><br>4. Follow the on-screen instructions to allocate storage space for Ubuntu[4].<br><br>5. The system will reboot after this phase.<br><br><h30>Phase 2: Installing Ubuntu</h30><br><br>1. After rebooting, open the Terminal again and run the chrx command with your desired options[4]. For Ubuntu, use:<br><br>   ```<br>   chrx -d ubuntu -r latest<br>   ```<br><br>   You can replace `latest` with a specific version number if desired.<br><br>2. The installation will begin. This process may take some time, so be patient[1].<br><br><h20>Post-Installation</h20><br><br>Once the installation is complete, your Chromebook will reboot. You can then:<br><br>- Press <strong>Ctrl + L</strong> at startup to boot into Ubuntu[1].<br>- Press <strong>Ctrl + D</strong> to boot back into Chrome OS[1].<br><br><h19>Additional Notes</h19><br><br>- You can customize your installation further by using additional options with the chrx command. For example, to install a specific environment or architecture[4].<br>- If you encounter any issues, especially with Bay Trail Chromebooks, you may need to update your firmware using a script like the one mentioned in the search results[2].<br><br>Remember that installing Ubuntu will require significant space on your Chromebook, so ensure you have enough storage available before proceeding[3].<br><br>Citations:<br>[1] https://www.pcmag.com/how-to/install-linux-on-your-chromebook<br>[2] https://technicalagain.com/2017/11/26/fully-installing-linux-on-a-chromebook/<br>[3] https://www.javatpoint.com/how-to-setup-linux-on-chromebook<br>[4] https://chrx.org/dev/
+                </div>
+            </body>
+            </html>
+        
