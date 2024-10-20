@@ -247,5 +247,5 @@ function addImageToCanvas(canvas, src) {
     });
 }
 
-// Export necessary functions.
+// Export necessary functions
 export { addImageToCanvas };
