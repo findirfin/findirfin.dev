@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full-screen Meme Creator</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./editor4/styles.css">
+</head>
+
+<body>
+    <canvas id="memeCanvas"></canvas>
+
+    <div id="sidebar" class="sidebar">
+        <h2>Meme Creator</h2>
+        <div class="tool-section">
+            <h3>File</h3>
+            <button id="importImageBtn"><i class="fas fa-file-import"></i> Import</button>
+            <button id="addImageBtn"><i class="fas fa-plus"></i> Add Image</button>
+            <button id="saveImageBtn"><i class="fas fa-save"></i> Save</button>
+        </div>
+
+        <div class="tool-section">
+            <h3>Add Elements</h3>
+            <button id="addTextBtn"><i class="fas fa-font"></i> Text</button>
+            <button id="addShapeBtn"><i class="fas fa-shapes"></i> Shape</button>
+        </div>
+
+        <div class="tool-section">
+            <h3>Image Library</h3>
+            <button id="importPackBtn"><i class="fas fa-file-import"></i> Import Pack</button>
+            <input type="file" id="customImageUpload" accept="image/*" style="display: none;">
+            <button id="addToLibraryBtn"><i class="fas fa-plus"></i> Add to Library</button>
+            <div id="imageLibrary" class="image-library">
+                <!-- Image library content will be dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+
+
+    <div id="imageEditMenu" class="floating-menu">
+        <h3>Object Editor</h3>
+        <div class="button-group">
+            <button id="rotateLeftBtn" title="Rotate Left"><i class="fas fa-undo"></i></button>
+            <button id="rotateRightBtn" title="Rotate Right"><i class="fas fa-redo"></i></button>
+            <button id="flipHorizontalBtn" title="Flip Horizontal"><i class="fas fa-arrows-alt-h"></i></button>
+            <button id="flipVerticalBtn" title="Flip Vertical"><i class="fas fa-arrows-alt-v"></i></button>
+            <button id="cropBtn" title="Crop"><i class="fas fa-crop"></i></button>
+            <button id="bringForwardBtn" title="Bring Forward"><i class="fas fa-level-up-alt"></i></button>
+            <button id="sendBackwardBtn" title="Send Backward"><i class="fas fa-level-down-alt"></i></button>
+            <button id="deleteObjectBtn" title="Delete"><i class="fas fa-trash"></i></button>
+        </div>
+        <div class="slider-group">
+            <label for="opacitySlider">Opacity</label>
+            <input type="range" id="opacitySlider" min="0" max="100" value="100">
+        </div>
+        <div class="color-picker-group">
+            <label for="objectColorPicker">Color</label>
+            <input type="color" id="objectColorPicker">
+        </div>
+    </div>
+
+    <div id="textEditMenu" class="floating-menu">
+        <h3>Text Editor</h3>
+        <div class="input-group">
+            <select id="fontFamily">
+                <option value="Impact">Impact</option>
+                <option value="Arial">Arial</option>
+                <option value="Helvetica">Helvetica</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Courier">Courier</option>
+            </select>
+            <input type="number" id="fontSize" min="8" max="72" value="40">
+            <input type="color" id="fontColor" value="#ffffff">
+        </div>
+        <div class="button-group">
+            <button id="boldBtn" title="Bold"><i class="fas fa-bold"></i></button>
+            <button id="italicBtn" title="Italic"><i class="fas fa-italic"></i></button>
+            <button id="underlineBtn" title="Underline"><i class="fas fa-underline"></i></button>
+            <button id="allCapsBtn" title="All Caps"><i class="fas fa-font"></i></button>
+            <button id="alignLeftBtn" title="Align Left"><i class="fas fa-align-left"></i></button>
+            <button id="alignCenterBtn" title="Align Center"><i class="fas fa-align-center"></i></button>
+            <button id="alignRightBtn" title="Align Right"><i class="fas fa-align-right"></i></button>
+            <button id="deleteTextBtn" title="Delete"><i class="fas fa-trash"></i></button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.1/fabric.min.js"></script>
+    <script type="module" src="./editor4/main.js"></script>
+</body>
+
+</html>
