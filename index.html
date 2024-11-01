@@ -40,29 +40,37 @@
     <h1 class="helloworld" data-value="Hello World">Hello World</h1>
   </div>
 
-  <div class="about">
-    <div class="social_links_containers">
-      <a href="https://github.com/findirfin" target="_blank" class="social">
-        <img src="assets/github.png" alt="github" class="social_icon">
+  <div class="social-container">
+    <div class="social-grid">
+      <a href="https://github.com/findirfin" target="_blank" class="social-link">
+        <div class="social-icon-wrapper">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+        </div>
+        <span class="social-text">GitHub</span>
       </a>
-
-      <!--
-      <a href="https://matrix.to/#/#gondolin:matrix.org" target="_blank" class="social">
-        <img src="assets/discuss.png" alt="matrix server" class="social_icon">
+  
+      <a href="https://www.youtube.com/@findirfin" target="_blank" class="social-link">
+        <div class="social-icon-wrapper">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/>
+            <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>
+          </svg>
+        </div>
+        <span class="social-text">YouTube</span>
       </a>
-      -->
-
-      <a href="https://www.youtube.com/@findirfin" target="_blank" class="social">
-        <img src="assets/youtube.png" alt="youtube" class="social_icon">
+  
+      <a href="mailto:contact@findirfin.dev" target="_blank" class="social-link">
+        <div class="social-icon-wrapper">
+          <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+        </div>
+        <span class="social-text">Email</span>
       </a>
-
-      <a href="mailto:contact@findirfin.dev" target="_blank" class="social">
-        <img src="assets/email.png" alt="email" class="social_icon">
-      </a>
-
-
     </div>
-  </div>
 
 
 
@@ -155,71 +163,60 @@
 
 
 
-  <div class="written_content">
-    <h2>Articles</h2>
-
-    <div id="myBtnContainer">
-      <button class="btn active" onclick="filterSelection('all')"> Show all</button>
-      <button class="btn" onclick="filterSelection('how')"> How To</button>
-      <button class="btn" onclick="filterSelection('opinion')"> Opinion</button>
-      <button class="btn" onclick="filterSelection('news')"> News</button>
-      <button class="btn" onclick="filterSelection('internal')"> Internal Articles</button>
-      <button class="btn" onclick="filterSelection('external')"> External Links</button>
+  <div class="articles-container">
+    <header class="articles-header">
+      <h2 class="articles-title">Articles</h2>
+    </header>
+  
+    <div class="filter-container">
+      <button class="filter-btn active" onclick="filterArticles('all')">All</button>
+      <button class="filter-btn" onclick="filterArticles('how')">How To</button>
+      <button class="filter-btn" onclick="filterArticles('opinion')">Opinion</button>
+      <button class="filter-btn" onclick="filterArticles('news')">News</button>
+      <button class="filter-btn" onclick="filterArticles('internal')">Internal</button>
+      <button class="filter-btn" onclick="filterArticles('external')">External</button>
     </div>
-
-    <div class="filter_container">
-      <a href="https://findirfin.dev/articles/three-apps-to-switch-to.html">
-        <div class="filterDiv how opinion internal">
-          <img src="./articles/images/proton-apps.svg" alt="Brave Wallet">
-          <p class="title_link">3 Privacy Respecting Apps to switch to</p>
+  
+    <div class="articles-grid">
+      <a href="https://findirfin.dev/articles/three-apps-to-switch-to.html" class="article-card filterDiv how opinion internal show">
+        <div class="article-image-wrapper">
+          <img src="./articles/images/proton-apps.svg" alt="Proton Apps" class="article-image">
+        </div>
+        <div class="article-content">
+          <h3 class="article-title">3 Privacy Respecting Apps to switch to</h3>
+          <div class="article-labels">
+            <span class="article-label label-how">How To</span>
+            <span class="article-label label-opinion">Opinion</span>
+            <span class="article-label label-internal">Internal</span>
+          </div>
         </div>
       </a>
     </div>
   </div>
-
+  
   <script>
-    filterSelection("all")
-    function filterSelection(c) {
-      var x, i;
-      x = document.getElementsByClassName("filterDiv");
-      if (c == "all") c = "";
-      for (i = 0; i < x.length; i++) {
-        w3RemoveClass(x[i], "show");
-        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+  function filterArticles(category) {
+    const buttons = document.querySelectorAll('.filter-btn');
+    buttons.forEach(btn => {
+      btn.classList.remove('active');
+      if (btn.textContent.toLowerCase().includes(category.toLowerCase())) {
+        btn.classList.add('active');
       }
-    }
-
-    function w3AddClass(element, name) {
-      var i, arr1, arr2;
-      arr1 = element.className.split(" ");
-      arr2 = name.split(" ");
-      for (i = 0; i < arr2.length; i++) {
-        if (arr1.indexOf(arr2[i]) == -1) { element.className += " " + arr2[i]; }
-      }
-    }
-
-    function w3RemoveClass(element, name) {
-      var i, arr1, arr2;
-      arr1 = element.className.split(" ");
-      arr2 = name.split(" ");
-      for (i = 0; i < arr2.length; i++) {
-        while (arr1.indexOf(arr2[i]) > -1) {
-          arr1.splice(arr1.indexOf(arr2[i]), 1);
+    });
+  
+    const articles = document.querySelectorAll('.article-card');
+    articles.forEach(article => {
+      if (category === 'all') {
+        article.classList.add('show');
+      } else {
+        if (article.classList.contains(category)) {
+          article.classList.add('show');
+        } else {
+          article.classList.remove('show');
         }
       }
-      element.className = arr1.join(" ");
-    }
-
-    // Add active class to the current button (highlight it)
-    var btnContainer = document.getElementById("myBtnContainer");
-    var btns = btnContainer.getElementsByClassName("btn");
-    for (var i = 0; i < btns.length; i++) {
-      btns[i].addEventListener("click", function () {
-        var current = document.getElementsByClassName("active");
-        current[0].className = current[0].className.replace(" active", "");
-        this.className += " active";
-      });
-    }
+    });
+  }
   </script>
 
 
