@@ -64,43 +64,96 @@
     </div>
   </div>
 
-  <div class="projects">
 
 
-    <div class="card">
-      <a href="https://findirfin.dev/lotr-memes" target="_blank">
-        <img src="assets/memes_avatar.png" alt="LOTR_MEME" style="width:100%">
-        <div class="card_container">
-          <h4><b>Daily LOTR Meme</b></h4>
-          <p>A Lord of the Rings Meme for every day.</p>
+  <div class="projects-container">
+  
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-icon-wrapper">
+          <svg class="project-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 3h18v12H3V3z"/> <!-- browser window frame -->
+            <path d="M3 6h18"/> <!-- browser bar line -->
+            <circle cx="5.5" cy="4.5" r="0.5"/> <!-- browser dot 1 -->
+            <circle cx="7.5" cy="4.5" r="0.5"/> <!-- browser dot 2 -->
+            <circle cx="9.5" cy="4.5" r="0.5"/> <!-- browser dot 3 -->
+            <path d="M8 10l3 3m0 0l3-3m-3 3v4"/> <!-- image icon -->
+            <rect x="7" y="9" width="10" height="8" rx="1"/> <!-- image frame -->
+          </svg>
         </div>
-      </a>
-    </div>
-
-
-    <div class="card">
-      <a href="https://github.com/findirfin/pico-ducky-resources" target="_blank">
-        <img src="assets/ducky.png" alt="HACKING" style="width:100%">
-        <div class="card_container">
-          <h4><b>Pico Ducky Resources</b></h4>
-          <p>Resources to complete Network Chuck's Toutorial.</p>
-          <p>The original tutorial is linked on the github.</p>
+        <div class="project-content">
+          <a href="https://findirfin.dev/editor4" class="project-title">Browser Image Editor</a>
+          <p class="project-description">Create and edit images directly in your browser. No server-side processing needed - everything runs locally for maximum privacy and speed.</p>
+          <div class="project-footer">
+            <div class="project-labels">
+              <span class="project-label label-wip">Work in Progress</span>
+            </div>
+            <div class="project-meta">
+              <svg class="meta-icon" viewBox="0 0 16 16" fill="currentColor">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+              </svg>
+              Beta
+            </div>
+          </div>
         </div>
-      </a>
-    </div>
-
-    <div class="card">
-      <a href="https://github.com/findirfin/findirfin.dev" target="_blank">
-        <img src="assets/source_code.png" alt="Website" style="width:100%">
-        <div class="card_container">
-          <h4><b>Source Code for Website</b></h4>
-          <p>The source code for this website right here. Contribute if you want I guess.</p>
+      </div>
+  
+      <div class="project-card">
+        <div class="project-icon-wrapper">
+          <svg class="project-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 9c0-2.5 2-4 4-4s4 1.5 4 4"/> <!-- duck head -->
+            <path d="M7 10c-1.5 0-3 .5-3 2 0 2 3 3 6 3s6-1 6-3c0-1.5-1.5-2-3-2"/> <!-- duck body -->
+            <path d="M15 9.5l3-1.5 1 2-3 1.5"/> <!-- robotic antenna -->
+            <path d="M9 7.5v-1M13 7.5v-1"/> <!-- digital eyes -->
+            <path d="M11 9h2"/> <!-- digital beak -->
+            <path d="M7 14l-1 2m10-2l1 2"/> <!-- robot feet -->
+          </svg>
         </div>
-      </a>
+        <div class="project-content">
+          <a href="https://github.com/findirfin/pico-ducky-resources" class="project-title">Pico Ducky Resources</a>
+          <p class="project-description">Comprehensive resources and guides to complete Network Chuck's Tutorial. Perfect for beginners diving into hardware hacking.</p>
+          <div class="project-footer">
+            <div class="project-labels">
+              <span class="project-label label-tutorial">Project Files</span>
+            </div>
+            <div class="project-meta">
+              <svg class="meta-icon" viewBox="0 0 16 16" fill="currentColor">
+                <path fill-rule="evenodd" d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/>
+              </svg>
+              Star on GitHub
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="project-card">
+        <div class="project-icon-wrapper">
+          <svg class="project-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+          </svg>
+        </div>
+        <div class="project-content">
+          <a href="https://github.com/findirfin/findirfin.dev" class="project-title">Website Source Code</a>
+          <p class="project-description">The complete source code for this website. Feel free to explore, learn, and contribute to make it even better.</p>
+          <div class="project-footer">
+            <div class="project-labels">
+              <span class="project-label label-docs">Documentation</span>
+            </div>
+            <div class="project-meta">
+              <svg class="meta-icon" viewBox="0 0 16 16" fill="currentColor">
+                <path fill-rule="evenodd" d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z"/>
+              </svg>
+              Open source
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-
   </div>
+  </div>
+
+
+
 
   <div class="written_content">
     <h2>Articles</h2>
@@ -121,32 +174,6 @@
           <p class="title_link">3 Privacy Respecting Apps to switch to</p>
         </div>
       </a>
-      <!--
-      <a href="https://brave.com/bitcoin-wallet/">
-        <div class="filterDiv news external">
-          <img src="./assets/brave_wallet.png" alt="Brave Wallet">
-          <p class="title_link">Brave Wallet Supports BTC</p>
-        </div>
-      </a>
-      <a href="https://signal.org/blog/phone-number-privacy-usernames/">
-        <div class="filterDiv news external">
-          <img src="./assets/signal_usernames.png" alt="Signal Usernames">
-          <p class="title_link">Signal Usernames</p>
-        </div>
-      </a>
-      <a href="https://www.bleepingcomputer.com/news/security/new-executive-order-bans-mass-sale-of-personal-data-to-china-russia/">
-        <div class="filterDiv news external">
-          <img src="./assets/biden.png" alt="Biden Dictate">
-          <p class="title_link">Biden Dictate Halts Data Sales to China, Russia</p>
-        </div>
-      </a>
-      <a href="https://proton.me/blog/how-to-share-pdf">
-        <div class="filterDiv how external opinion">
-          <img src="./assets/pdf.png" alt="PDF">
-          <p class="title_link">How to Privately, Securely Share a PDF</p>
-        </div>
-      </a>
-    -->
     </div>
   </div>
 
@@ -194,63 +221,6 @@
       });
     }
   </script>
-
-  <!--
-  <div class="meme-link-container">
-    <p>
-    <div class="meme-link">
-      <a href="https://findirfin.dev/lotr-memes">
-        <img src="https://findirfin.dev/assets/meme-preview.png" alt="meme-link" class="meme-link-preview">
-      </a>
-      <div class="meme-link-text">
-        <a href="https://findirfin.dev/lotr-memes">
-          <h2 class="meme-link-title">Daily LOTR Meme</h2>
-        </a>
-        <a href="https://findirfin.dev/lotr-memes">
-          <p class="meme-link-description">New Lord of the rings meme every day. Sourced from all over the internet
-            and
-            curated by me. </p>
-
-        </a>
-      </div>
-
-    </div>
-    </p>
-  </div>
-  -->
-  <!-- 
-
-
-
-
-
-  <div class="form-container">
-    <form action="https://formspree.io/f/mknaeqbp" method="POST">
-      <div class="form-group">
-        <input type="hidden" name="user-info" id="user-info-display" rows="5" cols="50" readonly>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="message">Your Message:</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
-      </div>
-      <div class="form-group">
-        <button type="submit">Send</button>
-      </div>
-    </form>
-  </div>
-
-  <div class="social">
-      <a href="mailto:contact@findirfin.dev" target="_blank"> contact@findirfin.dev</a>,
-      <a href="https://github.com/findirfin" target="_blank">GitHub</a>,
-  </div>
--->
-
 
 
 </body>
