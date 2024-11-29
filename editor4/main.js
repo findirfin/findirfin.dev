@@ -8,6 +8,8 @@ import { initializeTextTools } from './textTools.js';
 import { initializeFileManagement } from './fileManagement.js';
 import { initializeImageLibrary } from './imageLibrary.js';
 import { initializeObjectManipulation } from './objectManipulation.js';
+import { initializeClipboardHandler } from './clipboardHandler.js';
+
 
 let canvas;
 
@@ -65,6 +67,8 @@ function initializeModules() {
     initializeTextTools(canvas);
     initializeFileManagement(canvas);
     initializeObjectManipulation(canvas);
+    initializeClipboardHandler(canvas);
+
 }
 
 async function initializeApp() {
