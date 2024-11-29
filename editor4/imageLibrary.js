@@ -1,240 +1,210 @@
-// imageLibrary.js
-
 let db;
 const DB_NAME = 'MemeCreatorDB';
 const STORE_NAME = 'imagePacks';
-const CUSTOM_PACK_NAME = 'Custom';
 
-export async function initializeImageLibrary(canvas) {
+async function initializeImageLibrary(canvas) {
     try {
         await initDB();
-        await ensureCustomPackExists();
-        await loadAllImages();
         setupEventListeners(canvas);
+        await loadAllImages(canvas);
     } catch (error) {
         console.error("Error initializing image library:", error);
-        alert("Failed to initialize image library. Please check the console for more details.");
     }
 }
 
 async function initDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(DB_NAME, 1);
+        
         request.onerror = (event) => reject(new Error("IndexedDB error: " + event.target.error));
+        
         request.onsuccess = (event) => {
             db = event.target.result;
-            console.log("Database initialized successfully");
             resolve(db);
         };
+        
         request.onupgradeneeded = (event) => {
             const db = event.target.result;
-            db.createObjectStore(STORE_NAME, { keyPath: "packName" });
-            console.log("Object store created");
-        };
-    });
-}
-
-async function ensureCustomPackExists() {
-    console.log("Ensuring Custom pack exists...");
-    const transaction = db.transaction([STORE_NAME], "readwrite");
-    const store = transaction.objectStore(STORE_NAME);
-    
-    return new Promise((resolve, reject) => {
-        const getRequest = store.get(CUSTOM_PACK_NAME);
-        
-        getRequest.onsuccess = (event) => {
-            let customPack = event.target.result;
-            if (!customPack) {
-                console.log("Custom pack not found, creating it...");
-                customPack = {
-                    packName: CUSTOM_PACK_NAME,
-                    description: "Your custom uploaded images",
-                    images: []
-                };
-                const addRequest = store.add(customPack);
-                addRequest.onsuccess = () => {
-                    console.log("Custom pack created successfully");
-                    resolve(customPack);
-                };
-                addRequest.onerror = (error) => reject(new Error("Failed to create Custom pack: " + error));
-            } else {
-                console.log("Custom pack found:", customPack);
-                resolve(customPack);
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                db.createObjectStore(STORE_NAME, { keyPath: "id" });
             }
         };
-        
-        getRequest.onerror = (error) => reject(new Error("Error checking for Custom pack: " + error));
     });
 }
 
-async function importImagePack(file) {
-    const packData = JSON.parse(await file.text());
-    if (!validatePackStructure(packData)) {
-        throw new Error("Invalid pack structure");
-    }
-    
-    const transaction = db.transaction([STORE_NAME], "readwrite");
-    const store = transaction.objectStore(STORE_NAME);
-    await store.put(packData);
-    
-    await loadAllImages();
-    return packData.packName;
-}
-
-export async function addImageToLibrary(file) {
-    console.log("Adding image to library:", file.name);
+async function addImageToLibrary(file, canvas) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onload = async (event) => {
-            const imageData = event.target.result;
             try {
-                const transaction = db.transaction([STORE_NAME], "readwrite");
+                const transaction = db.transaction([STORE_NAME], 'readwrite');
                 const store = transaction.objectStore(STORE_NAME);
                 
-                const getRequest = store.get(CUSTOM_PACK_NAME);
-                getRequest.onsuccess = (event) => {
-                    let customPack = event.target.result;
-                    if (!customPack) {
-                        console.error("Custom pack not found when adding image");
-                        reject(new Error("Custom pack not found"));
-                        return;
-                    }
-                    
-                    console.log("Custom pack before adding image:", customPack);
-                    customPack.images.push({
-                        name: file.name,
-                        url: imageData,
-                        tags: ["custom"]
-                    });
-                    console.log("Custom pack after adding image:", customPack);
-                    
-                    const putRequest = store.put(customPack);
-                    putRequest.onsuccess = async () => {
-                        console.log("Image added successfully");
-                        await loadAllImages();
-                        resolve();
-                    };
-                    putRequest.onerror = (error) => {
-                        console.error("Error saving updated Custom pack:", error);
-                        reject(new Error("Failed to save updated Custom pack"));
-                    };
+                const imageObject = {
+                    id: Date.now().toString(),
+                    name: file.name,
+                    url: event.target.result,
+                    dateAdded: new Date().toISOString()
                 };
-                getRequest.onerror = (error) => {
-                    console.error("Error retrieving Custom pack:", error);
-                    reject(new Error("Failed to retrieve Custom pack"));
+                
+                const request = store.add(imageObject);
+                request.onsuccess = async () => {
+                    await loadAllImages(canvas);
+                    resolve();
                 };
+                request.onerror = () => reject(request.error);
             } catch (error) {
-                console.error("Error in addImageToLibrary:", error);
                 reject(error);
             }
         };
-        reader.onerror = (error) => {
-            console.error("Error reading file:", error);
-            reject(new Error("Failed to read image file"));
-        };
+        reader.onerror = () => reject(reader.error);
         reader.readAsDataURL(file);
     });
 }
 
-function validatePackStructure(packData) {
-    // Implement validation logic here
-    return true; // Placeholder
-}
-
-async function loadAllImages() {
-    console.log("Loading all images...");
+async function loadAllImages(canvas) {
     const imageLibrary = document.getElementById('imageLibrary');
+    if (!imageLibrary) return;
+
     imageLibrary.innerHTML = '';
     
-    const transaction = db.transaction([STORE_NAME], "readonly");
-    const store = transaction.objectStore(STORE_NAME);
-    const packsRequest = store.getAll();
+    // Create custom pack section
+    const customPackDiv = document.createElement('div');
+    customPackDiv.className = 'image-pack';
+    customPackDiv.innerHTML = `
+        <h4>Your Custom Images</h4>
+        <div class="pack-images" id="customPackImages"></div>
+    `;
+    imageLibrary.appendChild(customPackDiv);
 
-    return new Promise((resolve, reject) => {
-        packsRequest.onsuccess = (event) => {
-            const packs = event.target.result;
-            console.log("Retrieved packs:", packs);
+    try {
+        // Load custom images
+        const transaction = db.transaction([STORE_NAME], 'readonly');
+        const store = transaction.objectStore(STORE_NAME);
+        const request = store.getAll();
+        
+        request.onsuccess = () => {
+            const customImages = request.result || [];
+            const customPackContainer = document.getElementById('customPackImages');
             
-            // Ensure packs is an array
-            const packsArray = Array.isArray(packs) ? packs : Object.values(packs);
-            
-            // Sort packs to ensure Custom is first
-            packsArray.sort((a, b) => a.packName === CUSTOM_PACK_NAME ? -1 : b.packName === CUSTOM_PACK_NAME ? 1 : 0);
-            
-            packsArray.forEach(pack => {
-                const packDiv = document.createElement('div');
-                packDiv.className = 'image-pack';
-                packDiv.innerHTML = `<h4>${pack.packName}</h4>`;
-                
-                const packImages = document.createElement('div');
-                packImages.className = 'pack-images';
-                
-                pack.images.forEach(image => {
-                    const img = document.createElement('img');
-                    img.src = image.url;
-                    img.alt = image.name;
-                    img.title = image.name;
-                    packImages.appendChild(img);
-                });
-                
-                packDiv.appendChild(packImages);
-                imageLibrary.appendChild(packDiv);
+            customImages.forEach(image => {
+                const imgDiv = document.createElement('div');
+                imgDiv.className = 'image-container';
+                imgDiv.innerHTML = `
+                    <img src="${image.url}" alt="${image.name}" title="${image.name}"
+                         draggable="true">
+                    <button class="delete-image" data-id="${image.id}">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                `;
+                customPackContainer.appendChild(imgDiv);
             });
-
-            console.log("Images loaded successfully");
-            resolve();
         };
-
-        packsRequest.onerror = (event) => {
-            console.error("Error loading image packs:", event.target.error);
-            reject(new Error("Error loading image packs: " + event.target.error));
-        };
-    });
+    } catch (error) {
+        console.error("Error loading custom images:", error);
+    }
 }
 
 function setupEventListeners(canvas) {
-    document.getElementById('importPackBtn').addEventListener('click', async () => {
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = '.json';
-        fileInput.onchange = async (event) => {
-            try {
-                const packName = await importImagePack(event.target.files[0]);
-                alert(`Successfully imported pack: ${packName}`);
-            } catch (error) {
-                console.error("Error importing pack:", error);
-                alert(`Error importing pack: ${error.message}`);
+    const importPackBtn = document.getElementById('importPackBtn');
+    const addToLibraryBtn = document.getElementById('addToLibraryBtn');
+    const imageLibrary = document.getElementById('imageLibrary');
+
+    // Add to Library button
+    if (addToLibraryBtn) {
+        addToLibraryBtn.onclick = () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = async (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    try {
+                        await addImageToLibrary(e.target.files[0], canvas);
+                    } catch (error) {
+                        console.error("Error adding image:", error);
+                    }
+                }
+            };
+            input.click();
+        };
+    }
+
+    // Import Pack button
+    if (importPackBtn) {
+        importPackBtn.onclick = () => {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.webkitdirectory = true;
+            input.directory = true;
+            input.multiple = true;
+            input.onchange = async (e) => {
+                if (e.target.files.length > 0) {
+                    try {
+                        // Group files by their parent directory
+                        const files = Array.from(e.target.files);
+                        const packName = files[0].webkitRelativePath.split('/')[0];
+                        
+                        // Create pack container
+                        const packDiv = document.createElement('div');
+                        packDiv.className = 'image-pack';
+                        packDiv.innerHTML = `
+                            <h4>${packName}</h4>
+                            <div class="pack-images" id="${packName}Images"></div>
+                        `;
+                        imageLibrary.appendChild(packDiv);
+
+                        // Add images to pack
+                        const packContainer = packDiv.querySelector('.pack-images');
+                        for (const file of files) {
+                            if (file.type.startsWith('image/')) {
+                                const reader = new FileReader();
+                                reader.onload = (e) => {
+                                    const imgDiv = document.createElement('div');
+                                    imgDiv.className = 'image-container';
+                                    imgDiv.innerHTML = `
+                                        <img src="${e.target.result}" 
+                                             alt="${file.name}"
+                                             title="${file.name}"
+                                             draggable="true">
+                                    `;
+                                    packContainer.appendChild(imgDiv);
+                                };
+                                reader.readAsDataURL(file);
+                            }
+                        }
+                    } catch (error) {
+                        console.error("Error importing pack:", error);
+                    }
+                }
+            };
+            input.click();
+        };
+    }
+
+    // Delete button handling
+    if (imageLibrary) {
+        imageLibrary.onclick = async (e) => {
+            const deleteBtn = e.target.closest('.delete-image');
+            if (deleteBtn) {
+                const imageId = deleteBtn.dataset.id;
+                try {
+                    const transaction = db.transaction([STORE_NAME], 'readwrite');
+                    const store = transaction.objectStore(STORE_NAME);
+                    await store.delete(imageId);
+                    await loadAllImages(canvas);
+                } catch (error) {
+                    console.error("Error deleting image:", error);
+                }
             }
         };
-        fileInput.click();
-    });
-
-    document.getElementById('addToLibraryBtn').addEventListener('click', () => {
-        const fileInput = document.createElement('input');
-        fileInput.type = 'file';
-        fileInput.accept = 'image/*';
-        fileInput.onchange = async (event) => {
-            try {
-                await addImageToLibrary(event.target.files[0]);
-                alert('Image successfully added to Custom pack');
-            } catch (error) {
-                console.error("Error adding image:", error);
-                alert(`Error adding image: ${error.message}`);
-            }
-        };
-        fileInput.click();
-    });
-
-    document.getElementById('imageLibrary').addEventListener('click', (event) => {
-        if (event.target.tagName === 'IMG') {
-            addImageToCanvas(canvas, event.target.src);
-        }
-    });
+    }
 }
 
 function addImageToCanvas(canvas, src) {
+    if (!src) return;
+    
     fabric.Image.fromURL(src, (img) => {
-        img.scaleToWidth(100); // Set a default width
+        img.scaleToWidth(200);
         img.set({
             left: canvas.width / 2,
             top: canvas.height / 2,
@@ -247,5 +217,4 @@ function addImageToCanvas(canvas, src) {
     });
 }
 
-// Export necessary functions
-export { addImageToCanvas };
+export { initializeImageLibrary, addImageToLibrary, addImageToCanvas };

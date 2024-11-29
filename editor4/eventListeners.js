@@ -1,5 +1,4 @@
 import { addTextToCanvas, updateTextEditMenuState } from './textTools.js';
-import { addImageToLibrary } from './imageLibrary.js';
 import { copySelectedObject, pasteObject, deleteSelectedObject } from './objectManipulation.js';
 import { showImageEditMenu, hideImageEditMenu } from './imageEditMenu.js';
 
