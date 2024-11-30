@@ -43,10 +43,14 @@ def process_markdown_files():
                 if os.path.exists(image_source):
                     # Copy the image to the Hugo static/images directory
                     shutil.copy(image_source, static_images_dir)
+                    
+                    # Replace the path in markdown with the new static path
+                    new_image_path = f"/images/{image_name.replace(' ', '%20')}"
+                    content = content.replace(image, new_image_path)
                 else:
                     print(f"Warning: Image {image} not found at {image_source}")
 
-            # Write the updated content back to the markdown file (no changes made)
+            # Write the updated content back to the markdown file
             with open(filepath, "w") as file:
                 file.write(content)
 

@@ -7,5 +7,5 @@ tags: []
 here si my second post, this is a test
 
 
-![](../media/Pasted%20image%2020241130155157.png)
+![](/images/Pasted%20image%2020241130155157.png)
 
