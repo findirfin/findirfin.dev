@@ -8,7 +8,7 @@ tags:
 ---
 installing stuff
 
-![pfp](/images/Pasted%20image%2020241130143836.png)
+![pfp](../media/Pasted%20image%2020241130143836.png)
 
 
 
@@ -33,7 +33,7 @@ based based based
 
 
 cool?
-![](/images/Pasted%20image%2020241130150203.png)
+![](../media/Pasted%20image%2020241130150203.png)
 
 
 

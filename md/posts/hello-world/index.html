@@ -203,13 +203,13 @@ rsync -av --delete &#34;/home/findirfin/vault/Publish/&#34; &#34;/home/findirfin
 
   <div class="post-content"><div>
         <p>installing stuff</p>
-<p><img alt="pfp" src="../../images/Pasted%20image%2020241130143836.png"></p>
+<p><img alt="pfp" src="../media/Pasted%20image%2020241130143836.png"></p>
 <pre tabindex="0"><code>rsync -av --delete &#34;/home/findirfin/vault/Publish/&#34; &#34;/home/findirfin/Development/findirfin.dev/md/content/posts&#34;
 </code></pre><pre tabindex="0"><code>
 import os import re import shutil # Paths posts_dir = &#34;/home/findirfin/Development/findirfin.dev/md/content/posts/&#34; attachments_dir = &#34;/home/findirfin/vault/media/&#34; static_images_dir = &#34;/home/findirfin/Development/findirfin.dev/md/static/images/&#34; # Step 1: Process each markdown file in the posts directory for filename in os.listdir(posts_dir): if filename.endswith(&#34;.md&#34;): filepath = os.path.join(posts_dir, filename) with open(filepath, &#34;r&#34;) as file: content = file.read() # Step 2: Find all image links in the format ![Description](image_path.png) images = re.findall(r&#39;!\[.*?\]\((.*?\.png)\)&#39;, content) for image in images: # Extract just the filename part if there&#39;s a path image_name = os.path.basename(image) image_source = os.path.join(attachments_dir, image_name) if os.path.exists(image_source): # Copy the image to the Hugo static/images directory shutil.copy(image_source, static_images_dir) # Replace the path in markdown with the new static path new_image_path = f&#34;/images/{image_name.replace(&#39; &#39;, &#39;%20&#39;)}&#34; content = content.replace(image, new_image_path) else: print(f&#34;Warning: Image {image} not found at {image_source}&#34;) # Step 5: Write the updated content back to the markdown file with open(filepath, &#34;w&#34;) as file: file.write(content) print(&#34;Markdown files processed and images copied successfully.&#34;)
 </code></pre><p>based based based</p>
 <p>cool?
-<img src="../../images/Pasted%20image%2020241130150203.png"></p>
+<img src="../media/Pasted%20image%2020241130150203.png"></p>
 <p>testing testing</p>
 
       </div></div>
