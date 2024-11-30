@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Terminal</title>
+    <link>/md/</link>
+    <description>Recent content on Terminal</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 06 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="/md/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>blogtitle</title>
+      <link>/md/posts/hello-world/</link>
+      <pubDate>Wed, 06 Nov 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/md/posts/hello-world/</guid>
+      <description>&lt;p&gt;installing stuff&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;pfp&#34; src=&#34;/md/images/Pasted%20image%2020241130143836.png&#34;&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rsync -av --delete &amp;#34;/home/findirfin/vault/Publish/&amp;#34; &amp;#34;/home/findirfin/Development/findirfin.dev/md/content/posts&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
+import os import re import shutil # Paths posts_dir = &amp;#34;/home/findirfin/Development/findirfin.dev/md/content/posts/&amp;#34; attachments_dir = &amp;#34;/home/findirfin/vault/media/&amp;#34; static_images_dir = &amp;#34;/home/findirfin/Development/findirfin.dev/md/static/images/&amp;#34; # Step 1: Process each markdown file in the posts directory for filename in os.listdir(posts_dir): if filename.endswith(&amp;#34;.md&amp;#34;): filepath = os.path.join(posts_dir, filename) with open(filepath, &amp;#34;r&amp;#34;) as file: content = file.read() # Step 2: Find all image links in the format ![Description](image_path.png) images = re.findall(r&amp;#39;!\[.*?\]\((.*?\.png)\)&amp;#39;, content) for image in images: # Extract just the filename part if there&amp;#39;s a path image_name = os.path.basename(image) image_source = os.path.join(attachments_dir, image_name) if os.path.exists(image_source): # Copy the image to the Hugo static/images directory shutil.copy(image_source, static_images_dir) # Replace the path in markdown with the new static path new_image_path = f&amp;#34;/images/{image_name.replace(&amp;#39; &amp;#39;, &amp;#39;%20&amp;#39;)}&amp;#34; content = content.replace(image, new_image_path) else: print(f&amp;#34;Warning: Image {image} not found at {image_source}&amp;#34;) # Step 5: Write the updated content back to the markdown file with open(filepath, &amp;#34;w&amp;#34;) as file: file.write(content) print(&amp;#34;Markdown files processed and images copied successfully.&amp;#34;)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;based based based&lt;/p&gt;</description>
+      <content>&lt;p&gt;installing stuff&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;pfp&#34; src=&#34;/md/images/Pasted%20image%2020241130143836.png&#34;&gt;&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rsync -av --delete &amp;#34;/home/findirfin/vault/Publish/&amp;#34; &amp;#34;/home/findirfin/Development/findirfin.dev/md/content/posts&amp;#34;
+&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
+import os import re import shutil # Paths posts_dir = &amp;#34;/home/findirfin/Development/findirfin.dev/md/content/posts/&amp;#34; attachments_dir = &amp;#34;/home/findirfin/vault/media/&amp;#34; static_images_dir = &amp;#34;/home/findirfin/Development/findirfin.dev/md/static/images/&amp;#34; # Step 1: Process each markdown file in the posts directory for filename in os.listdir(posts_dir): if filename.endswith(&amp;#34;.md&amp;#34;): filepath = os.path.join(posts_dir, filename) with open(filepath, &amp;#34;r&amp;#34;) as file: content = file.read() # Step 2: Find all image links in the format ![Description](image_path.png) images = re.findall(r&amp;#39;!\[.*?\]\((.*?\.png)\)&amp;#39;, content) for image in images: # Extract just the filename part if there&amp;#39;s a path image_name = os.path.basename(image) image_source = os.path.join(attachments_dir, image_name) if os.path.exists(image_source): # Copy the image to the Hugo static/images directory shutil.copy(image_source, static_images_dir) # Replace the path in markdown with the new static path new_image_path = f&amp;#34;/images/{image_name.replace(&amp;#39; &amp;#39;, &amp;#39;%20&amp;#39;)}&amp;#34; content = content.replace(image, new_image_path) else: print(f&amp;#34;Warning: Image {image} not found at {image_source}&amp;#34;) # Step 5: Write the updated content back to the markdown file with open(filepath, &amp;#34;w&amp;#34;) as file: file.write(content) print(&amp;#34;Markdown files processed and images copied successfully.&amp;#34;)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;based based based&lt;/p&gt;
+&lt;p&gt;cool?
+&lt;img src=&#34;/md/images/Pasted%20image%2020241130150203.png&#34;&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
