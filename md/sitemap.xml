@@ -2,24 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/md/posts/hello-world/</loc>
+    <loc>/posts/hello-world/</loc>
     <lastmod>2024-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/md/posts/</loc>
+    <loc>/posts/</loc>
     <lastmod>2024-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/md/tags/tag1/</loc>
+    <loc>/tags/tag1/</loc>
     <lastmod>2024-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/md/tags/tag2/</loc>
+    <loc>/tags/tag2/</loc>
     <lastmod>2024-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/md/tags/</loc>
+    <loc>/tags/</loc>
     <lastmod>2024-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/md/</loc>
+    <loc>/</loc>
     <lastmod>2024-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/md/categories/</loc>
+    <loc>/categories/</loc>
   </url>
 </urlset>

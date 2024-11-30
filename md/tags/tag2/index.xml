@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tag2 on Terminal</title>
-    <link>/md/tags/tag2/</link>
+    <link>/tags/tag2/</link>
     <description>Recent content in Tag2 on Terminal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 06 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="/md/tags/tag2/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 06 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="/tags/tag2/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>blogtitle</title>
-      <link>/md/posts/hello-world/</link>
+      <link>/posts/hello-world/</link>
       <pubDate>Wed, 06 Nov 2024 00:00:00 +0000</pubDate>
       
-      <guid>/md/posts/hello-world/</guid>
+      <guid>/posts/hello-world/</guid>
       <description>&lt;p&gt;installing stuff&lt;/p&gt;
 &lt;p&gt;&lt;img alt=&#34;pfp&#34; src=&#34;../../images/Pasted%20image%2020241130143836.png&#34;&gt;&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rsync -av --delete &amp;#34;/home/findirfin/vault/Publish/&amp;#34; &amp;#34;/home/findirfin/Development/findirfin.dev/md/content/posts&amp;#34;
