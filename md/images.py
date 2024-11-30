@@ -55,7 +55,16 @@ def process_markdown_files():
 
     print("Markdown files processed and images copied successfully.")
 
+# Build Hugo site
+def build_hugo():
+    try:
+        subprocess.run(['hugo', '--destination=.'], check=True, cwd="/home/findirfin/Development/findirfin.dev/md")
+        print("Hugo site built successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error building Hugo site: {e}")
+
 # Main execution
 if __name__ == "__main__":
     sync_posts()
     process_markdown_files()
+    build_hugo()
