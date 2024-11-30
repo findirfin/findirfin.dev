@@ -1,0 +1,9 @@
+[submodule "md/themes/PaperMod"]
+	path = md/themes/PaperMod
+	url = https://github.com/adityatelange/hugo-PaperMod.git
+[submodule "md/themes/qubt"]
+	path = md/themes/qubt
+	url = https://github.com/chrede88/qubt.git
+[submodule "md/themes/terminal"]
+	path = md/themes/terminal
+	url = https://github.com/panr/hugo-theme-terminal.git
