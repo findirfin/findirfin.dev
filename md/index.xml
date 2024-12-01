@@ -6,15 +6,27 @@
     <description>Recent content on Terminal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 02 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>You Need to Build things</title>
-      <link>/posts/you-need-to-build-things/</link>
+      <title>How I sync my obsidian vault for free</title>
+      <link>/posts/how-i-sync-my-obsidian-vault-for-free/</link>
       <pubDate>Sun, 01 Dec 2024 00:00:00 +0000</pubDate>
       
-      <guid>/posts/you-need-to-build-things/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020241130213222.png&#34;&gt;&lt;/p&gt;</description>
-      <content>&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020241130213222.png&#34;&gt;&lt;/p&gt;
+      <guid>/posts/how-i-sync-my-obsidian-vault-for-free/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;m just going to put my summary here, It took me a few days to figure out the best way to do this. I tried many, many ways of doing this, and looked through quite a lot of material online and eventually landed on this&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Syncing through git is the best way to sync obsidian. Through platforms like github there aren&amp;rsquo;t any size limits, and if you try hard enough you can get it to work everywhere.&lt;/em&gt;&lt;/p&gt;</description>
+      <content>&lt;p&gt;I&amp;rsquo;m just going to put my summary here, It took me a few days to figure out the best way to do this. I tried many, many ways of doing this, and looked through quite a lot of material online and eventually landed on this&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Syncing through git is the best way to sync obsidian. Through platforms like github there aren&amp;rsquo;t any size limits, and if you try hard enough you can get it to work everywhere.&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&#34;desktop&#34;&gt;Desktop&lt;/h2&gt;
+&lt;p&gt;For desktop I used the &lt;a href=&#34;https://obsidian.md/plugins?id=obsidian-git&#34;&gt;git plugin&lt;/a&gt;
+&lt;img src=&#34;./images/Pasted%20image%2020241130215630.png&#34;&gt;
+If you are familiar with git it is easy to set up, and it works well. I set it up to commit and push automatically every 0.5 minutes. You can also manually commit and push if you prefer&lt;/p&gt;
+&lt;h2 id=&#34;mobile&#34;&gt;Mobile&lt;/h2&gt;
+&lt;p&gt;I use android, and I tried the git plugin on there, but there were too many glitches. I ended up finding this app &lt;a href=&#34;https://gitjournal.io/&#34;&gt;GitJournal&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020241130220252.png&#34;&gt;
+All I had to do was sign in and pick my repo. It isn&amp;rsquo;t very pretty, but it gets the job done well.
+I had to tweak some settings in the add and in obsidian so that they could both render thing correctly from each other, such as images, but now it works fairly seamlessly.&lt;/p&gt;
+&lt;p&gt;Hopefully this helps you , lmk if you have questions.&lt;/p&gt;
 </content>
     </item>
     

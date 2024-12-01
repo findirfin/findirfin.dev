@@ -3,12 +3,18 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/posts/</loc>
-    <lastmod>2024-12-01T00:00:00+00:00</lastmod>
+    <lastmod>2024-12-02T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/</loc>
+    <lastmod>2024-12-02T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/how-i-sync-my-obsidian-vault-for-free/</loc>
     <lastmod>2024-12-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/you-need-to-build-things/</loc>
+    <loc>/tags/obsidian/</loc>
+    <lastmod>2024-12-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/tags/</loc>
     <lastmod>2024-12-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/changing-styles/</loc>
@@ -18,9 +24,6 @@
     <lastmod>2024-11-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/second-post/</loc>
-    <lastmod>2024-11-30T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/tags/</loc>
     <lastmod>2024-11-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/teaching/</loc>
