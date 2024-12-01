@@ -2,6 +2,9 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>/posts/changing-styles/</loc>
+    <lastmod>2024-11-30T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/posts/second-post/</loc>
     <lastmod>2024-11-30T00:00:00+00:00</lastmod>
   </url><url>
@@ -22,8 +25,6 @@
   </url><url>
     <loc>/tags/</loc>
     <lastmod>2024-11-06T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>/posts/changing-styles/</loc>
   </url><url>
     <loc>/categories/</loc>
   </url>
