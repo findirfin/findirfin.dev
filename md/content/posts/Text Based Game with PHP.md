@@ -7,7 +7,7 @@ tags:
   - teaching
   - tutorial
 ---
->[!info]
+
 >This is directed towards the Beginning Coding class
 # Starter Code 
 ```php
