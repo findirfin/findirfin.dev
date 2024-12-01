@@ -9,6 +9,8 @@ tags:
 ---
 
 >This is directed towards the Beginning Coding class
+
+![](/images/Pasted%20image%2020241130190331.png)
 # Starter Code 
 ```php
 <?php
