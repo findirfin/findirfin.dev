@@ -13,8 +13,16 @@
       <pubDate>Sat, 30 Nov 2024 00:00:00 +0000</pubDate>
       
       <guid>/posts/changing-styles/</guid>
-      <description>&lt;p&gt;should be gray or smthn&lt;/p&gt;</description>
-      <content>&lt;p&gt;should be gray or smthn&lt;/p&gt;
+      <description>&lt;p&gt;This site is using the Terminal Hugo theme. it currently looks very orange.
+&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I want to change that, and there appears to be a tool available to do that very easily at &lt;a href=&#34;https://panr.github.io/terminal-css/&#34;&gt;https://panr.github.io/terminal-css/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This site is unfortunately not working right now, I put in an issue &lt;a href=&#34;https://github.com/panr/terminal-css/issues/2&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Hopefully the site gets fixed, if not I will have to figure out how to do this manually.&lt;/p&gt;</description>
+      <content>&lt;p&gt;This site is using the Terminal Hugo theme. it currently looks very orange.
+&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I want to change that, and there appears to be a tool available to do that very easily at &lt;a href=&#34;https://panr.github.io/terminal-css/&#34;&gt;https://panr.github.io/terminal-css/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This site is unfortunately not working right now, I put in an issue &lt;a href=&#34;https://github.com/panr/terminal-css/issues/2&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Hopefully the site gets fixed, if not I will have to figure out how to do this manually.&lt;/p&gt;
 </content>
     </item>
     
