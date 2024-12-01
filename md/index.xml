@@ -46,5 +46,16 @@ import os import re import shutil # Paths posts_dir = &amp;#34;/home/findirfin/D
 </content>
     </item>
     
+    <item>
+      <title></title>
+      <link>/posts/changing-styles/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/changing-styles/</guid>
+      <description>&lt;p&gt;should be gray or smthn&lt;/p&gt;</description>
+      <content>&lt;p&gt;should be gray or smthn&lt;/p&gt;
+</content>
+    </item>
+    
   </channel>
 </rss>
