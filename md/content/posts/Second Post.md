@@ -14,4 +14,4 @@ here is my second post, this is a test
 
 
 
-if this works, then I'mall set and I just need to work on style
+if this works, then I'm all set and I just need to work on style
