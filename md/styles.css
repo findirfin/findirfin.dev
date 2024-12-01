@@ -1,0 +1,43 @@
+/* Override orange colors to gray */
+
+:root {
+    --accent: #808080; /* Standard gray for --accent color */
+  }
+  
+  /* Override specific orange elements if they exist */
+  a {
+    color: #808080; /* Change link color to gray */
+  }
+  
+  a:hover, a:focus {
+    color: #5a5a5a; /* Darker gray for interaction states */
+  }
+  
+  /* For buttons or other interactive elements */
+  button, .button {
+    background-color: #808080;
+    color: white;
+  }
+  
+  button:hover, .button:hover {
+    background-color: #5a5a5a;
+  }
+  
+  /* Terminal specific styles */
+  .terminal-cursor {
+    background-color: #808080;
+  }
+  
+  /* If there are orange backgrounds or borders, adjust them here */
+  .terminal-output, .terminal-prompt {
+    background-color: #f0f0f0; /* Light gray background for terminal areas */
+    border-color: #808080; /* Gray border if applicable */
+  }
+  
+  /* General color adjustments for text */
+  .terminal-output span[data-ansi="33"] {
+    color: #808080; /* ANSI color 33 is typically orange/yellow */
+  }
+  
+  /* Custom adjustments might be needed for additional theme elements */
+  /* This is where you would add more specific selectors if you find more orange elements */
