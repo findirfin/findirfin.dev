@@ -38,21 +38,11 @@
     </item>
     
     <item>
-      <title>Tag1</title>
-      <link>/tags/tag1/</link>
+      <title>First</title>
+      <link>/tags/first/</link>
       <pubDate>Wed, 06 Nov 2024 00:00:00 +0000</pubDate>
       
-      <guid>/tags/tag1/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>Tag2</title>
-      <link>/tags/tag2/</link>
-      <pubDate>Wed, 06 Nov 2024 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/tag2/</guid>
+      <guid>/tags/first/</guid>
       <description></description>
       <content></content>
     </item>

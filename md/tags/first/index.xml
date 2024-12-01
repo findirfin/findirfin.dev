@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>First on Terminal</title>
+    <link>/tags/first/</link>
+    <description>Recent content in First on Terminal</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 06 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="/tags/first/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>blogtitle</title>
+      <link>/posts/hello-world/</link>
+      <pubDate>Wed, 06 Nov 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/hello-world/</guid>
+      <description>&lt;p&gt;I&amp;rsquo;m going to be using this basically just for creating shareable links for notes I want to publish for the internet&lt;/p&gt;
+&lt;p&gt;I love using obsidian, I have different parts of it going to a few different git repos.&lt;/p&gt;</description>
+      <content>&lt;p&gt;I&amp;rsquo;m going to be using this basically just for creating shareable links for notes I want to publish for the internet&lt;/p&gt;
+&lt;p&gt;I love using obsidian, I have different parts of it going to a few different git repos.&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>

@@ -4,14 +4,6 @@ date: 2024-11-30
 draft: false
 tags: []
 ---
-here is my second post, this is a test
-
-
-![](/images/Pasted%20image%2020241130155157.png)
-
-
-
-
-
-
-if this works, then I'm all set and I just need to work on style
+I really need to work on the style of this site, It's not great. (looks like this)
+![](/images/Pasted%20image%2020241130181341.png)
+Also, I noticed I can subscribe to my site with rss, which is kinda cool. Would be weird if people put it into brave news or something. 
