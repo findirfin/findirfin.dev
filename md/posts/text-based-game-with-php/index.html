@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>Text Based Game with PHP :: Terminal</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content=" [!info] This is directed towards the Beginning Coding class
+Starter Code &lt;?php // Show the initial question and form echo &#34;You are in a cave. Do you go west or east?&lt;br&gt;&#34;; echo &#34;&lt;form method=&#39;post&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;text&#39; name=&#39;direction&#39; placeholder=&#39;Enter west or east&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;; echo &#34;&lt;/form&gt;&#34;; // Check if form is submitted if ($_SERVER[&#34;REQUEST_METHOD&#34;] == &#34;POST&#34;) { // Get the user&#39;s answer $direction = $_POST[&#39;direction&#39;]; // Decide what to say based on the direction if ($direction == &#34;west&#34;) { echo &#34;&lt;p&gt;You chose to go west.&lt;/p&gt;&#34;; // Additional question for going west echo &#34;Do you want to light a torch?&lt;br&gt;&#34;; echo &#34;&lt;form method=&#39;post&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;hidden&#39; name=&#39;direction&#39; value=&#39;west&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;text&#39; name=&#39;torch&#39; placeholder=&#39;Enter yes or no&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;; echo &#34;&lt;/form&gt;&#34;; // Check if torch question is answered if (isset($_POST[&#39;torch&#39;])) { $torch = $_POST[&#39;torch&#39;]; if ($torch == &#34;yes&#34;) { echo &#34;&lt;p&gt;You light a torch. The cave brightens up!&lt;/p&gt;&#34;; //add more options here } elseif ($torch == &#34;no&#34;) { echo &#34;&lt;p&gt;You decide against lighting a torch. It&#39;s dark ahead.&lt;/p&gt;&#34;; //add more options here } else { echo &#34;&lt;p&gt;Please enter &#39;yes&#39; or &#39;no&#39; for the torch question.&lt;/p&gt;&#34;; } } } elseif ($direction == &#34;east&#34;) { echo &#34;&lt;p&gt;You chose to go east.&lt;/p&gt;&#34;; //add more options here } else { echo &#34;&lt;p&gt;Please enter &#39;west&#39; or &#39;east&#39;.&lt;/p&gt;&#34;; } } ?&gt; Code Explanation Initial Setup Display Question and Form: The script starts by displaying a scenario where the player is in a cave and must decide whether to go &ldquo;west&rdquo; or &ldquo;east&rdquo;. It uses HTML to create a form where the user can input their choice. echo &#34;You are in a cave. Do you go west or east?&lt;br&gt;&#34;; echo &#34;&lt;form method=&#39;post&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;text&#39; name=&#39;direction&#39; placeholder=&#39;Enter west or east&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;; echo &#34;&lt;/form&gt;&#34;; Handling User Input Form Submission Check: The script checks if the form has been submitted via POST method. if ($_SERVER[&#34;REQUEST_METHOD&#34;] == &#34;POST&#34;) { $direction = $_POST[&#39;direction&#39;]; // Further logic based on $direction } Decision Based on Direction West Option:
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="../../posts/text-based-game-with-php/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="../../css/buttons.min.2bc533403a27dfe0e93105a92502b42ce4587e2e4a87d9f7d349e51e16e09478.css">
+
+  
+  <link rel="stylesheet" href="../../css/code.min.00125962708925857e7b66dbc58391d55be1191a3d0ce2034de8c9cd2c481c36.css">
+
+  
+  <link rel="stylesheet" href="../../css/fonts.min.4881f0c525f3ce2a1864fb6e96676396cebe1e6fcef1933e8e1dde7041004fb5.css">
+
+  
+  <link rel="stylesheet" href="../../css/footer.min.2e3eb191baee58dd05a9f0104ac1fab0827bca7c64dafe0b2579f934c33a1d69.css">
+
+  
+  <link rel="stylesheet" href="../../css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="../../css/header.min.b6fb4423cf82a9f9d7abc9cd010223fa3d70a6526a3f28f8e17d814c06e18f9e.css">
+
+  
+  <link rel="stylesheet" href="../../css/main.min.fe8dc560fccb53a458b0db19ccb7b265764ac46b68596b7e099c6793054dd457.css">
+
+  
+  <link rel="stylesheet" href="../../css/menu.min.83637a90d903026bc280d3f82f96ceb06c5fc72b7c1a8d686afb5bbf818a29f7.css">
+
+  
+  <link rel="stylesheet" href="../../css/pagination.min.82f6400eae7c7c6dc3c866733c2ec0579e4089608fea69400ff85b3880aa0d3c.css">
+
+  
+  <link rel="stylesheet" href="../../css/post.min.fc74ca360273c1d828da3c02b8174eba435607b369d98418ccc6f2243cd4e75d.css">
+
+  
+  <link rel="stylesheet" href="../../css/prism.min.9023bbc24533d09e97a51a0a42a5a7bfe4c591ae167c5551fb1d2191d11977c0.css">
+
+  
+  <link rel="stylesheet" href="../../css/syntax.min.cc789ed9377260d7949ea4c18781fc58959a89287210fe4edbff44ebfc1511b6.css">
+
+  
+  <link rel="stylesheet" href="../../css/terminal.min.dd0bf9c7cacb24c1b0184f52f1869b274e06689557468cc7030ccf632328eb97.css">
+
+  
+  <link rel="stylesheet" href="../../css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+
+
+
+
+
+<link rel="shortcut icon" href="../../favicon.png">
+<link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Text Based Game with PHP">
+<meta property="og:description" content=" [!info] This is directed towards the Beginning Coding class
+Starter Code &lt;?php // Show the initial question and form echo &#34;You are in a cave. Do you go west or east?&lt;br&gt;&#34;; echo &#34;&lt;form method=&#39;post&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;text&#39; name=&#39;direction&#39; placeholder=&#39;Enter west or east&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;; echo &#34;&lt;/form&gt;&#34;; // Check if form is submitted if ($_SERVER[&#34;REQUEST_METHOD&#34;] == &#34;POST&#34;) { // Get the user&#39;s answer $direction = $_POST[&#39;direction&#39;]; // Decide what to say based on the direction if ($direction == &#34;west&#34;) { echo &#34;&lt;p&gt;You chose to go west.&lt;/p&gt;&#34;; // Additional question for going west echo &#34;Do you want to light a torch?&lt;br&gt;&#34;; echo &#34;&lt;form method=&#39;post&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;hidden&#39; name=&#39;direction&#39; value=&#39;west&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;text&#39; name=&#39;torch&#39; placeholder=&#39;Enter yes or no&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;; echo &#34;&lt;/form&gt;&#34;; // Check if torch question is answered if (isset($_POST[&#39;torch&#39;])) { $torch = $_POST[&#39;torch&#39;]; if ($torch == &#34;yes&#34;) { echo &#34;&lt;p&gt;You light a torch. The cave brightens up!&lt;/p&gt;&#34;; //add more options here } elseif ($torch == &#34;no&#34;) { echo &#34;&lt;p&gt;You decide against lighting a torch. It&#39;s dark ahead.&lt;/p&gt;&#34;; //add more options here } else { echo &#34;&lt;p&gt;Please enter &#39;yes&#39; or &#39;no&#39; for the torch question.&lt;/p&gt;&#34;; } } } elseif ($direction == &#34;east&#34;) { echo &#34;&lt;p&gt;You chose to go east.&lt;/p&gt;&#34;; //add more options here } else { echo &#34;&lt;p&gt;Please enter &#39;west&#39; or &#39;east&#39;.&lt;/p&gt;&#34;; } } ?&gt; Code Explanation Initial Setup Display Question and Form: The script starts by displaying a scenario where the player is in a cave and must decide whether to go &ldquo;west&rdquo; or &ldquo;east&rdquo;. It uses HTML to create a form where the user can input their choice. echo &#34;You are in a cave. Do you go west or east?&lt;br&gt;&#34;; echo &#34;&lt;form method=&#39;post&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;text&#39; name=&#39;direction&#39; placeholder=&#39;Enter west or east&#39;&gt;&#34;; echo &#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;; echo &#34;&lt;/form&gt;&#34;; Handling User Input Form Submission Check: The script checks if the form has been submitted via POST method. if ($_SERVER[&#34;REQUEST_METHOD&#34;] == &#34;POST&#34;) { $direction = $_POST[&#39;direction&#39;]; // Further logic based on $direction } Decision Based on Direction West Option:
+" />
+<meta property="og:url" content="/posts/text-based-game-with-php/" />
+<meta property="og:site_name" content="Terminal" />
+
+  <meta property="og:image" content="/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2024-11-30 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="../../">
+  <div class="logo">
+    Terminal
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="../../about">About</a></li>
+        
+      
+        
+          <li><a href="../../showcase">Showcase</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+      
+        <li>
+          <ul class="menu">
+            <li class="menu__trigger">Show more&nbsp;▾</li>
+            <li>
+              <ul class="menu__dropdown">
+                
+                  
+                    <li><a href="../../about" >About</a></li>
+                  
+                
+                  
+                    <li><a href="../../showcase" >Showcase</a></li>
+                  
+                
+              </ul>
+            </li>
+          </ul>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="../../posts/text-based-game-with-php/">Text Based Game with PHP</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">2024-11-30</time></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="../../tags/coding/">coding</a>&nbsp;
+      
+      #<a href="../../tags/teaching/">teaching</a>&nbsp;
+      
+      #<a href="../../tags/tutorial/">tutorial</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <blockquote>
+<p>[!info]
+This is directed towards the Beginning Coding class</p>
+</blockquote>
+<h1 id="starter-code">Starter Code<a href="#starter-code" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Show the initial question and form
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;You are in a cave. Do you go west or east?&lt;br&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;form method=&#39;post&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;text&#39; name=&#39;direction&#39; placeholder=&#39;Enter west or east&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;/form&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Check if form is submitted
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($_SERVER[<span style="color:#e6db74">&#34;REQUEST_METHOD&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Get the user&#39;s answer
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>$direction <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;direction&#39;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Decide what to say based on the direction
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($direction <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;west&#34;</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You chose to go west.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Additional question for going west
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Do you want to light a torch?&lt;br&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;form method=&#39;post&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;hidden&#39; name=&#39;direction&#39; value=&#39;west&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;text&#39; name=&#39;torch&#39; placeholder=&#39;Enter yes or no&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;/form&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Check if torch question is answered
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;torch&#39;</span>])) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$torch <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;torch&#39;</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($torch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;yes&#34;</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You light a torch. The cave brightens up!&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//add more options here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">elseif</span> ($torch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;no&#34;</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You decide against lighting a torch. It&#39;s dark ahead.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//add more options here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;Please enter &#39;yes&#39; or &#39;no&#39; for the torch question.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">elseif</span> ($direction <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;east&#34;</span>) {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You chose to go east.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//add more options here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;Please enter &#39;west&#39; or &#39;east&#39;.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></span></span></code></pre></div><h1 id="code-explanation">Code Explanation<a href="#code-explanation" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<h3 id="initial-setup">Initial Setup<a href="#initial-setup" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<ul>
+<li><strong>Display Question and Form</strong>: The script starts by displaying a scenario where the player is in a cave and must decide whether to go &ldquo;west&rdquo; or &ldquo;east&rdquo;. It uses HTML to create a form where the user can input their choice.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;You are in a cave. Do you go west or east?&lt;br&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;form method=&#39;post&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;text&#39; name=&#39;direction&#39; placeholder=&#39;Enter west or east&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;/form&gt;&#34;</span>;
+</span></span></code></pre></div><h3 id="handling-user-input">Handling User Input<a href="#handling-user-input" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<ul>
+<li><strong>Form Submission Check</strong>: The script checks if the form has been submitted via POST method.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($_SERVER[<span style="color:#e6db74">&#34;REQUEST_METHOD&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>) {
+</span></span><span style="display:flex;"><span>    $direction <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;direction&#39;</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Further logic based on $direction
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="decision-based-on-direction">Decision Based on Direction<a href="#decision-based-on-direction" class="hanchor" ariaLabel="Anchor">#</a> </h3>
+<ul>
+<li>
+<p><strong>West Option</strong>:</p>
+<ul>
+<li>If the user chooses &ldquo;west&rdquo;, it acknowledges the choice and then prompts another decision about lighting a torch.</li>
+<li>It uses another form to ask if the user wants to light a torch, with hidden input to remember the &lsquo;west&rsquo; direction.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($direction <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;west&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You chose to go west.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Do you want to light a torch?&lt;br&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;form method=&#39;post&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;hidden&#39; name=&#39;direction&#39; value=&#39;west&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;text&#39; name=&#39;torch&#39; placeholder=&#39;Enter yes or no&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;/form&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Handling torch decision
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;torch&#39;</span>])) {
+</span></span><span style="display:flex;"><span>        $torch <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;torch&#39;</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> ($torch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;yes&#34;</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You light a torch. The cave brightens up!&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">elseif</span> ($torch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;no&#34;</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You decide against lighting a torch. It&#39;s dark ahead.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;Please enter &#39;yes&#39; or &#39;no&#39; for the torch question.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong>East Option</strong>:</p>
+<ul>
+<li>If the user chooses &ldquo;east&rdquo;, it simply acknowledges the choice but doesn&rsquo;t provide further interaction yet (indicated by a comment suggesting to add more options).</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">elseif</span> ($direction <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;east&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You chose to go east.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Placeholder for future expansion
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Invalid Input</strong>: If the user enters anything other than &ldquo;west&rdquo; or &ldquo;east&rdquo;, it prompts them to enter a valid direction.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;Please enter &#39;west&#39; or &#39;east&#39;.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ul>
+<h1 id="how-to-expand">How to Expand<a href="#how-to-expand" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<ol>
+<li>
+<p><strong>Add More Directions or Actions</strong>:</p>
+<ul>
+<li>After checking which direction the user chose, add more conditions or nested if-statements for additional actions or paths. For example, for going &ldquo;east&rdquo;, you could add new questions or scenarios.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">elseif</span> ($direction <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;east&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You chose to go east.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Do you want to explore the river or the forest?&lt;br&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;form method=&#39;post&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;hidden&#39; name=&#39;direction&#39; value=&#39;east&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;text&#39; name=&#39;explore&#39; placeholder=&#39;Enter river or forest&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;/form&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Handle &#39;explore&#39; choice here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Implement Consequences or Outcomes</strong>:</p>
+<ul>
+<li>For each choice, decide what happens next. If &ldquo;yes&rdquo; to lighting a torch in the west scenario, describe what they see or encounter.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($torch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;yes&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You light a torch. You see a path leading to a secret door!&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Add another form or next step here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Add More Interaction Levels</strong>:</p>
+<ul>
+<li>Use nested forms to create deeper levels of interaction. Each choice could lead to another question or scenario.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;explore&#39;</span>])) {
+</span></span><span style="display:flex;"><span>    $explore <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;explore&#39;</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> ($explore <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;river&#34;</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You approach the river...&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// New form or scenario here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">elseif</span> ($explore <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;forest&#34;</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You enter the dense forest...&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// New form or scenario here
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Error Handling and User Guidance</strong>:</p>
+<ul>
+<li>Make sure to handle invalid inputs gracefully, providing clear instructions or feedback.</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($explore <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;river&#34;</span> <span style="color:#f92672">&amp;&amp;</span> $explore <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;forest&#34;</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;Please enter &#39;river&#39; or &#39;forest&#39;.&lt;/p&gt;&#34;</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><strong>Enhance User Experience</strong>:</p>
+<ul>
+<li>Add more descriptive text, or even include images or sounds if you expand to a full webpage.</li>
+</ul>
+</li>
+</ol>
+<p>You can also just start from scratch using this guide as inspiration.
+If you have any questions, or find errors in my code, send me a message
+Good Luck</p>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="../../posts/second-post/" class="button inline prev">
+        Post #2
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="../../posts/hello-world/" class="button inline next">
+        blogtitle
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+    
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2024 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="../../bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

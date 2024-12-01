@@ -1,46 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Terminal</title>
-    <link>/</link>
-    <description>Recent content on Terminal</description>
+    <title>Tutorial on Terminal</title>
+    <link>/tags/tutorial/</link>
+    <description>Recent content in Tutorial on Terminal</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 30 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Changing Styles</title>
-      <link>/posts/changing-styles/</link>
-      <pubDate>Sat, 30 Nov 2024 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/changing-styles/</guid>
-      <description>&lt;p&gt;This site is using the Terminal Hugo theme. it currently looks very orange.
-&lt;img src=&#34;./images/Pasted%20image%2020241130181341.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;I want to change that, and there appears to be a tool available to do that very easily at &lt;a href=&#34;https://panr.github.io/terminal-css/&#34;&gt;https://panr.github.io/terminal-css/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;This site is unfortunately not working right now, I put in an issue &lt;a href=&#34;https://github.com/panr/terminal-css/issues/2&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Hopefully the site gets fixed, if not I will have to figure out how to do this manually.&lt;/p&gt;</description>
-      <content>&lt;p&gt;This site is using the Terminal Hugo theme. it currently looks very orange.
-&lt;img src=&#34;./images/Pasted%20image%2020241130181341.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;I want to change that, and there appears to be a tool available to do that very easily at &lt;a href=&#34;https://panr.github.io/terminal-css/&#34;&gt;https://panr.github.io/terminal-css/&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;This site is unfortunately not working right now, I put in an issue &lt;a href=&#34;https://github.com/panr/terminal-css/issues/2&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;Hopefully the site gets fixed, if not I will have to figure out how to do this manually.&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>Post #2</title>
-      <link>/posts/second-post/</link>
-      <pubDate>Sat, 30 Nov 2024 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/second-post/</guid>
-      <description>&lt;p&gt;here is my second post, this is a test&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020241130155157.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;if this works, then I&amp;rsquo;mall set and I just need to work on style&lt;/p&gt;</description>
-      <content>&lt;p&gt;here is my second post, this is a test&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020241130155157.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;if this works, then I&amp;rsquo;mall set and I just need to work on style&lt;/p&gt;
-</content>
-    </item>
-    
+    <lastBuildDate>Sat, 30 Nov 2024 00:00:00 +0000</lastBuildDate><atom:link href="/tags/tutorial/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Text Based Game with PHP</title>
       <link>/posts/text-based-game-with-php/</link>
@@ -403,30 +369,6 @@ This is directed towards the Beginning Coding class&lt;/p&gt;
 &lt;p&gt;You can also just start from scratch using this guide as inspiration.
 If you have any questions, or find errors in my code, send me a message
 Good Luck&lt;/p&gt;
-</content>
-    </item>
-    
-    <item>
-      <title>blogtitle</title>
-      <link>/posts/hello-world/</link>
-      <pubDate>Wed, 06 Nov 2024 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/hello-world/</guid>
-      <description>&lt;p&gt;installing stuff&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;pfp&#34; src=&#34;./images/Pasted%20image%2020241130143836.png&#34;&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rsync -av --delete &amp;#34;/home/findirfin/vault/Publish/&amp;#34; &amp;#34;/home/findirfin/Development/findirfin.dev/md/content/posts&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
-import os import re import shutil # Paths posts_dir = &amp;#34;/home/findirfin/Development/findirfin.dev/md/content/posts/&amp;#34; attachments_dir = &amp;#34;/home/findirfin/vault/media/&amp;#34; static_images_dir = &amp;#34;/home/findirfin/Development/findirfin.dev/md/static/images/&amp;#34; # Step 1: Process each markdown file in the posts directory for filename in os.listdir(posts_dir): if filename.endswith(&amp;#34;.md&amp;#34;): filepath = os.path.join(posts_dir, filename) with open(filepath, &amp;#34;r&amp;#34;) as file: content = file.read() # Step 2: Find all image links in the format ![Description](image_path.png) images = re.findall(r&amp;#39;!\[.*?\]\((.*?\.png)\)&amp;#39;, content) for image in images: # Extract just the filename part if there&amp;#39;s a path image_name = os.path.basename(image) image_source = os.path.join(attachments_dir, image_name) if os.path.exists(image_source): # Copy the image to the Hugo static/images directory shutil.copy(image_source, static_images_dir) # Replace the path in markdown with the new static path new_image_path = f&amp;#34;/images/{image_name.replace(&amp;#39; &amp;#39;, &amp;#39;%20&amp;#39;)}&amp;#34; content = content.replace(image, new_image_path) else: print(f&amp;#34;Warning: Image {image} not found at {image_source}&amp;#34;) # Step 5: Write the updated content back to the markdown file with open(filepath, &amp;#34;w&amp;#34;) as file: file.write(content) print(&amp;#34;Markdown files processed and images copied successfully.&amp;#34;)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;based based based&lt;/p&gt;</description>
-      <content>&lt;p&gt;installing stuff&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;pfp&#34; src=&#34;./images/Pasted%20image%2020241130143836.png&#34;&gt;&lt;/p&gt;
-&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;rsync -av --delete &amp;#34;/home/findirfin/vault/Publish/&amp;#34; &amp;#34;/home/findirfin/Development/findirfin.dev/md/content/posts&amp;#34;
-&lt;/code&gt;&lt;/pre&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;
-import os import re import shutil # Paths posts_dir = &amp;#34;/home/findirfin/Development/findirfin.dev/md/content/posts/&amp;#34; attachments_dir = &amp;#34;/home/findirfin/vault/media/&amp;#34; static_images_dir = &amp;#34;/home/findirfin/Development/findirfin.dev/md/static/images/&amp;#34; # Step 1: Process each markdown file in the posts directory for filename in os.listdir(posts_dir): if filename.endswith(&amp;#34;.md&amp;#34;): filepath = os.path.join(posts_dir, filename) with open(filepath, &amp;#34;r&amp;#34;) as file: content = file.read() # Step 2: Find all image links in the format ![Description](image_path.png) images = re.findall(r&amp;#39;!\[.*?\]\((.*?\.png)\)&amp;#39;, content) for image in images: # Extract just the filename part if there&amp;#39;s a path image_name = os.path.basename(image) image_source = os.path.join(attachments_dir, image_name) if os.path.exists(image_source): # Copy the image to the Hugo static/images directory shutil.copy(image_source, static_images_dir) # Replace the path in markdown with the new static path new_image_path = f&amp;#34;/images/{image_name.replace(&amp;#39; &amp;#39;, &amp;#39;%20&amp;#39;)}&amp;#34; content = content.replace(image, new_image_path) else: print(f&amp;#34;Warning: Image {image} not found at {image_source}&amp;#34;) # Step 5: Write the updated content back to the markdown file with open(filepath, &amp;#34;w&amp;#34;) as file: file.write(content) print(&amp;#34;Markdown files processed and images copied successfully.&amp;#34;)
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;based based based&lt;/p&gt;
-&lt;p&gt;cool?
-&lt;img src=&#34;./images/Pasted%20image%2020241130150203.png&#34;&gt;&lt;/p&gt;
-&lt;p&gt;testing testing&lt;/p&gt;
 </content>
     </item>
     
