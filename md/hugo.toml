@@ -57,10 +57,10 @@ paginate = 5
 [languages]
   [languages.en]
     languageName = "English"
-    title = "Terminal"
+    title = "findirfin.md"
 
     [languages.en.params]
-      subtitle = "A simple, retro theme for Hugo"
+      subtitle = "My published notes"
       owner = ""
       keywords = ""
       copyright = ""
@@ -75,7 +75,7 @@ paginate = 5
       words = "words"
 
       [languages.en.params.logo]
-        logoText = "Terminal"
+        logoText = "findirfin.md"
         logoHomeLink = "/"
 
       [languages.en.menu]
