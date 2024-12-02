@@ -13,3 +13,9 @@ I want to change that, and there appears to be a tool available to do that very 
 This site is unfortunately not working right now, I put in an issue [here](https://github.com/panr/terminal-css/issues/2)
 
 Hopefully the site gets fixed, if not I will have to figure out how to do this manually. 
+
+
+---
+## Update 12/2/24
+
+This tool is fixed! Style for site updated. 
