@@ -13,7 +13,7 @@ Use at least **three** of these
 - For Loops
 - Input/Output
 - Arrays
-- Conditionals
+- Conditionalsclass
 
 # findirfin.dev/md/
 
