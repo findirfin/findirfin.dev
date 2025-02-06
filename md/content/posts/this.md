@@ -1,6 +1,6 @@
 ---
 title: in class
-date: 
+date: 2025-01-01
 draft: false
 tags:
 ---

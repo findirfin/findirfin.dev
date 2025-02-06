@@ -174,6 +174,31 @@
     
       <article class="post on-list">
         <h2 class="post-title">
+          <a href="../posts/this/">in class</a>
+        </h2>
+        <div class="post-meta"><time class="post-date">2025-01-01</time></div>
+
+        
+
+        
+
+
+        <div class="post-content">
+          
+            <p>my deepest darkest secrets</p>
+<p>dolphins are better than pigs</p>
+          
+        </div>
+
+        
+           <div>
+            <a class="read-more button inline" href="../posts/this/">Read more</a>
+          </div>
+        
+      </article>
+    
+      <article class="post on-list">
+        <h2 class="post-title">
           <a href="../posts/you-need-to-build-things/">You Need to Build things</a>
         </h2>
         <div class="post-meta"><time class="post-date">2024-12-02</time></div>
@@ -282,163 +307,6 @@ Also, I noticed I can subscribe to my site with rss, which is kinda cool. Would 
         
            <div>
             <a class="read-more button inline" href="../posts/second-post/">Read more</a>
-          </div>
-        
-      </article>
-    
-      <article class="post on-list">
-        <h2 class="post-title">
-          <a href="../posts/text-based-game-with-php/">Text Based Game with PHP</a>
-        </h2>
-        <div class="post-meta"><time class="post-date">2024-11-30</time></div>
-
-        
-          <span class="post-tags">
-            
-            #<a href="../tags/coding/">coding</a>&nbsp;
-            
-            #<a href="../tags/teaching/">teaching</a>&nbsp;
-            
-            #<a href="../tags/tutorial/">tutorial</a>&nbsp;
-            
-          </span>
-        
-
-        
-
-
-        <div class="post-content">
-          
-            <blockquote>
-<p>This is directed towards the Beginning Coding class</p></blockquote>
-<p><img src="../images/Pasted%20image%2020241130190331.png" alt=""></p>
-<h1 id="starter-code">Starter Code</h1>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Show the initial question and form
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;You are in a cave. Do you go west or east?&lt;br&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;form method=&#39;post&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;text&#39; name=&#39;direction&#39; placeholder=&#39;Enter west or east&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;/form&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Check if form is submitted
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($_SERVER[<span style="color:#e6db74">&#34;REQUEST_METHOD&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>) {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Get the user&#39;s answer
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>$direction <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;direction&#39;</span>];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Decide what to say based on the direction
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($direction <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;west&#34;</span>) {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You chose to go west.&lt;/p&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Additional question for going west
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;Do you want to light a torch?&lt;br&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;form method=&#39;post&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;hidden&#39; name=&#39;direction&#39; value=&#39;west&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;text&#39; name=&#39;torch&#39; placeholder=&#39;Enter yes or no&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;/form&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">// Check if torch question is answered
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isset</span>($_POST[<span style="color:#e6db74">&#39;torch&#39;</span>])) {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>$torch <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;torch&#39;</span>];
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($torch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;yes&#34;</span>) {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You light a torch. The cave brightens up!&lt;/p&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//add more options here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">elseif</span> ($torch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;no&#34;</span>) {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You decide against lighting a torch. It&#39;s dark ahead.&lt;/p&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//add more options here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;Please enter &#39;yes&#39; or &#39;no&#39; for the torch question.&lt;/p&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>  
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">elseif</span> ($direction <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;east&#34;</span>) {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;You chose to go east.&lt;/p&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">//add more options here
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>} <span style="color:#66d9ef">else</span> {
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;p&gt;Please enter &#39;west&#39; or &#39;east&#39;.&lt;/p&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
-</span></span></span></code></pre></div><h1 id="code-explanation">Code Explanation</h1>
-<h3 id="initial-setup">Initial Setup</h3>
-<ul>
-<li><strong>Display Question and Form</strong>: The script starts by displaying a scenario where the player is in a cave and must decide whether to go &ldquo;west&rdquo; or &ldquo;east&rdquo;. It uses HTML to create a form where the user can input their choice.</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;You are in a cave. Do you go west or east?&lt;br&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;form method=&#39;post&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;text&#39; name=&#39;direction&#39; placeholder=&#39;Enter west or east&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;input type=&#39;submit&#39; value=&#39;Submit&#39;&gt;&#34;</span>;
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#34;&lt;/form&gt;&#34;</span>;
-</span></span></code></pre></div><h3 id="handling-user-input">Handling User Input</h3>
-<ul>
-<li><strong>Form Submission Check</strong>: The script checks if the form has been submitted via POST method.</li>
-</ul>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> ($_SERVER[<span style="color:#e6db74">&#34;REQUEST_METHOD&#34;</span>] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;POST&#34;</span>) {
-</span></span><span style="display:flex;"><span>    $direction <span style="color:#f92672">=</span> $_POST[<span style="color:#e6db74">&#39;direction&#39;</span>];
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// Further logic based on $direction
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
-</span></span></code></pre></div><h3 id="decision-based-on-direction">Decision Based on Direction</h3>
-<ul>
-<li>
-<p><strong>West Option</strong>:</p>
-          
-        </div>
-
-        
-           <div>
-            <a class="read-more button inline" href="../posts/text-based-game-with-php/">Read more</a>
           </div>
         
       </article>

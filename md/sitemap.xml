@@ -3,10 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>/</loc>
-    <lastmod>2024-12-02T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/this/</loc>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/</loc>
-    <lastmod>2024-12-02T00:00:00+00:00</lastmod>
+    <lastmod>2025-01-01T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/you-need-to-build-things/</loc>
     <lastmod>2024-12-02T00:00:00+00:00</lastmod>
@@ -48,7 +51,5 @@
     <lastmod>2024-11-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/categories/</loc>
-  </url><url>
-    <loc>/posts/this/</loc>
   </url>
 </urlset>
