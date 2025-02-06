@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Obsidian on findirfin.md</title>
-    <link>/tags/obsidian/</link>
-    <description>Recent content in Obsidian on findirfin.md</description>
+    <title>How-To on findirfin.md</title>
+    <link>/tags/how-to/</link>
+    <description>Recent content in How-To on findirfin.md</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 01 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="/tags/obsidian/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 01 Dec 2024 00:00:00 +0000</lastBuildDate><atom:link href="/tags/how-to/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How I sync my obsidian vault for free</title>
       <link>/posts/how-i-sync-my-obsidian-vault-for-free/</link>

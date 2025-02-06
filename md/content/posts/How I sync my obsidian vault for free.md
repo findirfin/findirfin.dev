@@ -4,6 +4,7 @@ date: 2024-12-01
 draft: false
 tags:
   - obsidian
+  - how-to
 ---
 I'm just going to put my summary here, It took me a few days to figure out the best way to do this. I tried many, many ways of doing this, and looked through quite a lot of material online and eventually landed on this
 

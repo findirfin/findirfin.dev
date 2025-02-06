@@ -13,8 +13,8 @@
       <pubDate>Mon, 02 Dec 2024 00:00:00 +0000</pubDate>
       
       <guid>/posts/you-need-to-build-things/</guid>
-      <description>&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130213222.png&#34;&gt;&lt;/p&gt;</description>
-      <content>&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130213222.png&#34;&gt;&lt;/p&gt;
+      <description>&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130213222.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+      <content>&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130213222.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 </content>
     </item>
     
@@ -30,11 +30,11 @@
 &lt;p&gt;&lt;em&gt;Syncing through git is the best way to sync obsidian. Through platforms like github there aren&amp;rsquo;t any size limits, and if you try hard enough you can get it to work everywhere.&lt;/em&gt;&lt;/p&gt;
 &lt;h2 id=&#34;desktop&#34;&gt;Desktop&lt;/h2&gt;
 &lt;p&gt;For desktop I used the &lt;a href=&#34;https://obsidian.md/plugins?id=obsidian-git&#34;&gt;git plugin&lt;/a&gt;
-&lt;img src=&#34;../images/Pasted%20image%2020241130215630.png&#34;&gt;
+&lt;img src=&#34;../images/Pasted%20image%2020241130215630.png&#34; alt=&#34;&#34;&gt;
 If you are familiar with git it is easy to set up, and it works well. I set it up to commit and push automatically every 0.5 minutes. You can also manually commit and push if you prefer&lt;/p&gt;
 &lt;h2 id=&#34;mobile&#34;&gt;Mobile&lt;/h2&gt;
 &lt;p&gt;I use android, and I tried the git plugin on there, but there were too many glitches. I ended up finding this app &lt;a href=&#34;https://gitjournal.io/&#34;&gt;GitJournal&lt;/a&gt;&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130220252.png&#34;&gt;
+&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130220252.png&#34; alt=&#34;&#34;&gt;
 All I had to do was sign in and pick my repo. It isn&amp;rsquo;t very pretty, but it gets the job done well.
 I had to tweak some settings in the add and in obsidian so that they could both render thing correctly from each other, such as images, but now it works fairly seamlessly.&lt;/p&gt;
 &lt;p&gt;Hopefully this helps you , lmk if you have questions.&lt;/p&gt;
@@ -48,7 +48,7 @@ I had to tweak some settings in the add and in obsidian so that they could both 
       
       <guid>/posts/changing-styles/</guid>
       <description>&lt;p&gt;This site is using the Terminal Hugo theme. it currently looks very orange.
-&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;I want to change that, and there appears to be a tool available to do that very easily at &lt;a href=&#34;https://panr.github.io/terminal-css/&#34;&gt;https://panr.github.io/terminal-css/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This site is unfortunately not working right now, I put in an issue &lt;a href=&#34;https://github.com/panr/terminal-css/issues/2&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Hopefully the site gets fixed, if not I will have to figure out how to do this manually.&lt;/p&gt;
@@ -56,7 +56,7 @@ I had to tweak some settings in the add and in obsidian so that they could both 
 &lt;h2 id=&#34;update-12224&#34;&gt;Update 12/2/24&lt;/h2&gt;
 &lt;p&gt;This tool is fixed! Style for site updated.&lt;/p&gt;</description>
       <content>&lt;p&gt;This site is using the Terminal Hugo theme. it currently looks very orange.
-&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34;&gt;&lt;/p&gt;
+&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;I want to change that, and there appears to be a tool available to do that very easily at &lt;a href=&#34;https://panr.github.io/terminal-css/&#34;&gt;https://panr.github.io/terminal-css/&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This site is unfortunately not working right now, I put in an issue &lt;a href=&#34;https://github.com/panr/terminal-css/issues/2&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Hopefully the site gets fixed, if not I will have to figure out how to do this manually.&lt;/p&gt;
@@ -73,10 +73,10 @@ I had to tweak some settings in the add and in obsidian so that they could both 
       
       <guid>/posts/second-post/</guid>
       <description>&lt;p&gt;I really need to work on the style of this site, It&amp;rsquo;s not great. (looks like this)
-&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34;&gt;
+&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34; alt=&#34;&#34;&gt;
 Also, I noticed I can subscribe to my site with rss, which is kinda cool. Would be weird if people put it into brave news or something.&lt;/p&gt;</description>
       <content>&lt;p&gt;I really need to work on the style of this site, It&amp;rsquo;s not great. (looks like this)
-&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34;&gt;
+&lt;img src=&#34;../images/Pasted%20image%2020241130181341.png&#34; alt=&#34;&#34;&gt;
 Also, I noticed I can subscribe to my site with rss, which is kinda cool. Would be weird if people put it into brave news or something.&lt;/p&gt;
 </content>
     </item>
@@ -88,9 +88,8 @@ Also, I noticed I can subscribe to my site with rss, which is kinda cool. Would 
       
       <guid>/posts/text-based-game-with-php/</guid>
       <description>&lt;blockquote&gt;
-&lt;p&gt;This is directed towards the Beginning Coding class&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130190331.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This is directed towards the Beginning Coding class&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130190331.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h1 id=&#34;starter-code&#34;&gt;Starter Code&lt;/h1&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
@@ -213,9 +212,8 @@ Also, I noticed I can subscribe to my site with rss, which is kinda cool. Would 
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;West Option&lt;/strong&gt;:&lt;/p&gt;</description>
       <content>&lt;blockquote&gt;
-&lt;p&gt;This is directed towards the Beginning Coding class&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130190331.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;This is directed towards the Beginning Coding class&lt;/p&gt;&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020241130190331.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;h1 id=&#34;starter-code&#34;&gt;Starter Code&lt;/h1&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
@@ -456,6 +454,19 @@ Good Luck&lt;/p&gt;
 &lt;p&gt;I love using obsidian, I have different parts of it going to a few different git repos.&lt;/p&gt;</description>
       <content>&lt;p&gt;I&amp;rsquo;m going to be using this basically just for creating shareable links for notes I want to publish for the internet&lt;/p&gt;
 &lt;p&gt;I love using obsidian, I have different parts of it going to a few different git repos.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>in class</title>
+      <link>/posts/this/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/this/</guid>
+      <description>&lt;p&gt;my deepest darkest secrets&lt;/p&gt;
+&lt;p&gt;dolphins are better than pigs&lt;/p&gt;</description>
+      <content>&lt;p&gt;my deepest darkest secrets&lt;/p&gt;
+&lt;p&gt;dolphins are better than pigs&lt;/p&gt;
 </content>
     </item>
     

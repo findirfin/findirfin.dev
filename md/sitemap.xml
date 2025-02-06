@@ -14,6 +14,9 @@
     <loc>/posts/how-i-sync-my-obsidian-vault-for-free/</loc>
     <lastmod>2024-12-01T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>/tags/how-to/</loc>
+    <lastmod>2024-12-01T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>/tags/obsidian/</loc>
     <lastmod>2024-12-01T00:00:00+00:00</lastmod>
   </url><url>
@@ -45,5 +48,7 @@
     <lastmod>2024-11-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/categories/</loc>
+  </url><url>
+    <loc>/posts/this/</loc>
   </url>
 </urlset>
