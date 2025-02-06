@@ -6,8 +6,8 @@ tags:
 ---
 
 # Your Task 
-write a php program
-Using at least **three** of these
+Write a php program
+Use at least **three** of these
  - Functions
 - While Loops
 - For Loops
