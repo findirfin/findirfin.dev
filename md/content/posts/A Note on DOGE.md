@@ -3,6 +3,7 @@ title: Legality of DOGE
 date: 2025-02-10
 draft: false
 tags:
+  - politics
 ---
 ![](/images/Pasted%20image%2020250210100337.png)
 (image from doge.gov)
