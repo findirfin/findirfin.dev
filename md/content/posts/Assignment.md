@@ -3,6 +3,7 @@ title: Assignment
 date: 2025-02-02
 draft: false
 tags:
+  - coding
 ---
 
 # Your Task 
