@@ -6,7 +6,27 @@
     <description>Recent content on findirfin.md</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 10 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Legality of DOGE</title>
+      <link>/posts/a-note-on-doge/</link>
+      <pubDate>Mon, 10 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/a-note-on-doge/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250210100337.png&#34; alt=&#34;&#34;&gt;
+(image from doge.gov)&lt;/p&gt;
+&lt;p&gt;As of February 09, 2025, the concept of DOGE, originally stemming from the United States Digital Service (USDS) initiated by Obama in 2014, has taken an interesting turn under the Trump administration. Here&amp;rsquo;s a brief overview of how DOGE operates within the legal framework:&lt;/p&gt;
+&lt;p&gt;In 2014, President Obama established the USDS to address the catastrophic launch of the Obamacare website. Fast forward to 2025, and Trump rebranded this service as DOGE, maintaining its funding but shifting its focus to &amp;ldquo;Find the Receipts&amp;rdquo; - essentially an oversight mission to ensure transparency and accountability within federal operations.&lt;/p&gt;</description>
+      <content>&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250210100337.png&#34; alt=&#34;&#34;&gt;
+(image from doge.gov)&lt;/p&gt;
+&lt;p&gt;As of February 09, 2025, the concept of DOGE, originally stemming from the United States Digital Service (USDS) initiated by Obama in 2014, has taken an interesting turn under the Trump administration. Here&amp;rsquo;s a brief overview of how DOGE operates within the legal framework:&lt;/p&gt;
+&lt;p&gt;In 2014, President Obama established the USDS to address the catastrophic launch of the Obamacare website. Fast forward to 2025, and Trump rebranded this service as DOGE, maintaining its funding but shifting its focus to &amp;ldquo;Find the Receipts&amp;rdquo; - essentially an oversight mission to ensure transparency and accountability within federal operations.&lt;/p&gt;
+&lt;p&gt;The legal foundation for DOGE&amp;rsquo;s operations is robust. Firstly, since USDS was already operational and funded, repurposing it into DOGE didn&amp;rsquo;t require new funding, making it immune to defunding efforts by Congress. Trump invoked 5 USC 3161, allowing for the creation of temporary hiring authorities, which enabled DOGE teams to be embedded within every federal agency. Each team includes a lawyer, HR representative, tech expert, and an investigator, ensuring comprehensive oversight.&lt;/p&gt;
+&lt;p&gt;Furthermore, by leveraging 44 USC 35, which deals with federal IT and cybersecurity oversight, DOGE gained access to all federal data systems. This move was strategic as it utilized existing legal frameworks, making it resistant to legal challenges. Executive orders were crafted to override any conflicting directives, mandating compliance across agencies under threat of violating presidential authority.&lt;/p&gt;
+&lt;p&gt;Trump and Musk&amp;rsquo;s approach has effectively utilized the infrastructure Obama created, turning it into a tool for transparency and control within the federal system, demonstrating a significant shift in how federal oversight can be legally managed.&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>Prep for next week AI class</title>
       <link>/posts/to-prep-for-ai-class/</link>
@@ -606,16 +626,6 @@ Good Luck&lt;/p&gt;
       <content>&lt;p&gt;I&amp;rsquo;m going to be using this basically just for creating shareable links for notes I want to publish for the internet&lt;/p&gt;
 &lt;p&gt;I love using obsidian, I have different parts of it going to a few different git repos.&lt;/p&gt;
 </content>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>/posts/a-note-on-doge/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/posts/a-note-on-doge/</guid>
-      <description></description>
-      <content></content>
     </item>
     
   </channel>
