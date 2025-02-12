@@ -14,19 +14,7 @@ Artificial Intelligence (AI) is going to change the world. If the previous admin
 
 Be sure to give his speech a listen:
 
-![Video](https://findirfin.dev/md/posts/vance_ai.mp4)
 
-
-{{<video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>}}
-
-{{< html >}}
-<video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>
-{{< /html >}}
-
-
-{{< video >}}
-controls src="https://findirfin.dev/md/posts/vance_ai.mp4"
-{{< /video >}}
 
 {#<video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>}
 
