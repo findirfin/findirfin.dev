@@ -21,3 +21,5 @@ A quick note on jobs being taken by AI: A recent study from Anthropic seems to i
 Read more here: [Anthropic's Economic Index Findings](https://www.perplexity.ai/page/anthropic-s-economic-index-fin-kaSnGKYaR4yp4IuaL4219A)
 
 "*The future is not going to be won by hand-wringing about AI safety. It will be won by building.*" – JD Vance
+
+🇺🇸🚀
