@@ -107,5 +107,25 @@
       <content></content>
     </item>
     
+    <item>
+      <title>Privacy</title>
+      <link>/tags/privacy/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/privacy/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Tech</title>
+      <link>/tags/tech/</link>
+      <pubDate>Mon, 01 Jan 2024 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/tech/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
   </channel>
 </rss>
