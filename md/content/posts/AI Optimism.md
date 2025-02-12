@@ -15,7 +15,13 @@ Artificial Intelligence (AI) is going to change the world. If the previous admin
 Be sure to give his speech a listen:
 
 
-{{< video src="https://findirfin.dev/md/posts/vance_ai.mp4" controls="true" >}}
+{{< rawhtml >}}
+<video controls style="width: 100%">
+  <source src="https://findirfin.dev/md/posts/ai-optimism/" type="video/mp4">
+  Your browser doesn’t support HTML5 video.
+</video>
+{{< /rawhtml >}}
+
 
 
 
