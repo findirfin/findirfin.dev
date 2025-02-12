@@ -42,6 +42,11 @@ controls src="https://findirfin.dev/md/posts/vance_ai.mp4"
 >}}
 
 
+{{< code language="html" title="Really cool snippet" id="1" expand="Show" collapse="Hide" isCollapsed="true" >}}
+<video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>
+{{< /code >}}
+
+
 A quick note on jobs being taken by AI: A recent study from Anthropic seems to indicate that AI is currently augmenting, not replacing, human workforces.
 
 Read more here: [Anthropic's Economic Index Findings](https://www.perplexity.ai/page/anthropic-s-economic-index-fin-kaSnGKYaR4yp4IuaL4219A)
