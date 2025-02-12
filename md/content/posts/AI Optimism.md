@@ -46,6 +46,7 @@ controls src="https://findirfin.dev/md/posts/vance_ai.mp4"
 <video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>
 {{< /code >}}
 
+![[https://findirfin.dev/md/posts/vance_ai.mp4]]
 
 A quick note on jobs being taken by AI: A recent study from Anthropic seems to indicate that AI is currently augmenting, not replacing, human workforces.
 
