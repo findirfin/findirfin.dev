@@ -6,13 +6,33 @@
     <description>Recent content in Tags on findirfin.md</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 10 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 11 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Ai</title>
+      <link>/tags/ai/</link>
+      <pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ai/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
     <item>
       <title>Article</title>
       <link>/tags/article/</link>
-      <pubDate>Mon, 10 Feb 2025 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate>
       
       <guid>/tags/article/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Politics</title>
+      <link>/tags/politics/</link>
+      <pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/politics/</guid>
       <description></description>
       <content></content>
     </item>
@@ -23,16 +43,6 @@
       <pubDate>Mon, 10 Feb 2025 00:00:00 +0000</pubDate>
       
       <guid>/tags/doge/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>Politics</title>
-      <link>/tags/politics/</link>
-      <pubDate>Mon, 10 Feb 2025 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/politics/</guid>
       <description></description>
       <content></content>
     </item>

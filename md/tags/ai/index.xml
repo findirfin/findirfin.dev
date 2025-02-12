@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Ai on findirfin.md</title>
+    <link>/tags/ai/</link>
+    <description>Recent content in Ai on findirfin.md</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 11 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/tags/ai/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>test</title>
+      <link>/posts/ai-optimism/</link>
+      <pubDate>Tue, 11 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/ai-optimism/</guid>
+      <description>&lt;p&gt;This morning, JD Vance gave this speech about AI at the AI Action Summit in Paris.
+&lt;a href=&#34;../media/vance_ai.mp4&#34;&gt;vance_ai&lt;/a&gt;&lt;/p&gt;</description>
+      <content>&lt;p&gt;This morning, JD Vance gave this speech about AI at the AI Action Summit in Paris.
+&lt;a href=&#34;../media/vance_ai.mp4&#34;&gt;vance_ai&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
