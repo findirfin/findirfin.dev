@@ -17,13 +17,10 @@ Be sure to give his speech a listen:
 
 {{< rawhtml >}}
 <video controls style="width: 100%">
-  <source src="https://findirfin.dev/md/posts/ai-optimism/" type="video/mp4">
+  <source src="https://findirfin.dev/md/posts/vance_ai.mp4" type="video/mp4">
   Your browser doesn’t support HTML5 video.
 </video>
 {{< /rawhtml >}}
-
-
-
 
 
 A quick note on jobs being taken by AI: A recent study from Anthropic seems to indicate that AI is currently augmenting, not replacing, human workforces.
