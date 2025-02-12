@@ -4,6 +4,8 @@ date: 2025-02-10
 draft: false
 tags:
   - politics
+  - DOGE
+  - Article
 ---
 ![](/images/Pasted%20image%2020250210100337.png)
 (image from doge.gov)
