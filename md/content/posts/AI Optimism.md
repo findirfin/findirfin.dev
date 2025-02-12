@@ -24,10 +24,6 @@ Be sure to give his speech a listen:
 <video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>
 {{< /html >}}
 
-<video controls>
-  <source src="https://findirfin.dev/md/posts/vance_ai.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
 {{< video >}}
 controls src="https://findirfin.dev/md/posts/vance_ai.mp4"
