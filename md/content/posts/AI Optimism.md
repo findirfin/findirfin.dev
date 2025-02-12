@@ -15,7 +15,7 @@ Artificial Intelligence (AI) is going to change the world. If the previous admin
 Be sure to give his speech a listen:
 
 
-{{< video src="https://findirfin.dev/md/posts/ai-optimism/" controls="true" >}}
+{{< video src="https://findirfin.dev/md/posts/vance_ai.mp4" controls="true" >}}
 
 
 
