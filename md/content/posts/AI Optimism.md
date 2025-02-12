@@ -14,33 +14,6 @@ Artificial Intelligence (AI) is going to change the world. If the previous admin
 
 Be sure to give his speech a listen:
 
-![Video](https://findirfin.dev/md/posts/vance_ai.mp4)
-
-
-{{<video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>}}
-
-{{< html >}}
-<video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>
-{{< /html >}}
-
-
-{{< video >}}
-controls src="https://findirfin.dev/md/posts/vance_ai.mp4"
-{{< /video >}}
-
-{#<video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>}
-
-
-{{< video
-  src="video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"
-  width="600"
->}}
-
-
-{{< code language="html" title="Really cool snippet" id="1" expand="Show" collapse="Hide" isCollapsed="true" >}}
-<video controls src="https://findirfin.dev/md/posts/vance_ai.mp4"></video>
-{{< /code >}}
-
 ![[https://findirfin.dev/md/posts/vance_ai.mp4]]
 
 A quick note on jobs being taken by AI: A recent study from Anthropic seems to indicate that AI is currently augmenting, not replacing, human workforces.
