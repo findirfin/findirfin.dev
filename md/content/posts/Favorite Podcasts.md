@@ -36,6 +36,12 @@ I may change this list occasionally.
 <iframe width="560" height="315" src="https://www.youtube.com/embed/qjz_07-DvE0?si=CUEyku_S6chDYL3r" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 {{< /rawhtml >}}
 
+# Darknet Diaries #134 - Deviant
+
+{{< rawhtml >}}
+<iframe width="560" height="315" src="https://www.youtube.com/embed/avZOQNt8Ltk?si=HbChadLXmeRLBwlZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+{{< /rawhtml >}}
+
 # Michael Saylor on The Lex Fridman Podcast
 
 {{< rawhtml >}}
