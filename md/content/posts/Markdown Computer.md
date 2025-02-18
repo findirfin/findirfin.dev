@@ -32,7 +32,7 @@ I may post updates here: https://findirfin.dev/md/posts/markdown-computer/
 ---
 just got a webview to show up! 
 ![](/images/Pasted%20image%2020250218155552.png)
-I'm very happy about this. this will make it pretty east to make the rest of the GUI
+I'm very happy about this. this will make it pretty easy to make the rest of the GUI
 
 ---
 
