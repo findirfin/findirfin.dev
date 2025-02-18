@@ -7,7 +7,8 @@ tags:
   - podcasts
   - listen
 ---
-Here are some podcasts I really enjoyed and learned a lot from, that i recommend people listen to. I may change this list occasionally. 
+Here are some podcasts I enjoyed. I recommend everyone listen to these. 
+I may change this list occasionally. 
 
 # Marc Andreessen on The Lex Fridman Podcast
 
