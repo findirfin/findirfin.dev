@@ -50,3 +50,11 @@ finally got it to populate the file list!!!
 IF I CONVERT EVERYTHING TO TEXT (MARKDOWN) LLMs ARE AGI!!!!!
 
 ---
+
+folders and nested folders (almost) working! 
+![](/images/Pasted%20image%2020250218165131.png)
+
+this update is basically just git except without the code
+
+---
+
