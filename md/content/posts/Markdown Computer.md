@@ -9,7 +9,7 @@ tags:
 ---
 LLMs like markdown, humans like markdown.  
 
-The idea is to build a "computer" or set of apps that are all based in markdown so that a LLM can operate it as well as a human can. The software will also include a CLI so the LLM and Human can run commands
+The idea is to build a "computer" or a framework and set of apps that are all based in markdown so that a LLM can operate it as well as a human can. The software will also include a CLI so the LLM and Human can run commands
 
 ![](/images/Pasted%20image%2020250218145314.png)
 

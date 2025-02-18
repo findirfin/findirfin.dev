@@ -14,11 +14,11 @@
       
       <guid>/posts/markdown-computer/</guid>
       <description>&lt;p&gt;LLMs like markdown, humans like markdown.&lt;/p&gt;
-&lt;p&gt;The idea is to build a &amp;ldquo;computer&amp;rdquo; or set of apps that are all based in markdown so that a LLM can operate it as well as a human can. The software will also include a CLI so the LLM and Human can run commands&lt;/p&gt;
+&lt;p&gt;The idea is to build a &amp;ldquo;computer&amp;rdquo; or a framework and set of apps that are all based in markdown so that a LLM can operate it as well as a human can. The software will also include a CLI so the LLM and Human can run commands&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250218145314.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The system prompts set up for the LLM will include lots of system data, including the majority of the main directory as to remain efficient&lt;/p&gt;</description>
       <content>&lt;p&gt;LLMs like markdown, humans like markdown.&lt;/p&gt;
-&lt;p&gt;The idea is to build a &amp;ldquo;computer&amp;rdquo; or set of apps that are all based in markdown so that a LLM can operate it as well as a human can. The software will also include a CLI so the LLM and Human can run commands&lt;/p&gt;
+&lt;p&gt;The idea is to build a &amp;ldquo;computer&amp;rdquo; or a framework and set of apps that are all based in markdown so that a LLM can operate it as well as a human can. The software will also include a CLI so the LLM and Human can run commands&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250218145314.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
 &lt;p&gt;The system prompts set up for the LLM will include lots of system data, including the majority of the main directory as to remain efficient&lt;/p&gt;
 &lt;p&gt;The LLM can be whatever you choose, using OpenAI compatible APIs&lt;/p&gt;
