@@ -13,7 +13,7 @@ I may change this list occasionally.
 # Marc Andreessen on The Lex Fridman Podcast
 
 {{< rawhtml >}}
-<iframe width="450" height="254"src="https://www.youtube.com/embed/OHWnPOKh_S0?si=yHJPWlfAhdXKN4pC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+<iframe max-width="450" height="254"src="https://www.youtube.com/embed/OHWnPOKh_S0?si=yHJPWlfAhdXKN4pC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 {{< /rawhtml >}}
 
 
