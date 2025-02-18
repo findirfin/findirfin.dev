@@ -39,3 +39,9 @@ I'm very happy about this. this will make it pretty easy to make the rest of the
  I got a basic layout implemented
  need to remember that the system prompt needs to include the page currently open
  ![](/images/Pasted%20image%2020250218160800.png)
+
+---
+
+finally got it to populate the file list!!!
+
+![](/images/Pasted%20image%2020250218163501.png)
