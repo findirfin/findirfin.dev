@@ -26,7 +26,8 @@
 &lt;p&gt;Each file will include some metadata meant for the LLM, not the human, including generated summaries and notes, as to make finding files and interpreting them easier and more token efficient for the LLM&lt;/p&gt;
 &lt;p&gt;Eventually, this software will include email, some messaging apps, calendar, web browser, and of course word processor with the majority of the interface and content being in markdown&lt;/p&gt;
 &lt;p&gt;IDK how images and videos are going to work yet&lt;/p&gt;
-&lt;p&gt;github repo here: &lt;a href=&#34;https://github.com/findirfin/markdown-computer&#34;&gt;https://github.com/findirfin/markdown-computer&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;github repo here: &lt;a href=&#34;https://github.com/findirfin/markdown-computer&#34;&gt;https://github.com/findirfin/markdown-computer&lt;/a&gt;
+I may post updates here: &lt;a href=&#34;https://findirfin.dev/md/posts/markdown-computer/&#34;&gt;https://findirfin.dev/md/posts/markdown-computer/&lt;/a&gt;&lt;/p&gt;
 &lt;h1 id=&#34;log&#34;&gt;Log&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;just got a webview to show up!

@@ -26,7 +26,7 @@ Eventually, this software will include email, some messaging apps, calendar, web
 IDK how images and videos are going to work yet
 
 github repo here: https://github.com/findirfin/markdown-computer
-
+I may post updates here: https://findirfin.dev/md/posts/markdown-computer/
 
 # Log
 ---
