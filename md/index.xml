@@ -27,6 +27,12 @@
 &lt;p&gt;Eventually, this software will include email, some messaging apps, calendar, web browser, and of course word processor with the majority of the interface and content being in markdown&lt;/p&gt;
 &lt;p&gt;IDK how images and videos are going to work yet&lt;/p&gt;
 &lt;p&gt;github repo here: &lt;a href=&#34;https://github.com/findirfin/markdown-computer&#34;&gt;https://github.com/findirfin/markdown-computer&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;log&#34;&gt;Log&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;just got a webview to show up!
+&lt;img src=&#34;./images/Pasted%20image%2020250218155552.png&#34; alt=&#34;&#34;&gt;
+I&amp;rsquo;m very happy about this. this will make it pretty east to make the rest of the GUI&lt;/p&gt;
+&lt;hr&gt;
 </content>
     </item>
     
