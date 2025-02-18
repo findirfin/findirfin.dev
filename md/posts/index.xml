@@ -6,7 +6,30 @@
     <description>Recent content in Posts on findirfin.md</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>markdown computer is coming</title>
+      <link>/posts/markdown-computer/</link>
+      <pubDate>Tue, 18 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/markdown-computer/</guid>
+      <description>&lt;p&gt;LLMs like markdown, humans like markdown.&lt;/p&gt;
+&lt;p&gt;The idea is to build a &amp;ldquo;computer&amp;rdquo; or set of apps that are all based in markdown so that a LLM can operate it as well as a human can. The software will also include a CLI so the LLM and Human can run commands&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020250218145314.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The system prompts set up for the LLM will include lots of system data, including the majority of the main directory as to remain efficient&lt;/p&gt;</description>
+      <content>&lt;p&gt;LLMs like markdown, humans like markdown.&lt;/p&gt;
+&lt;p&gt;The idea is to build a &amp;ldquo;computer&amp;rdquo; or set of apps that are all based in markdown so that a LLM can operate it as well as a human can. The software will also include a CLI so the LLM and Human can run commands&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../images/Pasted%20image%2020250218145314.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;The system prompts set up for the LLM will include lots of system data, including the majority of the main directory as to remain efficient&lt;/p&gt;
+&lt;p&gt;The LLM can be whatever you choose, using OpenAI compatible APIs&lt;/p&gt;
+&lt;p&gt;The LLM will have a dedicated folder for it to write notes and instructions for itself in&lt;/p&gt;
+&lt;p&gt;Each file will include some metadata meant for the LLM, not the human, including generated summaries and notes, as to make finding files and interpreting them easier and more token efficient for the LLM&lt;/p&gt;
+&lt;p&gt;Eventually, this software will include email, some messaging apps, calendar, web browser, and of course word processor with the majority of the interface and content being in markdown&lt;/p&gt;
+&lt;p&gt;IDK how images and videos are going to work yet&lt;/p&gt;
+&lt;p&gt;github repo here: &lt;a href=&#34;https://github.com/findirfin/markdown-computer&#34;&gt;https://github.com/findirfin/markdown-computer&lt;/a&gt;&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>some good podcasts you should listen to</title>
       <link>/posts/favorite-podcasts/</link>

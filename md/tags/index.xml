@@ -6,7 +6,37 @@
     <description>Recent content in Tags on findirfin.md</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Coding</title>
+      <link>/tags/coding/</link>
+      <pubDate>Tue, 18 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/coding/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Product</title>
+      <link>/tags/product/</link>
+      <pubDate>Tue, 18 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/product/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>/tags/projects/</link>
+      <pubDate>Tue, 18 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/projects/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
     <item>
       <title>Favorite</title>
       <link>/tags/favorite/</link>
@@ -73,16 +103,6 @@
       <pubDate>Mon, 10 Feb 2025 00:00:00 +0000</pubDate>
       
       <guid>/tags/doge/</guid>
-      <description></description>
-      <content></content>
-    </item>
-    
-    <item>
-      <title>Coding</title>
-      <link>/tags/coding/</link>
-      <pubDate>Thu, 06 Feb 2025 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/coding/</guid>
       <description></description>
       <content></content>
     </item>
