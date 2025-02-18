@@ -45,3 +45,8 @@ I'm very happy about this. this will make it pretty easy to make the rest of the
 finally got it to populate the file list!!!
 
 ![](/images/Pasted%20image%2020250218163501.png)
+
+---
+IF I CONVERT EVERYTHING TO TEXT (MARKDOWN) LLMs ARE AGI!!!!!
+
+---
