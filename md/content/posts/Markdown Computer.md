@@ -61,3 +61,10 @@ this update is basically just git except without the code
 Folders are now collapsible and expandable and it finally works
 
 ![](/images/Pasted%20image%2020250218172136.png)
+
+---
+
+actually got git set up lol
+
+
+---
