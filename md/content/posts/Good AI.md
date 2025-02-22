@@ -73,3 +73,8 @@ This is how I recommend most people run AI locally (and I recommend everybody ru
 ![](/images/Pasted%20image%2020250222151433.png)
 https://ollama.com/, run AI locally
 Ollama is a great way to run AI locally. It does everything through the CLI, but it isn't hard to learn how to use it. 
+
+---
+
+
+Check back soon, I may update this list once in a while
