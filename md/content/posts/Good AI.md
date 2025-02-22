@@ -76,14 +76,14 @@ Probably the best image generator out there. its really good. Completely free
 ![](/images/Pasted%20image%2020250222151140.png)
 https://lmstudio.ai/, run AI locally
 
-This is how I recommend most people run AI locally (and I recommend everybody run AI locally.) It will recommend models that your computer can handle and has a good interface. 
+This is how I recommend most people run LLMs locally (and I recommend everybody run AI locally.) It will recommend models that your computer can handle and has a good interface. 
 
 ---
 # Ollama
 ![](/images/Pasted%20image%2020250222151433.png)
 https://ollama.com/, run AI locally
 
-Ollama is a great way to run AI locally. It does everything through the CLI, but it isn't hard to learn how to use it. 
+Ollama is a great way to run LLMs locally. It does everything through the CLI, but it isn't hard to learn how to use it. 
 
 ---
 
