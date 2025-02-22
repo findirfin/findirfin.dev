@@ -72,6 +72,11 @@ https://labs.google/fx/tools/image-fx. only does images
 Probably the best image generator out there. its really good. Completely free
 
 ---
+# Notebook LM
+![](/images/Pasted%20image%2020250222155159.png)
+Its cool
+
+---
 # LM Studio
 ![](/images/Pasted%20image%2020250222151140.png)
 https://lmstudio.ai/, run AI locally
