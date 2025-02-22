@@ -6,7 +6,83 @@
     <description>Recent content on findirfin.md</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Tue, 18 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 22 Feb 2025 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>good ai, as of right now</title>
+      <link>/posts/good-ai/</link>
+      <pubDate>Sat, 22 Feb 2025 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/good-ai/</guid>
+      <description>&lt;p&gt;Here is a list of some of the AIs out there. Will probably be outdated next week&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;grok&#34;&gt;Grok&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222143903.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://grok.com&#34;&gt;https://grok.com&lt;/a&gt;, no account needed, good free tier, generates images
+Grok 3 is (as of right now) the best AI available to the public. The deepsearch mode is the best way to research anything on the internet right now. Something finally beat Claude Sonnet 3.5 new.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;perplexity&#34;&gt;Perplexity&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222144748.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://pplx.ai&#34;&gt;https://pplx.ai&lt;/a&gt;, no account needed, ok free tier
+Perplexity a fantastic search engine. It cites sources well, and has a great team behind it.&lt;/p&gt;</description>
+      <content>&lt;p&gt;Here is a list of some of the AIs out there. Will probably be outdated next week&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;grok&#34;&gt;Grok&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222143903.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://grok.com&#34;&gt;https://grok.com&lt;/a&gt;, no account needed, good free tier, generates images
+Grok 3 is (as of right now) the best AI available to the public. The deepsearch mode is the best way to research anything on the internet right now. Something finally beat Claude Sonnet 3.5 new.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;perplexity&#34;&gt;Perplexity&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222144748.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://pplx.ai&#34;&gt;https://pplx.ai&lt;/a&gt;, no account needed, ok free tier
+Perplexity a fantastic search engine. It cites sources well, and has a great team behind it.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;claude&#34;&gt;Claude&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222145018.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://claude.ai&#34;&gt;https://claude.ai&lt;/a&gt;, account needed, terrible free tier
+Claude is made by Anthropic, a company focused on AI safety. It was easily the best model until Grok 3 came out. It is fantastic at writing and coding.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;chatcom-by-openai&#34;&gt;CHAT.com by OpenAI&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222145522.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://chat.com&#34;&gt;https://chat.com&lt;/a&gt;, no account needed, good free tier, generates images
+Also known as ChatGPT by everyone other than me, the OG chatbot is still really good.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;gemini&#34;&gt;Gemini&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222145727.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://gemini.google.com/&#34;&gt;https://gemini.google.com/&lt;/a&gt;, google account needed, good free tier, generates images
+The worst place to use gemini is the official website. I like using it as an assistant on android phones, with the API, or in perplexity or t3 chat. The gemini 2.0 flash model is incredible, but the official site is just not great.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;le-chat&#34;&gt;Le Chat&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222150302.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://chat.mistral.ai/chat&#34;&gt;https://chat.mistral.ai/chat&lt;/a&gt;
+Its french&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;copiliot&#34;&gt;Copiliot&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222150451.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://copilot.microsoft.com/&#34;&gt;https://copilot.microsoft.com/&lt;/a&gt;
+A ChatGPT wrapper, but a really good one&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;t3-chat&#34;&gt;T3 Chat&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222150645.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://t3.chat&#34;&gt;https://t3.chat&lt;/a&gt;, no account needed, ok free tier
+My favorite wrapper for lots of LLMs. t3 chat is also very fast. the team is always adding new features.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;imagefx&#34;&gt;ImageFX&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222151102.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://labs.google/fx/tools/image-fx&#34;&gt;https://labs.google/fx/tools/image-fx&lt;/a&gt;. only does images
+Probably the best image generator out there. its really good. Completely free&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;lm-studio&#34;&gt;LM Studio&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222151140.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://lmstudio.ai/&#34;&gt;https://lmstudio.ai/&lt;/a&gt;, run AI locally
+This is how I recommend most people run AI locally (and I recommend everybody run AI locally.) It will recommend models that your computer can handle and has a good interface.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h1 id=&#34;ollama&#34;&gt;Ollama&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;./images/Pasted%20image%2020250222151433.png&#34; alt=&#34;&#34;&gt;
+&lt;a href=&#34;https://ollama.com/&#34;&gt;https://ollama.com/&lt;/a&gt;, run AI locally
+Ollama is a great way to run AI locally. It does everything through the CLI, but it isn&amp;rsquo;t hard to learn how to use it.&lt;/p&gt;
+</content>
+    </item>
+    
     <item>
       <title>markdown computer is coming</title>
       <link>/posts/markdown-computer/</link>
