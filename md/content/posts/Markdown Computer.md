@@ -68,3 +68,13 @@ actually got git set up lol
 
 
 ---
+
+made the file explorer show what files are open. I also did a lot of work on the structure of the projects, so im basically at the same point as i was earlier, but expanding the  project will work much better from now on. the file structure updates every 10 seconds. 
+
+![](/images/Pasted%20image%2020250222181645.png)
+
+to do (for the file explorer):
+add functions to make files and folders with python
+connect the html and js to this and add a gui for it. 
+make a `open file` function in python and connect it to html (so the ai can use it to open files later)
+improve the gui for the `x ` button for components
