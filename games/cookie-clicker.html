@@ -1,0 +1,594 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: white; /* Ensure the iframe has a white background */
+        }
+
+        
+    </style>
+</head>
+<body>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cookiepocalypse Ultra: Multiverse Breaker by chi-nah</title>
+<style>
+body {
+font-family: 'Comic Sans MS', cursive;
+text-align: center;
+padding: 20px;
+background: black;
+overflow: hidden;
+filter: contrast(300%) brightness(200%);
+animation: crtGlitch 0.1s infinite;
+}
+
+@keyframes crtGlitch {
+0% { transform: translate(-1px, -1px); }
+25% { transform: translate(2px, 0); }
+50% { transform: translate(-3px, 2px); }
+75% { transform: translate(1px, -2px); }
+100% { transform: translate(0); }
+}
+
+#cookie {
+cursor: crosshair;
+width: 700px;
+height: 700px;
+margin: 20px auto;
+background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="%23FFD700"/><path fill="%238B4513" d="M40 40Q50 50 60 40T80 40Q70 50 60 60T40 60Q50 50 40 40z"/></svg>');
+background-size: cover;
+border-radius: 50%;
+box-shadow: 0 0 800px rgba(255, 215, 0, 0.9);
+position: relative;
+animation: cookieImplosion 0.05s infinite;
+}
+
+@keyframes cookieImplosion {
+0% { transform: scale(1) rotate(0deg); }
+50% { transform: scale(1.5) rotate(180deg); }
+100% { transform: scale(1) rotate(360deg); }
+}
+
+.crumb {
+position: absolute;
+background: #8B4513;
+border-radius: 50%;
+pointer-events: none;
+animation: crumbNuclear 0.2s infinite;
+}
+
+@keyframes crumbNuclear {
+0% { transform: translate(0,0) scale(1); }
+50% { transform: translate(500px, -300px) scale(0.1); }
+100% { transform: translate(-250px, 600px) scale(5); }
+}
+
+button {
+padding: 25px 50px;
+font-size: 2em;
+margin: 20px;
+background: linear-gradient(45deg, #f00, #0f0, #00f, #ff0);
+color: black;
+border: 8px solid #0f0;
+border-radius: 30px;
+transition: all 0.2s;
+transform: skew(-15deg);
+filter: drop-shadow(0 0 80px #f00);
+position: absolute;
+}
+
+button:hover {
+transform: skew(15deg) scale(1.5);
+filter: drop-shadow(0 0 120px #0ff);
+animation: buttonGlitch 0.1s infinite;
+}
+
+@keyframes buttonGlitch {
+0% { transform: skew(15deg) scale(1.5) translate(2px); }
+50% { transform: skew(15deg) scale(1.5) translate(-2px); }
+100% { transform: skew(15deg) scale(1.5) translate(0); }
+}
+
+#eventLog {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+background: rgba(0, 0, 0, 0.9);
+color: white;
+padding: 20px;
+font-size: 2em;
+display: none;
+text-shadow: 0 0 30px #f00;
+animation: logExplosion 0.2s forwards;
+}
+
+@keyframes logExplosion {
+0% { transform: translateY(-100%) rotate(-180deg); filter: blur(20px); }
+100% { transform: translateY(0) rotate(0deg); filter: blur(0); }
+}
+
+.particle {
+position: fixed;
+width: 80px;
+height: 80px;
+background: yellow;
+border-radius: 50%;
+pointer-events: none;
+animation: particleExplosion 0.3s forwards;
+filter: drop-shadow(0 0 40px #ff0);
+}
+
+@keyframes particleExplosion {
+0% { transform: scale(1); opacity: 1; }
+100% { transform: scale(0); opacity: 0; }
+}
+
+.edge-button {
+position: fixed;
+padding: 20px 40px;
+font-size: 1.5em;
+background: linear-gradient(45deg, #f0f, #0ff, #f00);
+border: 5px solid #0f0;
+border-radius: 20px;
+transform: skew(-10deg);
+transition: all 0.2s;
+filter: drop-shadow(0 0 50px #f0f);
+}
+
+.edge-button:hover {
+transform: skew(10deg) scale(1.3);
+filter: drop-shadow(0 0 100px #0ff);
+animation: buttonGlitch 0.1s infinite;
+}
+
+.glitch {
+position: absolute;
+width: 100%;
+height: 100%;
+background: repeating-linear-gradient(
+45deg,
+transparent,
+transparent 3px,
+#f00 3px,
+#f00 6px
+);
+animation: scanLine 0.3s infinite;
+pointer-events: none;
+}
+
+@keyframes scanLine {
+0% { transform: translateY(0); }
+100% { transform: translateY(100%); }
+}
+
+.reality-tear {
+position: absolute;
+width: 200px;
+height: 200px;
+background: radial-gradient(circle, #0f0, #00f, #f00);
+border-radius: 50%;
+filter: blur(10px);
+animation: realityTear 2s infinite;
+pointer-events: none;
+}
+
+@keyframes realityTear {
+0% { transform: scale(0); opacity: 1; }
+50% { transform: scale(1.5); opacity: 0.5; }
+100% { transform: scale(0); opacity: 0; }
+}
+
+.achievement {
+position: fixed;
+bottom: 20px;
+left: 50%;
+transform: translateX(-50%);
+background: rgba(0, 0, 0, 0.8);
+color: gold;
+padding: 10px 20px;
+border: 3px solid gold;
+border-radius: 15px;
+display: none;
+font-size: 1.2em;
+animation: achievementPop 0.5s forwards;
+}
+
+@keyframes achievementPop {
+0% { transform: translateX(-50%) scale(0); }
+100% { transform: translateX(-50%) scale(1); }
+}
+</style>
+</head>
+<body>
+<div class="glitch"></div>
+<h1 style="text-shadow: 0 0 50px #f00, 0 0 100px #0ff;">⚠️⚠️⚠️ MULTIVERSE COLLAPSING ⚠️⚠️⚠️</h1>
+<p>Score: <span id="score">0</span> | CPS: <span id="cps">0</span></p>
+<div id="cookie" onclick="clickCookie()"></div>
+
+<div id="upgrades">
+<h2>☢️ QUANTUM OVEN SINGULARITY ☢️</h2>
+<p>Level: <span id="upgradeLevel">1</span> | Next Cost: <span id="upgradeCost">10</span></p>
+<button onclick="buyUpgrade()">TRIGGER DIMENSIONAL RIP</button>
+</div>
+
+<div id="autoclickers">
+<h2>🤖 NANOBOT COOKIE SWARM v9004 🤖</h2>
+<p>Count: <span id="autoCount">0</span> | Next Cost: <span id="autoCost">100</span></p>
+<button onclick="buyAutoClicker()">UNLEASH COOKIE APOCALYPSE</button>
+</div>
+
+<div id="eventLog"></div>
+<div id="achievement" class="achievement"></div>
+
+<!-- New Edge Buttons -->
+<button class="edge-button" style="top: 10px; left: 10px;" onclick="spawnBlackHole()">🌌 BLACK HOLE</button>
+<button class="edge-button" style="top: 10px; right: 10px;" onclick="cookieFission()">💥 FISSION</button>
+<button class="edge-button" style="bottom: 10px; left: 10px;" onclick="quantumFlip()">🔄 FLIP REALITY</button>
+<button class="edge-button" style="bottom: 10px; right: 10px;" onclick="toggleShop()">🛒 SHOP</button>
+<button class="edge-button" style="top: 50%; left: 10px; transform: translateY(-50%);" onclick="spawnRealityTear()">ripspacetime</button>
+<button class="edge-button" style="top: 50%; right: 10px; transform: translateY(-50%);" onclick="cookieVortex()">🌀 VORTEX</button>
+<button class="edge-button" style="top: 150px; left: 50%; transform: translateX(-50%);" onclick="launchCookieMeteor()">☄️ METEOR SHOWER</button>
+<button class="edge-button" style="bottom: 150px; left: 50%; transform: translateX(-50%);" onclick="activateSugarRush()">🍬 SUGAR RUSH</button>
+
+<!-- Shop Panel -->
+<div id="shopPanel" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.9); padding: 30px; border: 5px solid #0f0; border-radius: 20px;">
+<h2 style="text-shadow: 0 0 20px #f00;">🛒 MULTIVERSE ALTERATIONS 🛒</h2>
+<button onclick="buyGoldenCursor()">Golden Cursor (+15% CPS) - 5000</button>
+<button onclick="buyAntiMatter()">Anti-Matter (+75% Chance) - 25000</button>
+<button onclick="buyRealityAnchor()">Reality Anchor (Reduce Chaos) - 50000</button>
+<button onclick="buyQuantumCookie()">Quantum Cookie (Random Effect) - 100000</button>
+<button onclick="buyChaosGem()">🔥 Chaos Gem (Boosts) - 250000</button>
+<button onclick="toggleShop()">CLOSE</button>
+</div>
+
+<script>
+let score = 0;
+let clickValue = 1;
+let upgradeLevel = 1;
+let upgradeCost = 10;
+let autoclickers = 0;
+let autoclickerCost = 100;
+let cps = 0;
+let chaosFactor = 1;
+let eventQueue = [];
+let clickCount = 0;
+let shopOpen = false;
+let goldenCursor = 0;
+let antiMatter = 0;
+let realityAnchor = 0;
+let achievements = new Set();
+
+// Create crumbs
+const cookie = document.getElementById('cookie');
+for(let i = 0; i < 200; i++) {
+let crumb = document.createElement('div');
+crumb.className = 'crumb';
+crumb.style.width = Math.random() * 80 + 10 + 'px';
+crumb.style.height = Math.random() * 80 + 10 + 'px';
+crumb.style.left = Math.random() * 100 + '%';
+crumb.style.top = Math.random() * 100 + '%';
+crumb.style.animationDuration = Math.random() * 0.5 + 0.1 + 's';
+cookie.appendChild(crumb);
+}
+
+function updateDisplay() {
+document.getElementById('score').textContent = Math.floor(score).toLocaleString();
+document.getElementById('upgradeLevel').textContent = upgradeLevel;
+document.getElementById('upgradeCost').textContent = Math.floor(upgradeCost).toLocaleString();
+document.getElementById('autoCount').textContent = autoclickers;
+document.getElementById('autoCost').textContent = Math.floor(autoclickerCost).toLocaleString();
+document.getElementById('cps').textContent = cps.toFixed(1);
+
+document.querySelector('#upgrades button').disabled = score < upgradeCost;
+document.querySelector('#autoclickers button').disabled = score < autoclickerCost;
+
+document.body.style.filter = `
+contrast(${100 + Math.random() * 200}%)
+brightness(${50 + Math.random() * 150}%)
+hue-rotate(${Math.random() * 1440}deg)
+drop-shadow(0 0 ${Math.random() * 50}px #f00)
+`;
+}
+
+function clickCookie() {
+clickCount++;
+score += clickValue * chaosFactor * (1 + clickCount * 0.3) * (1 + goldenCursor * 0.15);
+createParticle(event.clientX, event.clientY);
+updateDisplay();
+
+checkAchievement(clickCount, 100, "100 Clicks!");
+checkAchievement(score, 1000000, "Millionaire!");
+
+if(Math.random() < 0.8 - realityAnchor * 0.1) {
+const effects = [
+() => { 
+chaosFactor *= 50; 
+logEvent('⚠️ REALITY SHATTERED: x' + chaosFactor.toFixed(1)); 
+setTimeout(() => chaosFactor /= 50, 300); 
+},
+() => { 
+score = Math.pow(score, 3); 
+logEvent('💥 CUBIC REALITY EFFECT! SCORE³'); 
+},
+() => { 
+clickValue *= 25; 
+logEvent('🔥 GOD TIER CLICK POWER x25'); 
+setTimeout(() => clickValue /= 25, 500); 
+},
+() => {
+document.body.style.animation = 'crtGlitch 0.05s infinite';
+setTimeout(() => document.body.style.animation = '', 1000);
+}
+];
+effects[Math.floor(Math.random() * effects.length)]();
+}
+}
+
+function buyUpgrade() {
+if(score >= upgradeCost) {
+score -= upgradeCost;
+clickValue *= 1 + Math.random() * 20;
+upgradeLevel += Math.floor(Math.random() * 30) + 1;
+upgradeCost *= Math.pow(4, upgradeLevel) * (1 + Math.random() * 15);
+logEvent('☢️ DIMENSIONAL RIP COMPLETE v' + upgradeLevel);
+updateDisplay();
+}
+}
+
+function buyAutoClicker() {
+if(score >= autoclickerCost) {
+score -= autoclickerCost;
+autoclickers += Math.floor(Math.random() * 30) + 1;
+cps += Math.pow(20, autoclickers) * (1 + Math.random() * 30);
+autoclickerCost *= Math.pow(6, autoclickers) * (1 + Math.random() * 30);
+logEvent('🤖 NANOBOTS REACHED GOD TIER: ' + autoclickers);
+updateDisplay();
+}
+}
+
+// Edge Button Functions
+function spawnBlackHole() {
+if(cps > 0) {
+score += cps * 500;
+cps *= 0.1;
+logEvent('🌌 BLACK HOLE ACTIVATED! CPS x0.1 BUT +' + Math.floor(cps * 500));
+updateDisplay();
+}
+}
+
+function cookieFission() {
+const colors = ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF'];
+cookie.style.background = `
+radial-gradient(circle, 
+${colors[Math.floor(Math.random()*6)]} 10%, 
+${colors[Math.floor(Math.random()*6)]} 40%, 
+${colors[Math.floor(Math.random()*6)]} 70%)
+`;
+logEvent('💥 COOKIE FISSION COMPLETE!');
+}
+
+function quantumFlip() {
+const chance = Math.random();
+if(chance < 0.5 + antiMatter * 0.15) {
+score *= 5;
+logEvent('🔄 REALITY FLIPPED! SCORE x5!');
+} else {
+score *= -1;
+logEvent('🔄 ANTI-REALITY ACTIVATED! SCORE INVERTED!');
+}
+updateDisplay();
+}
+
+function spawnRealityTear() {
+const tear = document.createElement('div');
+tear.className = 'reality-tear';
+tear.style.left = Math.random() * 100 + '%';
+tear.style.top = Math.random() * 100 + '%';
+document.body.appendChild(tear);
+setTimeout(() => tear.remove(), 2000);
+logEvent('ripspacetime REALITY TEAR SPAWNED!');
+}
+
+function cookieVortex() {
+const vortex = document.createElement('div');
+vortex.className = 'particle';
+vortex.style.width = '200px';
+vortex.style.height = '200px';
+vortex.style.animation = 'particleExplosion 1s forwards';
+vortex.style.backgroundColor = '#00f';
+document.body.appendChild(vortex);
+setTimeout(() => vortex.remove(), 1000);
+logEvent('🌀 COOKIE VORTEX ACTIVATED!');
+}
+
+function launchCookieMeteor() {
+const meteorCount = Math.floor(Math.random() * 10) + 5;
+for(let i = 0; i < meteorCount; i++) {
+setTimeout(() => {
+const meteor = document.createElement('div');
+meteor.className = 'particle';
+meteor.style.left = Math.random() * 100 + '%';
+meteor.style.top = '-100px';
+meteor.style.width = '50px';
+meteor.style.height = '50px';
+meteor.style.backgroundColor = '#FFA500';
+meteor.style.animation = 'meteorFall 1s forwards';
+document.body.appendChild(meteor);
+setTimeout(() => {
+score += 1000;
+updateDisplay();
+meteor.remove();
+}, 1000);
+}, i * 200);
+}
+logEvent('☄️ COOKIE METEOR SHOWER!');
+}
+
+function activateSugarRush() {
+const duration = 5;
+cps *= 10;
+document.body.style.animation = 'crtGlitch 0.02s infinite';
+logEvent('🍬 SUGAR RUSH ACTIVATED! CPS x10 FOR ' + duration + 's!');
+setTimeout(() => {
+cps /= 10;
+document.body.style.animation = '';
+updateDisplay();
+}, duration * 1000);
+}
+
+function toggleShop() {
+shopOpen = !shopOpen;
+document.getElementById('shopPanel').style.display = shopOpen ? 'block' : 'none';
+}
+
+// Shop Functions
+function buyGoldenCursor() {
+if(score >= 5000) {
+score -= 5000;
+goldenCursor++;
+cps *= 1.15;
+logEvent('🛒 GOLDEN CURSOR ACQUIRED! CPS +15%');
+updateDisplay();
+}
+}
+
+function buyAntiMatter() {
+if(score >= 25000) {
+score -= 25000;
+antiMatter++;
+logEvent('🛒 ANTI-MATTER PURCHASED! GAMBLE ODDS +15%');
+updateDisplay();
+}
+}
+
+function buyRealityAnchor() {
+if(score >= 50000) {
+score -= 50000;
+realityAnchor++;
+logEvent('🛒 REALITY ANCHOR ACTIVATED! CHAOS -15%');
+updateDisplay();
+}
+}
+
+function buyQuantumCookie() {
+if(score >= 100000) {
+score -= 100000;
+const effects = [
+() => { score *= 10; logEvent('🛒 QUANTUM COOKIE: SCORE x10!'); },
+() => { cps *= 5; logEvent('🛒 QUANTUM COOKIE: CPS x5!'); },
+() => { clickValue *= 100; logEvent('🛒 QUANTUM COOKIE: CLICK x100!'); },
+() => { score = -score; logEvent('🛒 QUANTUM COOKIE: ANTI-SCORE!'); }
+];
+effects[Math.floor(Math.random() * effects.length)]();
+updateDisplay();
+}
+}
+
+function buyChaosGem() {
+if(score >= 250000) {
+score -= 250000;
+const effects = [
+() => { chaosFactor *= 2; logEvent('🔥 CHAOS GEM: CHAOS x2!'); },
+() => { score += 1000000; logEvent('🔥 CHAOS GEM: +1,000,000!'); },
+() => { cps *= 2; logEvent('🔥 CHAOS GEM: CPS x2!'); }
+];
+effects[Math.floor(Math.random() * effects.length)]();
+updateDisplay();
+}
+}
+
+// Passive income with cosmic horror
+setInterval(() => {
+if(cps > 0) {
+score += cps * chaosFactor * (1 + goldenCursor * 0.15);
+
+if(Math.random() < 0.5) {
+const events = [
+() => { 
+    score += cps * 5000; 
+    logEvent('🌌 GALACTIC COOKIE SUPERNOVA! +' + Math.floor(cps * 5000)); 
+},
+() => { 
+    cps *= -1; 
+    logEvent('🌀 ANTI-CPS ACTIVATED! CPS INVERTED!'); 
+    setTimeout(() => cps *= -1, 1000); 
+},
+() => { 
+    document.querySelectorAll('.crumb').forEach(crumb => {
+        crumb.style.animationDuration = Math.random() * 0.5 + 0.1 + 's';
+    });
+}
+];
+events[Math.floor(Math.random() * events.length)]();
+}
+updateDisplay();
+}
+}, 1000);
+
+// Particle system
+function createParticle(x, y) {
+const particle = document.createElement('div');
+particle.className = 'particle';
+particle.style.left = x + 'px';
+particle.style.top = y + 'px';
+particle.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+particle.style.transform = `scale(${Math.random() * 15 + 0.5}) rotate(${Math.random() * 1440}deg)`;
+document.body.appendChild(particle);
+setTimeout(() => particle.remove(), 400);
+}
+
+// Event logging
+function logEvent(message) {
+const log = document.getElementById('eventLog');
+eventQueue.push(message);
+log.textContent = message;
+log.style.display = 'block';
+log.style.animation = 'none';
+void log.offsetHeight;
+log.style.animation = 'logExplosion 0.2s forwards';
+
+setTimeout(() => {
+eventQueue.shift();
+if(eventQueue.length === 0) log.style.display = 'none';
+else log.textContent = eventQueue[eventQueue.length - 1];
+}, 500);
+}
+
+// Achievements
+function checkAchievement(value, threshold, achievementName) {
+if(value >= threshold && !achievements.has(achievementName)) {
+achievements.add(achievementName);
+const achievement = document.getElementById('achievement');
+achievement.textContent = achievementName + " ACHIEVED!";
+achievement.style.display = 'block';
+setTimeout(() => achievement.style.display = 'none', 3000);
+}
+}
+
+// Initial chaos
+updateDisplay();
+setInterval(() => {
+document.querySelectorAll('.crumb').forEach(crumb => {
+crumb.style.transform = `rotate(${Math.random() * 7200}deg) scale(${Math.random() * 10 + 0.1})`;
+});
+}, 50);
+</script>
+</body>
+</html>
+
+
+
+    <script>
+        
+    </script>
+</body>
+</html>
