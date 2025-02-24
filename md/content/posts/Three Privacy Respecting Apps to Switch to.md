@@ -67,7 +67,7 @@ You can download Signal [here](https://signal.org/download/)
 
 ![](/images/Pasted%20image%2020250224102710.png)
 
-Proton is probably the hardest switch in this list, but it may be worth it for you. Proton replaces email, drive, calendar, VPN, and password managers. Proton includes a pretty good free tier, but if you need more they have pretty good plans in my opinion
+Proton is probably the hardest switch in this list, but it may be worth it for you. Proton replaces email, drive, calendar, VPN, and password managers. Proton includes a pretty good free tier, but if you need more they have pretty fair plans in my opinion
 
 Proton end to end encrypts everything, which means that not even proton can look at what you have saved. It is a well respected and trusted service.
 
