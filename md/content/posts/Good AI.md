@@ -11,7 +11,7 @@ Here is a list of some of the AIs out there. Will probably be outdated next week
 ---
 # Grok
 ![](/images/Pasted%20image%2020250222143903.png)
-https://grok.com, no account needed, good free tier, generates images
+https://grok.com, good free tier, generates images
 
 Grok 3 is (as of right now) the best AI available to the public. The deepsearch mode is the best way to research anything on the internet right now. Something finally beat Claude Sonnet 3.5 new. 
 
