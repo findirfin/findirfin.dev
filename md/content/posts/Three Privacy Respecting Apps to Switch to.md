@@ -11,7 +11,7 @@ Here are three privacy respecting programs I recommend everyone switch to from t
 
 ### Brave Browser
 
-![](https://findirfin.dev/articles/images/brave-logo.png)
+![](/images/Pasted%20image%2020250224102629.png)
 
 Brave is a chromium-based browser, meaning that it will have all the features that you are used to. Some notable features of brave browser are:
 
@@ -33,7 +33,7 @@ Brave's private ad system that still lets you tip out creators, by viewing priva
 
 Learn more [here](https://brave.com/brave-rewards/)
 
-![brave browser](https://findirfin.dev/articles/images/brave-browser.png)
+![](/images/Pasted%20image%2020250224102641.png)
 
 There are many more features, those were just some of the most notable. You can Download brave and try all of them out [here](https://brave.com/)
 
@@ -41,7 +41,7 @@ There are many more features, those were just some of the most notable. You can 
 
 ### Signal Messenger
 
-![](https://findirfin.dev/articles/images/signal-logo.png)
+![](/images/Pasted%20image%2020250224102649.png)
 
 There are a lot of good messaging apps out there, but my favorite is Signal. The best features are:
 
@@ -57,7 +57,7 @@ Signal has added usernames recently, making it easier to connect with other peop
 
 Stickers and stories are fun features that signal includes.
 
-![signal messenger](https://findirfin.dev/articles/images/signal-messenger.png)
+![](/images/Pasted%20image%2020250224102659.png)
 
 You can download Signal [here](https://signal.org/download/)
 
@@ -65,13 +65,11 @@ You can download Signal [here](https://signal.org/download/)
 
 ### Proton
 
-![](https://findirfin.dev/articles/images/proton-logo.png)
+![](/images/Pasted%20image%2020250224102710.png)
 
 Proton is probably the hardest switch in this list, but it may be worth it for you. Proton replaces email, drive, calendar, VPN, and password managers. Proton includes a pretty good free tier, but if you need more they have pretty good plans in my opinion
 
 Proton end to end encrypts everything, which means that not even proton can look at what you have saved. It is a well respected and trusted service.
-
-![signal messenger](https://findirfin.dev/articles/images/proton-apps.svg)
 
 Start using Proton [here](https://proton.me/)
 
