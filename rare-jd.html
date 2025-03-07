@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Endless Image Scroll</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overscroll-behavior: contain;
+            background: #000;
+        }
+        .image-container {
+            height: 100vh;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;  /* Firefox */
+            -ms-overflow-style: none;  /* IE and Edge */
+        }
+        .image-container::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari and Opera */
+        }
+        .image-item {
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: #000;
+        }
+        .image-item img {
+            max-width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+        .nav-button {
+            position: fixed;
+            right: 20px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1000;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+        }
+        .nav-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        #prev-button {
+            bottom: 190px;
+        }
+        #next-button {
+            bottom: 20px;
+        }
+        #copy-button {
+            bottom: 135px;
+        }
+        #download-button {
+            bottom: 80px;
+        }
+    </style>
+</head>
+<body>
+    <button id="prev-button" class="nav-button">↑</button>
+    <button id="copy-button" class="nav-button">📋</button>
+    <button id="download-button" class="nav-button">💾</button>
+    <button id="next-button" class="nav-button">↓</button>
+    <div id="image-container" class="image-container"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('image-container');
+            const prevButton = document.getElementById('prev-button');
+            const nextButton = document.getElementById('next-button');
+            const copyButton = document.getElementById('copy-button');
+            const downloadButton = document.getElementById('download-button');
+            let imageData = [];
+            let remainingImages = [];
+            const preloadThreshold = 3;   // Load more when 3rd from top/bottom is visible
+            const batchSize = 5;          // Number of images to load at a time
+            const maxImagesInDOM = 50;    // Max images in DOM for performance
+        
+            // Fetch image data from content.json
+            fetch('content.json')
+                .then(response => {
+                    if (!response.ok) throw new Error('Failed to fetch content.json');
+                    return response.json();
+                })
+                .then(data => {
+                    imageData = data;
+                    remainingImages = shuffleArray([...imageData]);
+                    loadInitialImages();
+                    updateObservers();
+                })
+                .catch(error => console.error('Error fetching JSON:', error));
+        
+            // Shuffle array function
+            function shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+        
+            // Load initial batch of images
+            function loadInitialImages() {
+                const initialCount = 10; // Start with 10 images for buffer
+                const imageUrls = getNextImages(initialCount);
+                imageUrls.forEach(url => {
+                    const imageItem = createImageItem(url);
+                    container.appendChild(imageItem);
+                });
+            }
+        
+            // Create an image item div with img inside
+            function createImageItem(url) {
+                const imageItem = document.createElement('div');
+                imageItem.className = 'image-item';
+                const img = document.createElement('img');
+                img.src = url;
+                img.alt = 'Scroll Image';
+                img.loading = 'lazy'; // Lazy load to improve performance
+                imageItem.appendChild(img);
+                return imageItem;
+            }
+        
+            // Get next batch of image URLs, reshuffling if needed
+            function getNextImages(count) {
+                const result = [];
+                while (result.length < count) {
+                    if (remainingImages.length === 0) {
+                        remainingImages = shuffleArray([...imageData]);
+                    }
+                    // Assuming imageData contains objects with 'image' property
+                    result.push(remainingImages.shift().image);
+                }
+                return result;
+            }
+        
+            // Intersection Observer for top of container
+            const topObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    loadMoreTop();
+                }
+            }, { root: container, threshold: 0.1 });
+        
+            // Intersection Observer for bottom of container
+            const bottomObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    loadMoreBottom();
+                }
+            }, { root: container, threshold: 0.1 });
+        
+            // Update observers to watch 3rd from top and bottom
+            function updateObservers() {
+                topObserver.disconnect();
+                bottomObserver.disconnect();
+                if (container.children.length >= preloadThreshold) {
+                    topObserver.observe(container.children[preloadThreshold - 1]);
+                    bottomObserver.observe(container.children[container.children.length - preloadThreshold]);
+                }
+            }
+        
+            // Load more images at the bottom
+            function loadMoreBottom() {
+                const imageUrls = getNextImages(batchSize);
+                imageUrls.forEach(url => {
+                    const imageItem = createImageItem(url);
+                    container.appendChild(imageItem);
+                });
+                // Remove excess images from top
+                if (container.children.length > maxImagesInDOM) {
+                    const removeCount = container.children.length - maxImagesInDOM;
+                    const viewportHeight = window.innerHeight;
+                    for (let i = 0; i < removeCount; i++) {
+                        container.removeChild(container.firstChild);
+                    }
+                    // Adjust scroll position to maintain view
+                    container.scrollTop -= removeCount * viewportHeight;
+                }
+                updateObservers();
+            }
+        
+            // Load more images at the top
+            function loadMoreTop() {
+                const imageUrls = getNextImages(batchSize);
+                const viewportHeight = window.innerHeight;
+                imageUrls.forEach(url => {
+                    const imageItem = createImageItem(url);
+                    container.insertBefore(imageItem, container.firstChild);
+                });
+                // Adjust scroll position to maintain view
+                container.scrollTop += batchSize * viewportHeight;
+                // Remove excess images from bottom
+                if (container.children.length > maxImagesInDOM) {
+                    const removeCount = container.children.length - maxImagesInDOM;
+                    for (let i = 0; i < removeCount; i++) {
+                        container.removeChild(container.lastChild);
+                    }
+                }
+                updateObservers();
+            }
+        
+            // Scroll to next or previous image
+            function scrollToImage(direction) {
+                const viewportHeight = window.innerHeight;
+                const currentScroll = container.scrollTop;
+                let targetScroll;
+                if (direction === 'next') {
+                    targetScroll = Math.ceil(currentScroll / viewportHeight) * viewportHeight + viewportHeight;
+                } else {
+                    targetScroll = Math.floor(currentScroll / viewportHeight) * viewportHeight - viewportHeight;
+                }
+                container.scrollTo({
+                    top: targetScroll,
+                    behavior: 'smooth'
+                });
+            }
+        
+            // Snap scroll to nearest image
+            let scrollTimeout;
+            container.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    const viewportHeight = window.innerHeight;
+                    const currentScroll = container.scrollTop;
+                    const targetScroll = Math.round(currentScroll / viewportHeight) * viewportHeight;
+                    if (Math.abs(currentScroll - targetScroll) > 10) {
+                        container.scrollTo({
+                            top: targetScroll,
+                            behavior: 'smooth'
+                        });
+                    }
+                }, 150);
+            });
+        
+            prevButton.addEventListener('click', () => scrollToImage('prev'));
+            nextButton.addEventListener('click', () => scrollToImage('next'));
+        
+            // Copy current image to clipboard
+            async function copyCurrentImage() {
+                try {
+                    const viewportHeight = window.innerHeight;
+                    const currentScroll = container.scrollTop;
+                    const currentIndex = Math.round(currentScroll / viewportHeight);
+                    const currentImageDiv = container.children[currentIndex];
+                    if (!currentImageDiv) throw new Error('No image found');
+                    const currentImage = currentImageDiv.querySelector('img');
+                    if (!currentImage || !currentImage.src) throw new Error('Invalid image source');
+        
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    await new Promise((resolve, reject) => {
+                        img.onload = resolve;
+                        img.onerror = reject;
+                        img.src = currentImage.src;
+                    });
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0);
+        
+                    const blob = await new Promise(resolve => canvas.toBlob(resolve));
+                    await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+        
+                    copyButton.innerHTML = '✓';
+                    setTimeout(() => copyButton.innerHTML = '📋', 2000);
+                } catch (err) {
+                    console.error('Copy failed:', err);
+                    alert('Failed to copy image: ' + err.message);
+                }
+            }
+        
+            // Download current image
+            async function downloadCurrentImage() {
+                try {
+                    const viewportHeight = window.innerHeight;
+                    const currentScroll = container.scrollTop;
+                    const currentIndex = Math.round(currentScroll / viewportHeight);
+                    const currentImageDiv = container.children[currentIndex];
+                    if (!currentImageDiv) throw new Error('No image found');
+                    const currentImage = currentImageDiv.querySelector('img');
+                    if (!currentImage || !currentImage.src) throw new Error('Invalid image source');
+        
+                    downloadButton.innerHTML = '⏳';
+                    const response = await fetch(currentImage.src);
+                    const blob = await response.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = currentImage.src.split('/').pop() || 'image.jpg';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    window.URL.revokeObjectURL(url);
+        
+                    setTimeout(() => downloadButton.innerHTML = '💾', 1000);
+                } catch (err) {
+                    console.error('Download failed:', err);
+                    alert('Failed to download image: ' + err.message);
+                    downloadButton.innerHTML = '💾';
+                }
+            }
+        
+            copyButton.addEventListener('click', copyCurrentImage);
+            downloadButton.addEventListener('click', downloadCurrentImage);
+        });
+        </script>
+</body>
+</html>
