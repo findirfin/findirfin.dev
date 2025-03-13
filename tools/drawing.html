@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Drawing Tool</title>
+    <link rel="stylesheet" href="drawing/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div id="toolbar">
+            <button id="select">Select</button>
+            <button id="pencil">Pencil</button>
+            <button id="rectangle">Rectangle</button>
+            <button id="circle">Circle</button>
+            <button id="line">Line</button>
+            <button id="text">Text</button>
+            <button id="undo">Undo</button>
+            <button id="redo">Redo</button>
+            <button id="save">Save</button>
+            <input type="color" id="colorPicker">
+            <select id="canvasSize">
+                <option value="800x600">800x600 (4:3)</option>
+                <option value="1920x1080">1920x1080 (16:9)</option>
+                <option value="1080x1080">1080x1080 (1:1)</option>
+                <option value="1080x1350">1080x1350 (4:5)</option>
+            </select>
+        </div>
+        <canvas id="canvas" width="800" height="600"></canvas>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/4.5.0/fabric.min.js"></script>
+    <script src="drawing/app.js"></script>
+</body>
+</html>
