@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Crop Tool with Upload</title>
+    <!-- jQuery UI CSS for resizable/draggable styling -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        /* Container for the video and selection box */
+        #video-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* Selection box styling */
+        #selection-box {
+            position: absolute;
+            border: 2px dashed red;
+            background: rgba(255, 0, 0, 0.1); /* Slight transparency for visibility */
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 150px;
+        }
+
+        /* Spacing for the preview area */
+        #preview-container {
+            margin-top: 20px;
+        }
+
+        /* Upload button styling */
+        #upload-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Upload button container -->
+    <div id="upload-container">
+        <input type="file" id="video-upload" accept="video/*">
+        <button onclick="loadVideo()">Load Video</button>
+    </div>
+
+    <!-- Video and selection box container -->
+    <div id="video-container">
+        <video id="video" width="640" height="480" controls>
+            Your browser does not support the video tag.
+        </video>
+        <div id="selection-box"></div>
+    </div>
+
+    <!-- Preview canvas container -->
+    <div id="preview-container">
+        <canvas id="preview-canvas"></canvas>
+    </div>
+
+    <!-- jQuery and jQuery UI scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        $(function() {
+            // Make the selection box resizable and draggable within the video container
+            $("#selection-box").resizable({
+                containment: "#video-container",
+                handles: "all", // Allow resizing from all sides and corners
+                minWidth: 10,   // Minimum width to prevent collapse
+                minHeight: 10   // Minimum height
+            }).draggable({
+                containment: "#video-container" // Restrict dragging within video bounds
+            });
+
+            // DOM elements
+            var video = document.getElementById("video");
+            var canvas = document.getElementById("preview-canvas");
+            var ctx = canvas.getContext("2d");
+            var isPlaying = false;
+            var currentLeft, currentTop, currentWidth, currentHeight;
+
+            // Update selection parameters and canvas size
+            function updateSelection() {
+                var selection = $("#selection-box");
+                var videoRect = video.getBoundingClientRect();
+                currentLeft = selection.position().left / videoRect.width * video.videoWidth;
+                currentTop = selection.position().top / videoRect.height * video.videoHeight;
+                currentWidth = selection.width() / videoRect.width * video.videoWidth;
+                currentHeight = selection.height() / videoRect.height * video.videoHeight;
+                canvas.width = selection.width();
+                canvas.height = selection.height();
+            }
+
+            // Draw the selected video portion onto the canvas
+            function drawPreview() {
+                ctx.drawImage(
+                    video, 
+                    currentLeft, currentTop, currentWidth, currentHeight, // Source rectangle
+                    0, 0, canvas.width, canvas.height                    // Destination rectangle
+                );
+            }
+
+            // Animation loop for real-time preview during playback
+            function loop() {
+                if (isPlaying) {
+                    drawPreview();
+                    requestAnimationFrame(loop);
+                }
+            }
+
+            // Event listeners for video playback
+            video.addEventListener("play", function() {
+                isPlaying = true;
+                loop();
+            });
+
+            video.addEventListener("pause", function() {
+                isPlaying = false;
+                drawPreview(); // Draw the last frame when paused
+            });
+
+            video.addEventListener("seeked", function() {
+                drawPreview(); // Update preview when seeking
+            });
+
+            // Update preview when selection changes
+            $("#selection-box").on("resizestop dragstop", function() {
+                updateSelection();
+                drawPreview();
+            });
+
+            // Initialize selection and preview when video metadata is loaded
+            video.addEventListener("loadedmetadata", function() {
+                updateSelection();
+                drawPreview();
+            });
+
+            // Function to load the uploaded video
+            window.loadVideo = function() {
+                var fileInput = document.getElementById("video-upload");
+                var file = fileInput.files[0];
+                if (file) {
+                    var url = URL.createObjectURL(file);
+                    video.src = url;
+                    video.load(); // Reload the video with the new source
+                } else {
+                    alert("Please select a video file first.");
+                }
+            };
+        });
+    </script>
+</body>
+</html>

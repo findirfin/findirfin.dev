@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>My Runner Game</title>
+    <style>
+      /* Basic CSS to center the game and remove margins */
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #222; /* Dark background */
+      }
+      canvas {
+        display: block; /* Prevent extra space below canvas */
+      }
+    </style>
+    <!-- Include the Phaser library -->
+    <script src="phaser.min.js"></script>
+  </head>
+  <body>
+    <!-- The game will be created inside this div -->
+    <div id="phaser-game"></div>
+
+    <!-- Include your game's code (we'll create this next) -->
+    <!-- IMPORTANT: Your game script MUST come AFTER phaser.min.js -->
+    <script src="game.js"></script>
+  </body>
+</html>
