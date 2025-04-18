@@ -1,32 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="utf-8" />
+    <!-- Crucial for mobile responsiveness -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
     <title>My Runner Game</title>
     <style>
-      /* Basic CSS to center the game and remove margins */
-      body {
-        margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #222; /* Dark background */
-      }
-      canvas {
-        display: block; /* Prevent extra space below canvas */
-      }
+        /* Basic CSS to center the game and remove margins */
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%; /* Ensure body takes full height */
+            overflow: hidden; /* Prevent scrollbars */
+            background-color: #222; /* Dark background */
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Style the container where Phaser injects the canvas */
+        #phaser-game {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        /* Style the canvas itself */
+        canvas {
+            display: block; /* Prevent extra space below canvas */
+            /* Optional: Sharper pixels when scaling */
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
     </style>
     <!-- Include the Phaser library -->
     <script src="phaser.min.js"></script>
-  </head>
-  <body>
+</head>
+<body>
     <!-- The game will be created inside this div -->
     <div id="phaser-game"></div>
 
-    <!-- Include your game's code (we'll create this next) -->
+    <!-- Include your game's code -->
     <!-- IMPORTANT: Your game script MUST come AFTER phaser.min.js -->
     <script src="game.js"></script>
-  </body>
+</body>
 </html>

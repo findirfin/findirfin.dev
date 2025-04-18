@@ -1,9 +1,19 @@
 // --- Configuration ---
 const config = {
   type: Phaser.AUTO,
+  // --- Design Resolution ---
   width: 800,
   height: 300,
-  parent: "phaser-game",
+  // --- Scaling Configuration --- ADDED
+  scale: {
+    mode: Phaser.Scale.FIT, // Fit the game within the container, maintaining aspect ratio
+    parent: "phaser-game", // ID of the div to contain the canvas
+    autoCenter: Phaser.Scale.CENTER_BOTH, // Center the canvas horizontally and vertically
+    width: 800,
+    height: 300,
+  },
+  // --- End Scaling Configuration ---
+  parent: "phaser-game", // This is now handled by scale.parent, but doesn't hurt to leave
   backgroundColor: "#535353", // Dino game dark background
   physics: {
     default: "arcade",
@@ -17,13 +27,17 @@ const config = {
     create: create,
     update: update,
   },
+  input: {
+    activePointers: 3,
+    keyboard: true, // Ensure keyboard input is enabled
+  },
 };
 
 // --- Global Variables ---
 let player;
-let cursors;
+let cursors; // RE-ADDED for keyboard
 let ground;
-let spaceKey;
+let spaceKey; // RE-ADDED for keyboard
 let scoreText;
 let score = 0;
 let isDucking = false;
@@ -34,7 +48,13 @@ let spiders;
 let spiderSpawnTimer;
 let gameOverText;
 let isGameOver = false;
-let sprintIndicatorIcon; // NEW: graphics icon for sprint indicator
+// let sprintIndicatorIcon; // REMOVED
+let duckButton;
+let sprintButton;
+let sprintButtonText; // NEW: Need separate reference for text visibility
+let jumpButton; // NEW: On-screen jump button
+let isDuckButtonPressed = false;
+let jumpInputFlag = false; // Still used for touch jump button
 
 // --- Player Constants & State ---
 const PLAYER_START_Y = config.height * 0.85;
@@ -43,25 +63,24 @@ const PLAYER_DUCK_HEIGHT = 25;
 const PLAYER_NORMAL_WIDTH = 30;
 const PLAYER_COLOR = 0xf7f7f7;
 const GROUND_LEVEL = config.height * 0.9;
-let scrollSpeed = 3.0; // Base scroll speed
+let scrollSpeed = 3.0;
 let isSlowed = false;
 // --- Web Slowdown State ---
-let webSlowState = "none"; // "none", "entering", "stuck", "recovering"
+let webSlowState = "none";
 let webSlowTimer = 0;
-const WEB_SLOW_ENTER_DURATION = 80; // ms to reach max slow (was 350)
-const WEB_SLOW_STUCK_DURATION = 400; // ms stuck at max slow
-const WEB_SLOW_RECOVER_DURATION = 500; // ms to recover to normal
-let webSlowAmount = 0; // 0 = normal, 1 = max slow
-const WADING_PUSHBACK_FACTOR = 0.7; // was 0.4, increased for stronger slowdown
+const WEB_SLOW_ENTER_DURATION = 80;
+const WEB_SLOW_STUCK_DURATION = 400;
+const WEB_SLOW_RECOVER_DURATION = 500;
+let webSlowAmount = 0;
+const WADING_PUSHBACK_FACTOR = 0.7;
 let totalGroundWidth;
 let numTiles;
-const PLAYER_MAX_X = config.width * 0.75; // Prevent player dashing too far right
-let webStuckY = null; // NEW: Track Y position when stuck in web mid-air
+const PLAYER_MAX_X = config.width * 0.75;
+let webStuckY = null;
 
 // --- Player State Variables for Juice ---
 let wasTouchingGround = false;
 const JUMP_VELOCITY = -700;
-const JUMP_VARIABLE_GRAVITY_MULTIPLIER = 3;
 
 // --- Web Constants ---
 const WEB_COLOR = 0x00ff00;
@@ -91,18 +110,21 @@ let sprintSpawnTimer;
 let hasSprintPowerUp = false;
 let isSprinting = false;
 let sprintDurationTimer = null;
-let sprintCooldownTimer = null; // NEW: cooldown after sprint
 
 const SPRINT_POWERUP_COLOR = 0x00ccff;
 const SPRINT_POWERUP_SIZE = 25;
-// Make powerup spawn less frequently
-const SPRINT_SPAWN_DELAY_MIN = 12000; // was 5000
-const SPRINT_SPAWN_DELAY_MAX = 20000; // was 10000
-// Make sprint less powerful
-const SPRINT_DURATION = 320; // was 500 (ms)
-const SPRINT_FORWARD_VELOCITY = 260; // was 450
-const SPRINT_COOLDOWN = 3500; // ms after use before another can be collected
+const SPRINT_SPAWN_DELAY_MIN = 12000;
+const SPRINT_SPAWN_DELAY_MAX = 20000;
+const SPRINT_DURATION = 320;
+const SPRINT_FORWARD_VELOCITY = 260;
 // --- Sprint Power-up Variables & Constants --- END ---
+
+// --- UI Constants ---
+const BUTTON_SIZE = 60;
+const BUTTON_MARGIN = 20;
+const BUTTON_COLOR = 0xaaaaaa;
+const BUTTON_ALPHA = 0.7;
+const BUTTON_ACTIVE_ALPHA = 0.9;
 
 // --- Game Instance ---
 const game = new Phaser.Game(config);
@@ -122,17 +144,16 @@ function create() {
   webSlowState = "none";
   webSlowTimer = 0;
   webSlowAmount = 0;
-  scrollSpeed = 3.0; // Reset base speed
+  scrollSpeed = 3.0;
   score = 0;
   hasSprintPowerUp = false;
   isSprinting = false;
+  isDuckButtonPressed = false;
+  jumpInputFlag = false;
+
   if (sprintDurationTimer) {
     sprintDurationTimer.remove();
     sprintDurationTimer = null;
-  }
-  if (sprintCooldownTimer) {
-    sprintCooldownTimer.remove();
-    sprintCooldownTimer = null;
   }
 
   // --- Ground ---
@@ -156,7 +177,7 @@ function create() {
 
   // --- Player ---
   player = this.add.rectangle(
-    gameWidth * 0.45, // Start position
+    gameWidth * 0.45,
     PLAYER_START_Y,
     PLAYER_NORMAL_WIDTH,
     PLAYER_NORMAL_HEIGHT,
@@ -165,9 +186,9 @@ function create() {
   this.physics.add.existing(player);
   if (player.body) {
     player.body.setGravityY(config.physics.arcade.gravity.y);
-    player.body.setCollideWorldBounds(false); // Allow temporary move right
+    player.body.setCollideWorldBounds(false);
     player.body.setOffset(0, 0);
-    player.body.setMaxVelocityX(SPRINT_FORWARD_VELOCITY * 1.5); // Allow high sprint velocity
+    player.body.setMaxVelocityX(SPRINT_FORWARD_VELOCITY * 1.5);
   } else {
     console.error("Player physics body not created!");
   }
@@ -197,20 +218,15 @@ function create() {
     fill: "#f7f7f7",
     fontFamily: '"Press Start 2P", monospace',
   });
-  scoreText.setOrigin(0, 0).setDepth(5);
+  scoreText.setOrigin(0, 0).setDepth(5).setScrollFactor(0);
 
-  // --- Sprint Indicator Icon (Lightning Bolt) ---
-  sprintIndicatorIcon = this.add.graphics();
-  drawSprintIcon(sprintIndicatorIcon, 40, 40, SPRINT_POWERUP_COLOR);
-  sprintIndicatorIcon.setPosition(30, 30);
-  sprintIndicatorIcon.setDepth(5);
-  sprintIndicatorIcon.setVisible(false);
+  // --- Sprint Indicator Icon --- REMOVED
 
   // --- Game Over Text ---
   gameOverText = this.add.text(
     gameWidth / 2,
     gameHeight / 2,
-    "GAME OVER\nClick to Restart",
+    "GAME OVER\nTap/Click to Restart", // Updated text
     {
       fontSize: "32px",
       fill: "#ff0000",
@@ -221,6 +237,7 @@ function create() {
   gameOverText.setOrigin(0.5);
   gameOverText.setVisible(false);
   gameOverText.setDepth(10);
+  gameOverText.setScrollFactor(0);
 
   // --- Collisions ---
   this.physics.add.collider(player, ground);
@@ -235,23 +252,166 @@ function create() {
   );
 
   // --- Input ---
+  // Keyboard Input Setup (RE-ADDED)
   cursors = this.input.keyboard.createCursorKeys();
   spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-  this.input.on("pointerdown", () => {
-    if (isGameOver) {
-      console.log("Restarting game...");
-      if (duckTween) duckTween.stop();
-      player.displayHeight = PLAYER_NORMAL_HEIGHT;
-      isDucking = false;
-      duckTween = null;
-      spiders.children.iterate((spider) => {
-        if (spider && spider.webLine) {
-          spider.webLine.destroy();
-          spider.webLine = null;
-        }
-      });
-      this.scene.restart();
+
+  // --- Touch Input Setup ---
+  // Duck Button (Bottom Left)
+  duckButton = this.add
+    .rectangle(
+      BUTTON_MARGIN + BUTTON_SIZE / 2,
+      gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
+      BUTTON_SIZE,
+      BUTTON_SIZE,
+      BUTTON_COLOR,
+      BUTTON_ALPHA
+    )
+    .setInteractive()
+    .setScrollFactor(0)
+    .setDepth(10);
+  this.add
+    .text(duckButton.x, duckButton.y, "DUCK", {
+      fontSize: "14px",
+      fill: "#000000",
+    })
+    .setOrigin(0.5)
+    .setScrollFactor(0)
+    .setDepth(11);
+
+  // Jump Button (Bottom Right) - NEW
+  jumpButton = this.add
+    .rectangle(
+      gameWidth - BUTTON_MARGIN - BUTTON_SIZE / 2, // Position where sprint was
+      gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
+      BUTTON_SIZE,
+      BUTTON_SIZE,
+      BUTTON_COLOR,
+      BUTTON_ALPHA
+    )
+    .setInteractive()
+    .setScrollFactor(0)
+    .setDepth(10);
+  this.add
+    .text(jumpButton.x, jumpButton.y, "JUMP", {
+      fontSize: "14px",
+      fill: "#000000",
+    })
+    .setOrigin(0.5)
+    .setScrollFactor(0)
+    .setDepth(11);
+
+  // Sprint Button (Next to Jump Button, initially hidden) - MODIFIED
+  const sprintButtonX =
+    jumpButton.x - BUTTON_SIZE - BUTTON_MARGIN / 2; // Position left of Jump
+  sprintButton = this.add
+    .rectangle(
+      sprintButtonX,
+      gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
+      BUTTON_SIZE,
+      BUTTON_SIZE,
+      BUTTON_COLOR,
+      BUTTON_ALPHA
+    )
+    .setInteractive()
+    .setScrollFactor(0)
+    .setDepth(10)
+    .setVisible(false); // Initially hidden
+
+  sprintButtonText = this.add
+    .text(sprintButton.x, sprintButton.y, "SPRINT", {
+      fontSize: "14px",
+      fill: "#000000",
+    })
+    .setOrigin(0.5)
+    .setScrollFactor(0)
+    .setDepth(11)
+    .setVisible(false); // Initially hidden
+
+  // Duck Button Listeners
+  duckButton.on("pointerdown", () => {
+    isDuckButtonPressed = true;
+    duckButton.fillAlpha = BUTTON_ACTIVE_ALPHA;
+  });
+  duckButton.on("pointerout", () => {
+    isDuckButtonPressed = false;
+    duckButton.fillAlpha = BUTTON_ALPHA;
+  });
+  // Global pointer up handles duck release as well
+  this.input.on("pointerup", (pointer) => {
+    // Check if the pointer that went up was the one pressing the duck button
+    if (
+      pointer.downX >= duckButton.getBounds().x &&
+      pointer.downX <= duckButton.getBounds().right &&
+      pointer.downY >= duckButton.getBounds().y &&
+      pointer.downY <= duckButton.getBounds().bottom
+    ) {
+      isDuckButtonPressed = false;
+      duckButton.fillAlpha = BUTTON_ALPHA;
     }
+    // Reset jump button visual if pointer up happens anywhere
+    if (jumpButton.fillAlpha === BUTTON_ACTIVE_ALPHA) {
+        jumpButton.fillAlpha = BUTTON_ALPHA;
+    }
+  });
+
+  // Jump Button Listener (Tap to Jump) - NEW
+  jumpButton.on("pointerdown", () => {
+    jumpInputFlag = true; // Signal a jump attempt for the update loop
+    // Visual feedback for tap
+    jumpButton.fillAlpha = BUTTON_ACTIVE_ALPHA;
+    // No need for delayedCall to reset alpha, pointerup handles it
+  });
+  // Make sure releasing *off* the button also resets alpha
+  jumpButton.on("pointerout", () => {
+      if (jumpButton.fillAlpha === BUTTON_ACTIVE_ALPHA) {
+          jumpButton.fillAlpha = BUTTON_ALPHA;
+      }
+  });
+
+
+  // Sprint Button Listener (Tap to Sprint) - MODIFIED (visibility handled elsewhere)
+  sprintButton.on("pointerdown", () => {
+    // Only try to sprint if the button is actually visible and conditions met
+    if (sprintButton.visible) {
+      startSprint.call(this); // startSprint already checks conditions
+      // Visual feedback handled within startSprint if successful
+    }
+  });
+
+  // Global Tap/Click Listener (Restart Only) - MODIFIED
+  this.input.on("pointerdown", (pointer) => {
+    if (isGameOver) {
+      // Check if the tap started on one of the UI buttons
+      const isTapOnDuckButton = duckButton
+        .getBounds()
+        .contains(pointer.x, pointer.y);
+      const isTapOnJumpButton = jumpButton
+        .getBounds()
+        .contains(pointer.x, pointer.y);
+      const isTapOnSprintButton =
+        sprintButton.visible &&
+        sprintButton.getBounds().contains(pointer.x, pointer.y);
+
+      // Only restart if tap is NOT on an active button
+      if (!isTapOnDuckButton && !isTapOnJumpButton && !isTapOnSprintButton) {
+        console.log("Restarting game via tap/click...");
+        if (duckTween) duckTween.stop();
+        player.displayHeight = PLAYER_NORMAL_HEIGHT;
+        isDucking = false;
+        isDuckButtonPressed = false;
+        duckTween = null;
+        spiders.children.iterate((spider) => {
+          if (spider && spider.webLine) {
+            spider.webLine.destroy();
+            spider.webLine = null;
+          }
+        });
+        this.scene.restart();
+      }
+      // If game over and tap *was* on a button, do nothing extra here
+    }
+    // Removed jump logic from global tap
   });
 
   // --- Spawning Timers ---
@@ -265,27 +425,11 @@ function create() {
   console.log("Game created!");
 }
 
-// --- Helper: Draw Sprint Icon (Lightning Bolt) ---
-function drawSprintIcon(graphics, width, height, color) {
-  graphics.clear();
-  graphics.fillStyle(color, 1);
-  // Draw a simple stylized lightning bolt
-  graphics.beginPath();
-  graphics.moveTo(width * 0.2, 0);
-  graphics.lineTo(width * 0.6, height * 0.45);
-  graphics.lineTo(width * 0.45, height * 0.45);
-  graphics.lineTo(width * 0.8, height);
-  graphics.lineTo(width * 0.4, height * 0.55);
-  graphics.lineTo(width * 0.55, height * 0.55);
-  graphics.closePath();
-  graphics.fillPath();
-}
+// --- Helper: Draw Sprint Icon --- REMOVED
 
-// --- Web Spawning ---
+// --- Web Spawning --- (Keep as is)
 function scheduleNextWebSpawn() {
   if (isGameOver) return;
-  // Calculate a base delay that shrinks as scrollSpeed increases
-  // The 3.0 is your starting scrollSpeed; adjust divisor for tuning
   const speedFactor = Math.max(scrollSpeed / 3.0, 1);
   const minDelay = WEB_SPAWN_DELAY_MIN / speedFactor;
   const maxDelay = WEB_SPAWN_DELAY_MAX / speedFactor;
@@ -293,7 +437,6 @@ function scheduleNextWebSpawn() {
   if (webSpawnTimer) webSpawnTimer.remove();
   webSpawnTimer = this.time.delayedCall(delay, spawnWeb, [], this);
 }
-
 function spawnWeb() {
   if (isGameOver) return;
   const gameWidth = config.width;
@@ -319,11 +462,10 @@ function spawnWeb() {
   web.body.setSize(WEB_WIDTH, webHeight);
   web.body.setAllowGravity(false);
   web.body.setImmovable(true);
-  // Velocity set in update
   scheduleNextWebSpawn.call(this);
 }
 
-// --- Spider Spawning ---
+// --- Spider Spawning --- (Keep as is)
 function scheduleNextSpiderSpawn() {
   if (isGameOver) return;
   const delay = Phaser.Math.Between(
@@ -333,7 +475,6 @@ function scheduleNextSpiderSpawn() {
   if (spiderSpawnTimer) spiderSpawnTimer.remove();
   spiderSpawnTimer = this.time.delayedCall(delay, spawnSpider, [], this);
 }
-
 function spawnSpider() {
   if (isGameOver) return;
   const gameWidth = config.width;
@@ -380,7 +521,7 @@ function spawnSpider() {
   scheduleNextSpiderSpawn.call(this);
 }
 
-// --- Sprint Power-up Spawning ---
+// --- Sprint Power-up Spawning --- (Keep as is)
 function scheduleNextSprintPowerUp() {
   if (isGameOver) return;
   const delay = Phaser.Math.Between(
@@ -395,7 +536,6 @@ function scheduleNextSprintPowerUp() {
     this
   );
 }
-
 function spawnSprintPowerUp() {
   if (isGameOver) return;
   const gameWidth = config.width;
@@ -415,21 +555,17 @@ function spawnSprintPowerUp() {
   }
   powerUp.body.setSize(SPRINT_POWERUP_SIZE, SPRINT_POWERUP_SIZE);
   powerUp.body.setAllowGravity(false);
-  // Velocity set in update
   scheduleNextSprintPowerUp.call(this);
 }
 
 // --- Collision Handlers ---
+// (Keep hitWeb, hitSpider as they are)
 function hitWeb(player, web) {
-  // Only START the slow sequence if not already slowed/stuck
   if (webSlowState === "none") {
     webSlowState = "entering";
     webSlowTimer = 0;
     webSlowAmount = 0;
   }
-
-  // If player is airborne WHEN hitting the web, capture Y and disable gravity
-  // Only capture ONCE per airborne web encounter
   if (
     player &&
     player.body &&
@@ -437,77 +573,82 @@ function hitWeb(player, web) {
     webStuckY === null
   ) {
     webStuckY = player.y;
-    player.body.setVelocityY(0); // Stop vertical motion immediately
-    player.body.setAllowGravity(false); // Disable gravity
+    player.body.setVelocityY(0);
+    player.body.setAllowGravity(false);
   }
-
-  // --- Slow down jump if hit mid-air while moving up ---
   if (player && player.body && player.body.velocity.y < 0) {
-    player.body.setVelocityY(0); // Hard stop
+    player.body.setVelocityY(0);
   }
-
-  // If hit a web while sprinting, end the sprint immediately
   if (isSprinting) {
     endSprint.call(this);
   }
 }
-
 function hitSpider(player, spider) {
   if (!isGameOver) {
     gameOver.call(this);
   }
 }
 
+// MODIFIED: Show sprint button on collect
 function collectSprintPowerUp(player, powerUp) {
   if (
     isGameOver ||
     hasSprintPowerUp ||
-    isSprinting ||
-    sprintCooldownTimer // NEW: can't collect during cooldown
+    isSprinting
   ) {
     powerUp.destroy();
     return;
   }
   hasSprintPowerUp = true;
-  if (sprintIndicatorIcon) sprintIndicatorIcon.setVisible(true); // SHOW ICON
+  // No indicator icon to show
+  // Visibility handled in update loop now
   powerUp.destroy();
 }
 
 // --- Sprint Activation/Deactivation --- START ---
+// MODIFIED: Add button visual feedback on start, hide button on start
 function startSprint() {
   if (
     isGameOver ||
     !hasSprintPowerUp ||
     isSprinting ||
     !player ||
-    !player.body ||
-    sprintCooldownTimer // NEW: can't start during cooldown
+    !player.body
   ) {
     return;
   }
-
-  // Prevent sprint if player is already near the right edge
   if (player.x > PLAYER_MAX_X - 30) {
     return;
   }
 
   console.log("Sprint Activated!");
-  hasSprintPowerUp = false;
+  hasSprintPowerUp = false; // Consume the power-up
   isSprinting = true;
-  if (sprintIndicatorIcon) sprintIndicatorIcon.setVisible(false); // HIDE ICON
+  // Hide the button immediately when sprint starts
+  // sprintButton.setVisible(false); // Visibility handled in update loop
+  // sprintButtonText.setVisible(false);
 
-  // Apply forward velocity boost
   player.body.setVelocityX(SPRINT_FORWARD_VELOCITY);
 
-  // Visual feedback: flash tint
+  // Visual feedback: flash player
   if (player.setFillStyle) {
-    player.setFillStyle(0xffffff);
-    setTimeout(() => {
-      if (player && player.setFillStyle) player.setFillStyle(PLAYER_COLOR);
-    }, SPRINT_DURATION);
+    player.setFillStyle(0xffffff); // White flash
+    this.time.delayedCall(SPRINT_DURATION, () => {
+        if (player && player.active && player.setFillStyle) {
+            player.setFillStyle(PLAYER_COLOR); // Reset color after duration
+        }
+    });
+  }
+  // Visual feedback: flash sprint button briefly on activation
+  if (sprintButton.visible) { // Check visible in case called by keyboard
+      sprintButton.fillAlpha = BUTTON_ACTIVE_ALPHA;
+      this.time.delayedCall(100, () => {
+          // Alpha will be reset by visibility logic in update anyway
+          sprintButton.fillAlpha = BUTTON_ALPHA;
+      });
   }
 
-  // Set a timer to end the sprint
+
   if (sprintDurationTimer) sprintDurationTimer.remove();
   sprintDurationTimer = this.time.delayedCall(
     SPRINT_DURATION,
@@ -517,6 +658,7 @@ function startSprint() {
   );
 }
 
+// MODIFIED: Ensure cooldown starts
 function endSprint() {
   if (!isSprinting || !player || !player.body) {
     return;
@@ -525,32 +667,18 @@ function endSprint() {
   console.log("Sprint Ended.");
   isSprinting = false;
 
-  // Remove forward velocity boost
   if (player.body.velocity.x > 0) {
     player.body.setVelocityX(0);
   }
 
-  // Visual feedback: ensure color reset
   if (player.setFillStyle) player.setFillStyle(PLAYER_COLOR);
 
   sprintDurationTimer = null;
-
-  // Start cooldown before another sprint can be collected
-  if (sprintCooldownTimer) sprintCooldownTimer.remove();
-  sprintCooldownTimer = this.time.delayedCall(
-    SPRINT_COOLDOWN,
-    () => {
-      sprintCooldownTimer = null;
-    },
-    [],
-    this
-  );
-
-  if (sprintIndicatorIcon) sprintIndicatorIcon.setVisible(false); // HIDE ICON
 }
 // --- Sprint Activation/Deactivation --- END ---
 
 // --- Game Over ---
+// MODIFIED: Remove sprint indicator logic
 function gameOver() {
   if (isGameOver) {
     return;
@@ -558,32 +686,26 @@ function gameOver() {
   isGameOver = true;
   console.log("Game Over sequence started.");
 
-  // --- Stop Sprinting ---
   if (isSprinting) {
-    endSprint.call(this); // Properly end sprint effects
+    endSprint.call(this);
   }
   if (sprintDurationTimer) {
     sprintDurationTimer.remove(false);
     sprintDurationTimer = null;
   }
-  if (sprintCooldownTimer) {
-    sprintCooldownTimer.remove(false);
-    sprintCooldownTimer = null;
-  }
   hasSprintPowerUp = false;
   isSprinting = false;
-  if (sprintIndicatorIcon) sprintIndicatorIcon.setVisible(false); // HIDE ICON
+  // No sprint indicator to hide
 
   if (player && player.body) {
     player.body.stop();
-    player.body.setVelocity(0, 0); // Stop all movement
+    player.body.setVelocity(0, 0);
     console.log("Player physics stopped.");
   } else {
     console.warn("Player or player body not found during game over.");
   }
   player.anims?.stop();
 
-  // Stop spawners
   if (webSpawnTimer) webSpawnTimer.remove(false);
   if (spiderSpawnTimer) spiderSpawnTimer.remove(false);
   if (sprintSpawnTimer) sprintSpawnTimer.remove(false);
@@ -592,7 +714,6 @@ function gameOver() {
   if (duckTween) duckTween.stop();
   this.tweens.killTweensOf(player);
 
-  // Stop obstacles and powerups
   webs.children.iterate((obj) => obj?.body?.stop());
   spiders.children.iterate((obj) => {
     obj?.body?.stop();
@@ -612,19 +733,23 @@ function gameOver() {
 // --- Update Loop ---
 function update(time, delta) {
   if (isGameOver) {
+    jumpInputFlag = false;
+    isDuckButtonPressed = false;
+    // Ensure buttons are hidden on game over screen if they were visible
+    if (sprintButton.visible) sprintButton.setVisible(false);
+    if (sprintButtonText.visible) sprintButtonText.setVisible(false);
     return;
   }
 
-  // Calculate scroll amount based on delta for smoother movement
-  const deltaFactor = delta / 16.666; // Normalize delta time (assuming 60fps target)
+  const deltaFactor = delta / 16.666;
   const baseScrollDelta = scrollSpeed * deltaFactor;
 
-  // --- Check for Web Overlap (Runs Every Frame) ---
+  // --- Check for Web Overlap --- (Keep as is)
   if (player && player.active && webs) {
     this.physics.overlap(player, webs, hitWeb, null, this);
   }
 
-  // --- Web Slowdown State Machine ---
+  // --- Web Slowdown State Machine --- (Keep as is)
   let playerStillInWeb = false;
   if (
     (webSlowState === "entering" || webSlowState === "stuck") &&
@@ -634,7 +759,6 @@ function update(time, delta) {
   ) {
     playerStillInWeb = this.physics.overlap(player, webs);
   }
-
   if (
     (webSlowState === "entering" || webSlowState === "stuck") &&
     !playerStillInWeb
@@ -642,7 +766,6 @@ function update(time, delta) {
     webSlowState = "recovering";
     webSlowTimer = 0;
   }
-
   if (webSlowState === "entering") {
     webSlowTimer += delta;
     let t = Math.min(webSlowTimer / WEB_SLOW_ENTER_DURATION, 1);
@@ -675,29 +798,24 @@ function update(time, delta) {
     isSlowed = false;
   }
 
-  // --- Web Stuck In Air / Gravity Management ---
+  // --- Web Stuck In Air / Gravity Management --- (Keep as is)
   if (player && player.body) {
     if (webSlowState === "entering" || webSlowState === "stuck") {
       if (webStuckY !== null) {
-        // Player hit web mid-air, keep them stuck
         player.y = webStuckY;
         player.body.setVelocityY(0);
         player.body.setAllowGravity(false);
       } else {
-        // Player hit web on ground, allow normal gravity
         player.body.setAllowGravity(true);
         player.body.gravity.y = config.physics.arcade.gravity.y;
       }
     } else {
-      // Not entering or stuck in web ("recovering" or "none")
       player.body.setAllowGravity(true);
       player.body.gravity.y = config.physics.arcade.gravity.y;
       if (webStuckY !== null) {
         webStuckY = null;
       }
     }
-
-    // If player lands on ground while stuck, clear stuck state immediately
     if (player.body.blocked.down && webStuckY !== null) {
       player.body.setAllowGravity(true);
       player.body.gravity.y = config.physics.arcade.gravity.y;
@@ -709,7 +827,7 @@ function update(time, delta) {
     }
   }
 
-  // --- Player Pushback (Wading Effect) ---
+  // --- Player Pushback (Wading Effect) --- (Keep as is)
   if (
     isSlowed &&
     player &&
@@ -724,7 +842,7 @@ function update(time, delta) {
     }
   }
 
-  // --- Ground Scrolling ---
+  // --- Ground Scrolling --- (Keep as is)
   ground.children.iterate((tile) => {
     tile.x -= baseScrollDelta;
     if (tile.x <= -totalGroundWidth / numTiles) {
@@ -732,10 +850,8 @@ function update(time, delta) {
     }
   });
 
-  // --- Obstacle/Powerup Movement & Cleanup ---
-  // Use the base scrollSpeed for all environmental objects
-  const objectVelocityX = -scrollSpeed * 60; // Velocity needs to be pixels/sec
-
+  // --- Obstacle/Powerup Movement & Cleanup --- (Keep as is)
+  const objectVelocityX = -scrollSpeed * 60;
   webs.children.iterate((web) => {
     if (web && web.body) {
       web.body.setVelocityX(objectVelocityX);
@@ -743,21 +859,17 @@ function update(time, delta) {
         webs.remove(web, true, true);
       }
     } else if (web) {
-      web.x -= baseScrollDelta; // Fallback if body missing
+      web.x -= baseScrollDelta;
       if (web.x + web.width < -50) webs.remove(web, true, true);
     }
   });
-
   spiders.children.iterate((spider) => {
     if (!spider || !spider.body || !spider.active) return;
-
     if (spider.webLine?.active) {
       spider.webLine.setTo(spider.x, 0, spider.x, spider.y);
     } else if (spider.webLine) {
-      // Clean up destroyed line reference
       spider.webLine = null;
     }
-
     if (!spider.isOnGround) {
       if (spider.y + SPIDER_SIZE / 2 >= GROUND_LEVEL) {
         spider.isOnGround = true;
@@ -765,38 +877,29 @@ function update(time, delta) {
         spider.body.velocity.y = 0;
         if (spider.webLine?.active) spider.webLine.destroy();
         spider.webLine = null;
-        // Ground speed depends on base scrollSpeed
         spider.body.velocity.x =
           objectVelocityX * SPIDER_HORIZONTAL_SPEED_FACTOR;
       } else {
-        // Still falling
         spider.body.velocity.x = 0;
         spider.body.velocity.y = SPIDER_FALL_SPEED;
       }
     } else {
-      // Spider is on the ground
       if (!spider.isTracking) {
-        // Check if it should start tracking
         if (spider.x <= SPIDER_TRACKING_X_THRESHOLD) {
           spider.isTracking = true;
-          spider.trackingTransition = true; // Start lerping to tracking position
+          spider.trackingTransition = true;
         } else {
-          // Continue moving left on the ground
-          spider.y = GROUND_LEVEL - SPIDER_SIZE / 2; // Keep Y fixed
+          spider.y = GROUND_LEVEL - SPIDER_SIZE / 2;
           spider.body.velocity.y = 0;
           spider.body.velocity.x =
             objectVelocityX * SPIDER_HORIZONTAL_SPEED_FACTOR;
         }
       }
-
-      // Handle tracking behavior
       if (spider.isTracking) {
         const targetX =
           SPIDER_TRACKING_X_THRESHOLD + (spider.trackingMobOffsetX || 0);
         const targetY =
           GROUND_LEVEL - SPIDER_SIZE / 2 + (spider.trackingMobOffsetY || 0);
-
-        // Smoothly move to the tracking position initially
         if (spider.trackingTransition) {
           const lerpFactor = 0.18;
           spider.x += (targetX - spider.x) * lerpFactor;
@@ -807,30 +910,26 @@ function update(time, delta) {
           ) {
             spider.x = targetX;
             spider.y = targetY;
-            spider.trackingTransition = false; // Snapped to position
+            spider.trackingTransition = false;
           }
         } else {
-          // Stay fixed at the tracking position
           spider.x = targetX;
           spider.y = targetY;
         }
-        spider.body.velocity.x = 0; // Stop horizontal movement when tracking
-        spider.body.velocity.y = 0; // Always stop vertical movement when tracking
+        spider.body.velocity.x = 0;
+        spider.body.velocity.y = 0;
       }
     }
-
-    // Cleanup spiders that go way off screen
     if (
       spider.x < -SPIDER_SIZE * 2 ||
       spider.y > config.height + SPIDER_SIZE * 2 ||
-      spider.y < -SPIDER_SIZE * 4 // Check above screen too
+      spider.y < -SPIDER_SIZE * 4
     ) {
       if (spider.webLine?.active) spider.webLine.destroy();
       spider.webLine = null;
       spiders.remove(spider, true, true);
     }
   });
-
   sprintPowerUps.children.iterate((powerUp) => {
     if (powerUp && powerUp.body) {
       powerUp.body.setVelocityX(objectVelocityX);
@@ -838,72 +937,77 @@ function update(time, delta) {
         sprintPowerUps.remove(powerUp, true, true);
       }
     } else if (powerUp) {
-      powerUp.x -= baseScrollDelta; // Fallback if body missing
+      powerUp.x -= baseScrollDelta;
       if (powerUp.x + powerUp.width < -50)
         sprintPowerUps.remove(powerUp, true, true);
     }
   });
 
-  // --- Score Update ---
-  // Score increases at a constant rate relative to base speed now
+  // --- Score Update --- (Keep as is)
   score += ((isSlowed ? 0.7 : 1) * (1 - 0.5 * webSlowAmount)) * delta * 0.01;
   scoreText.setText("SCORE: " + Math.floor(score));
 
+  // --- Sprint Button Visibility --- NEW ---
+  // Show the button if we have the powerup and are not currently sprinting
+  const showSprintButton = hasSprintPowerUp && !isSprinting;
+  if (sprintButton.visible !== showSprintButton) {
+      sprintButton.setVisible(showSprintButton);
+      sprintButtonText.setVisible(showSprintButton);
+  }
+
+
   // --- Player Controls & State Update ---
   if (player && player.body && player.active) {
-    // Use blocked.down for a more reliable ground check against static bodies
     const isTouchingGround = player.body.blocked.down;
+
+    // --- Input States ---
     const jumpKeyPressed = cursors.up.isDown || spaceKey.isDown;
-    const jumpKeyReleased = cursors.up.isUp && spaceKey.isUp;
+    const duckKeyPressed = cursors.down.isDown;
     const sprintKeyPressed = cursors.right.isDown;
 
-    // --- Stop Sprint if Moving Backwards ---
-    // If something external forces player velocity negative while sprinting, end sprint.
+    // --- Stop Sprint if Moving Backwards --- (Keep as is)
     if (isSprinting && player.body.velocity.x < 0) {
       endSprint.call(this);
     }
 
-    // --- Player Position Clamping ---
-    // Prevent player from being pushed too far left by webs (redundant check, also in pushback)
+    // --- Player Position Clamping --- (Keep as is)
     if (player.x < PLAYER_NORMAL_WIDTH / 2) {
       player.x = PLAYER_NORMAL_WIDTH / 2;
       if (player.body.velocity.x < 0) player.body.setVelocityX(0);
     }
-    // Prevent player from dashing too far right
     if (player.x > PLAYER_MAX_X) {
       player.x = PLAYER_MAX_X;
       if (isSprinting && player.body.velocity.x > 0) {
-        player.body.setVelocityX(0); // Stop forward motion if hitting boundary
+        player.body.setVelocityX(0);
       }
     }
 
-    // --- Jumping ---
+    // --- Jumping (Keyboard + Touch Button) --- MODIFIED
     if (
+      (jumpKeyPressed || jumpInputFlag) && // Combine keyboard and touch flag
       isTouchingGround &&
-      jumpKeyPressed &&
       !isDucking &&
-      webSlowState !== "entering" && // Can't jump if actively slowed
+      webSlowState !== "entering" &&
       webSlowState !== "stuck"
     ) {
       player.body.setVelocityY(JUMP_VELOCITY);
+      // Reset touch flag immediately after use
+      // jumpInputFlag = false; // Moved reset below
     }
+    // Reset jump flag at the end of the player control block for this frame
+    jumpInputFlag = false;
 
-    // --- Variable Jump Height / Faster Fall ---
-    // Only apply if gravity is enabled (i.e., not stuck in web)
+    // --- Gravity Management --- MODIFIED
     if (player.body.allowGravity) {
-      if (!isTouchingGround && jumpKeyReleased && player.body.velocity.y < 0) {
-        player.body.gravity.y =
-          config.physics.arcade.gravity.y * JUMP_VARIABLE_GRAVITY_MULTIPLIER;
-      } else {
-        player.body.gravity.y = config.physics.arcade.gravity.y;
-      }
+      player.body.gravity.y = config.physics.arcade.gravity.y;
     }
-    // If allowGravity is false, the web logic is controlling it
 
-    // --- Ducking ---
-    if (cursors.down.isDown && isTouchingGround && !isDucking) {
-      // Cannot start ducking while sprinting
-      if (!isSprinting) {
+    // --- Ducking (Keyboard + Touch Button) --- MODIFIED
+    const shouldDuck = duckKeyPressed || isDuckButtonPressed;
+    const canDuck = isTouchingGround && !isSprinting; // Can only duck on ground and not sprinting
+
+    if (shouldDuck && canDuck && !isDucking) {
+        // Start Ducking
         isDucking = true;
         player.body.setSize(PLAYER_NORMAL_WIDTH, PLAYER_DUCK_HEIGHT);
         player.body.setOffset(0, PLAYER_NORMAL_HEIGHT - PLAYER_DUCK_HEIGHT);
@@ -918,47 +1022,40 @@ function update(time, delta) {
             duckTween = null;
           },
         });
-      }
-    } else if (isDucking && (!cursors.down.isDown || !isTouchingGround)) {
-      isDucking = false;
-      player.body.setSize(PLAYER_NORMAL_WIDTH, PLAYER_NORMAL_HEIGHT);
-      player.body.setOffset(0, 0);
-      if (duckTween) duckTween.stop();
-      this.tweens.killTweensOf(player);
-      duckTween = this.tweens.add({
-        targets: player,
-        displayHeight: PLAYER_NORMAL_HEIGHT,
-        duration: 100,
-        ease: "Power1",
-        onComplete: () => {
-          duckTween = null;
-        },
-      });
+
+    } else if (isDucking && (!shouldDuck || !isTouchingGround)) {
+        // Stop Ducking (input released or left ground)
+        isDucking = false;
+        player.body.setSize(PLAYER_NORMAL_WIDTH, PLAYER_NORMAL_HEIGHT);
+        player.body.setOffset(0, 0);
+        if (duckTween) duckTween.stop();
+        this.tweens.killTweensOf(player);
+        duckTween = this.tweens.add({
+          targets: player,
+          displayHeight: PLAYER_NORMAL_HEIGHT,
+          duration: 100,
+          ease: "Power1",
+          onComplete: () => {
+            duckTween = null;
+          },
+        });
     }
 
-    // --- Sprint Activation ---
-    if (
-      sprintKeyPressed &&
-      hasSprintPowerUp &&
-      !isSprinting &&
-      !isDucking && // Cannot sprint while ducking
-      !isSlowed && // Cannot sprint while slowed
-      webSlowState === "none" && // Prevent sprint during web slow
-      isTouchingGround // Can only start sprint while on ground
-    ) {
-      startSprint.call(this);
+    // --- Sprint Activation (Keyboard) --- MODIFIED
+    // Touch activation is handled by the button listener directly
+    if (sprintKeyPressed) {
+        // Attempt to sprint if key is pressed (conditions checked in startSprint)
+        startSprint.call(this);
     }
 
     // --- Update Ground Status for Next Frame ---
     wasTouchingGround = isTouchingGround;
   } // End player control check
 
-  // --- Difficulty Increase ---
-  // Base scroll speed increases constantly over time
-  scrollSpeed += 0.0022 * deltaFactor; // was 0.0015
+  // --- Difficulty Increase --- (Keep as is)
+  scrollSpeed += 0.0022 * deltaFactor;
 
-  // --- Game Over Check (Player pushed off screen left) ---
-  // Use getBounds().right check as before
+  // --- Game Over Check (Player pushed off screen left) --- (Keep as is)
   if (player && player.active && player.getBounds().right < 0 && !isGameOver) {
     gameOver.call(this);
   }
