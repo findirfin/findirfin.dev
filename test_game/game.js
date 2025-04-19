@@ -1,18 +1,25 @@
 // --- Configuration ---
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+const DESIGN_WIDTH = 800;
+const DESIGN_HEIGHT = 300;
+const MAX_GAME_WIDTH = 1200; // Maximum width the game should ever be
+
 const config = {
   type: Phaser.AUTO,
-  // --- Design Resolution ---
-  width: 800,
-  height: 300,
-  // --- Scaling Configuration --- ADDED
+  width: DESIGN_WIDTH,
+  height: DESIGN_HEIGHT,
   scale: {
-    mode: Phaser.Scale.FIT, // Fit the game within the container, maintaining aspect ratio
-    parent: "phaser-game", // ID of the div to contain the canvas
-    autoCenter: Phaser.Scale.CENTER_BOTH, // Center the canvas horizontally and vertically
-    width: 800,
-    height: 300,
+    mode: Phaser.Scale.FIT,
+    parent: "phaser-game",
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: DESIGN_WIDTH,
+    height: DESIGN_HEIGHT,
+    max: {
+      width: MAX_GAME_WIDTH,
+      height: DESIGN_HEIGHT * (MAX_GAME_WIDTH / DESIGN_WIDTH)
+    }
   },
-  // --- End Scaling Configuration ---
   parent: "phaser-game", // This is now handled by scale.parent, but doesn't hurt to leave
   backgroundColor: "#535353", // Dino game dark background
   physics: {
@@ -147,6 +154,63 @@ const BUTTON_ACTIVE_ALPHA = 0.9;
 // --- Game Instance ---
 const game = new Phaser.Game(config);
 
+// --- Fullscreen and Orientation Handling ---
+window.addEventListener('load', function() {
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
+    
+    // Only show fullscreen button on mobile devices that support fullscreen
+    if (isMobile && (document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen)) {
+        fullscreenBtn.style.display = 'block';
+        
+        fullscreenBtn.addEventListener('click', async function() {
+            if (!document.fullscreenElement) {
+                // Request fullscreen
+                if (document.documentElement.requestFullscreen) {
+                    await document.documentElement.requestFullscreen();
+                } else if (document.documentElement.webkitRequestFullscreen) {
+                    await document.documentElement.webkitRequestFullscreen();
+                }
+                
+                // Lock to landscape if supported
+                if (screen.orientation && screen.orientation.lock) {
+                    try {
+                        await screen.orientation.lock('landscape');
+                    } catch (error) {
+                        console.log('Orientation lock failed:', error);
+                    }
+                }
+                
+                document.body.classList.add('fullscreen');
+            } else {
+                // Exit fullscreen
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                }
+                document.body.classList.remove('fullscreen');
+            }
+        });
+    }
+    
+    // Handle fullscreen change
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    
+    function handleFullscreenChange() {
+        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+            document.body.classList.remove('fullscreen');
+            fullscreenBtn.style.display = 'block'; // Show button when exiting fullscreen
+            // Unlock orientation if it was locked
+            if (screen.orientation && screen.orientation.unlock) {
+                screen.orientation.unlock();
+            }
+        } else {
+            fullscreenBtn.style.display = 'none'; // Hide button when entering fullscreen
+        }
+    }
+});
+
 // --- Scene Functions ---
 
 function preload() {
@@ -154,6 +218,11 @@ function preload() {
 }
 
 function create() {
+  // Add this to ensure proper scaling on orientation changes
+  this.scale.on('resize', (gameSize, baseSize, displaySize, resolution) => {
+      this.cameras.main.setViewport(0, 0, gameSize.width, gameSize.height);
+  });
+
   console.log("Creating game objects...");
   const gameWidth = config.width;
   const gameHeight = config.height;

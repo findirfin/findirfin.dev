@@ -2,52 +2,73 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <!-- Crucial for mobile responsiveness -->
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1, user-scalable=no, viewport-fit=cover"
     />
     <title>My Runner Game</title>
     <style>
-        /* Basic CSS to center the game and remove margins */
         html,
         body {
             margin: 0;
             padding: 0;
-            height: 100%; /* Ensure body takes full height */
-            overflow: hidden; /* Prevent scrollbars */
-            background-color: #222; /* Dark background */
+            height: 100%;
+            overflow: hidden;
+            background-color: #222;
         }
         body {
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: center; /* Changed to center */
+            padding-top: 0;      /* Removed top padding */
+            width: 100%;
         }
-        /* Style the container where Phaser injects the canvas */
         #phaser-game {
             width: 100%;
+            max-width: 1200px;
             height: 100%;
+            max-height: 450px;   /* Added max height */
             display: flex;
             justify-content: center;
             align-items: center;
         }
-        /* Style the canvas itself */
         canvas {
-            display: block; /* Prevent extra space below canvas */
-            /* Optional: Sharper pixels when scaling */
+            display: block;
             image-rendering: pixelated;
             image-rendering: crisp-edges;
+            max-height: 100vh;    /* Added max height */
+        }
+        #fullscreen-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            border-radius: 5px;
+            padding: 8px;
+            cursor: pointer;
+            display: none;
+        }
+        /* Fullscreen adjustments */
+        body.fullscreen {
+            padding: 0;
+            align-items: center;
+        }
+        body.fullscreen #phaser-game {
+            max-width: 1200px;  /* Still maintain max width */
+            margin: auto;
+        }
+        /* Hide fullscreen button when in fullscreen mode */
+        body.fullscreen #fullscreen-btn {
+            display: none !important;
         }
     </style>
-    <!-- Include the Phaser library -->
     <script src="phaser.min.js"></script>
 </head>
 <body>
-    <!-- The game will be created inside this div -->
+    <button id="fullscreen-btn">📱 Fullscreen</button>
     <div id="phaser-game"></div>
-
-    <!-- Include your game's code -->
-    <!-- IMPORTANT: Your game script MUST come AFTER phaser.min.js -->
     <script src="game.js"></script>
 </body>
 </html>
