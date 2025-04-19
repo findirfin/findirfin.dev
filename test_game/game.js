@@ -39,7 +39,10 @@ let cursors; // RE-ADDED for keyboard
 let ground;
 let spaceKey; // RE-ADDED for keyboard
 let scoreText;
+let highScoreText; // NEW: High score text display
 let score = 0;
+// --- FIX: Load high score from localStorage at startup ---
+let highScore = parseInt(localStorage.getItem('HighScore'), 10) || 0;
 let isDucking = false;
 let duckTween = null;
 let webs;
@@ -55,6 +58,9 @@ let sprintButtonText; // NEW: Need separate reference for text visibility
 let jumpButton; // NEW: On-screen jump button
 let isDuckButtonPressed = false;
 let jumpInputFlag = false; // Still used for touch jump button
+let doubleJumpCooldownBarBg = null; // NEW: Cooldown bar background
+let doubleJumpCooldownBar = null;   // NEW: Cooldown bar fill
+let doubleJumpCooldownBarTimer = 0; // NEW: For animation
 
 // --- Player Constants & State ---
 const PLAYER_START_Y = config.height * 0.85;
@@ -81,6 +87,18 @@ let webStuckY = null;
 // --- Player State Variables for Juice ---
 let wasTouchingGround = false;
 const JUMP_VELOCITY = -700;
+// --- Double Jump Variables --- START ---
+const DOUBLE_JUMP_VELOCITY = -650; // Slightly stronger than before
+const DOUBLE_JUMP_COOLDOWN_DURATION = 2500; // 2.5 second cooldown
+const COOLDOWN_BAR_BG_COLOR = 0x333333;
+const COOLDOWN_BAR_READY_COLOR = 0x00ff00; // Green when ready
+const COOLDOWN_BAR_COOLDOWN_COLOR = 0xff3333; // Red during cooldown
+let jumpsAvailable = 2;
+let doubleJumpCooldownActive = false;
+let doubleJumpCooldownTimer = null;
+let canDoubleJump = true; // NEW: Track if double jump is available
+// --- Double Jump Variables --- END ---
+
 
 // --- Web Constants ---
 const WEB_COLOR = 0x00ff00;
@@ -104,20 +122,20 @@ const SPIDER_WEB_LINE_WIDTH = 1;
 const SPIDER_TRACKING_X_RANDOM_RANGE = SPIDER_TRACKING_X_THRESHOLD;
 const SPIDER_TRACKING_Y_RANDOM_RANGE = 18;
 
-// --- Sprint Power-up Variables & Constants --- START ---
-let sprintPowerUps;
-let sprintSpawnTimer;
-let hasSprintPowerUp = false;
-let isSprinting = false;
-let sprintDurationTimer = null;
+// --- Invincibility Power-up Variables & Constants --- START ---
+let invincibilityPowerUps;
+let invincibilitySpawnTimer;
+let hasInvincibilityPowerUp = false;
+let isInvincible = false;
+let invincibilityDurationTimer = null;
 
-const SPRINT_POWERUP_COLOR = 0x00ccff;
-const SPRINT_POWERUP_SIZE = 25;
-const SPRINT_SPAWN_DELAY_MIN = 12000;
-const SPRINT_SPAWN_DELAY_MAX = 20000;
-const SPRINT_DURATION = 320;
-const SPRINT_FORWARD_VELOCITY = 260;
-// --- Sprint Power-up Variables & Constants --- END ---
+const INVINCIBILITY_POWERUP_COLOR = 0xffff00;
+const INVINCIBILITY_POWERUP_SIZE = 25;
+const INVINCIBILITY_SPAWN_DELAY_MIN = 10000;
+const INVINCIBILITY_SPAWN_DELAY_MAX = 20000;
+const INVINCIBILITY_DURATION = 750;
+const INVINCIBILITY_FORWARD_VELOCITY = 300;
+// --- Invincibility Power-up Variables & Constants --- END ---
 
 // --- UI Constants ---
 const BUTTON_SIZE = 60;
@@ -146,14 +164,23 @@ function create() {
   webSlowAmount = 0;
   scrollSpeed = 3.0;
   score = 0;
-  hasSprintPowerUp = false;
-  isSprinting = false;
+  hasInvincibilityPowerUp = false;
+  isInvincible = false;
   isDuckButtonPressed = false;
   jumpInputFlag = false;
+  // Reset double jump state
+  jumpsAvailable = 2;
+  doubleJumpCooldownActive = false;
+  canDoubleJump = true; // Reset double jump availability
+  if (doubleJumpCooldownTimer) {
+    doubleJumpCooldownTimer.remove();
+    doubleJumpCooldownTimer = null;
+  }
 
-  if (sprintDurationTimer) {
-    sprintDurationTimer.remove();
-    sprintDurationTimer = null;
+
+  if (invincibilityDurationTimer) {
+    invincibilityDurationTimer.remove();
+    invincibilityDurationTimer = null;
   }
 
   // --- Ground ---
@@ -188,7 +215,7 @@ function create() {
     player.body.setGravityY(config.physics.arcade.gravity.y);
     player.body.setCollideWorldBounds(false);
     player.body.setOffset(0, 0);
-    player.body.setMaxVelocityX(SPRINT_FORWARD_VELOCITY * 1.5);
+    player.body.setMaxVelocityX(INVINCIBILITY_FORWARD_VELOCITY * 1.5);
   } else {
     console.error("Player physics body not created!");
   }
@@ -206,14 +233,23 @@ function create() {
     allowGravity: false,
   });
 
-  // --- Sprint Power-up Group ---
-  sprintPowerUps = this.physics.add.group({
+  // --- Invincibility Power-up Group ---
+  invincibilityPowerUps = this.physics.add.group({
     allowGravity: false,
     immovable: false,
   });
 
   // --- Score ---
-  scoreText = this.add.text(gameWidth - 150, 20, "SCORE: 0", {
+  // Just update the display
+  highScoreText = this.add.text(config.width - 300, 20, "HIGH: " + Math.floor(highScore), {
+    fontSize: "18px",
+    fill: "#f7f7f7",
+    fontFamily: '"Press Start 2P", monospace',
+  });
+  highScoreText.setOrigin(0, 0).setDepth(5).setScrollFactor(0);
+
+  // Current score on the right
+  scoreText = this.add.text(config.width - 150, 20, "SCORE: 0", {
     fontSize: "18px",
     fill: "#f7f7f7",
     fontFamily: '"Press Start 2P", monospace',
@@ -245,8 +281,8 @@ function create() {
   this.physics.add.overlap(player, spiders, hitSpider, null, this);
   this.physics.add.overlap(
     player,
-    sprintPowerUps,
-    collectSprintPowerUp,
+    invincibilityPowerUps,
+    collectInvincibilityPowerUp,
     null,
     this
   );
@@ -319,7 +355,7 @@ function create() {
     .setVisible(false); // Initially hidden
 
   sprintButtonText = this.add
-    .text(sprintButton.x, sprintButton.y, "SPRINT", {
+    .text(sprintButton.x, sprintButton.y, "POWER", {
       fontSize: "14px",
       fill: "#000000",
     })
@@ -370,12 +406,12 @@ function create() {
   });
 
 
-  // Sprint Button Listener (Tap to Sprint) - MODIFIED (visibility handled elsewhere)
+  // Sprint Button Listener (Tap to Activate Invincibility) - MODIFIED
   sprintButton.on("pointerdown", () => {
-    // Only try to sprint if the button is actually visible and conditions met
+    // Only try to activate if the button is actually visible and conditions met
     if (sprintButton.visible) {
-      startSprint.call(this); // startSprint already checks conditions
-      // Visual feedback handled within startSprint if successful
+      startInvincibility.call(this); // startInvincibility already checks conditions
+      // Visual feedback handled within startInvincibility if successful
     }
   });
 
@@ -417,10 +453,41 @@ function create() {
   // --- Spawning Timers ---
   scheduleNextWebSpawn.call(this);
   scheduleNextSpiderSpawn.call(this);
-  scheduleNextSprintPowerUp.call(this);
+  scheduleNextInvincibilityPowerUp.call(this);
 
   // --- Initialize Player State ---
-  wasTouchingGround = false;
+  wasTouchingGround = false; // Initialize wasTouchingGround
+
+  // --- Double Jump Cooldown Bar (indicator) ---
+  doubleJumpCooldownBarBg = this.add.rectangle(
+    jumpButton.x,
+    jumpButton.y - BUTTON_SIZE / 2 - 15, // Position ABOVE jump button
+    60,
+    8,
+    COOLDOWN_BAR_BG_COLOR,
+    0.7
+  ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(100).setVisible(true);
+
+  doubleJumpCooldownBar = this.add.rectangle(
+    jumpButton.x,
+    jumpButton.y - BUTTON_SIZE / 2 - 15, // Match background position
+    60,
+    8,
+    COOLDOWN_BAR_READY_COLOR,
+    0.85
+  ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(101).setVisible(true);
+
+  // Add "DOUBLE JUMP" text below the cooldown bar
+  this.add.text(
+    jumpButton.x,
+    jumpButton.y - BUTTON_SIZE / 2 - 25, // Position above the bar
+    "DOUBLE JUMP",
+    {
+      fontSize: "12px",
+      fill: "#ffffff",
+      fontStyle: "bold"
+    }
+  ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(101);
 
   console.log("Game created!");
 }
@@ -521,46 +588,49 @@ function spawnSpider() {
   scheduleNextSpiderSpawn.call(this);
 }
 
-// --- Sprint Power-up Spawning --- (Keep as is)
-function scheduleNextSprintPowerUp() {
+// --- Invincibility Power-up Spawning ---
+function scheduleNextInvincibilityPowerUp() {
   if (isGameOver) return;
   const delay = Phaser.Math.Between(
-    SPRINT_SPAWN_DELAY_MIN,
-    SPRINT_SPAWN_DELAY_MAX
+    INVINCIBILITY_SPAWN_DELAY_MIN,
+    INVINCIBILITY_SPAWN_DELAY_MAX
   );
-  if (sprintSpawnTimer) sprintSpawnTimer.remove();
-  sprintSpawnTimer = this.time.delayedCall(
+  if (invincibilitySpawnTimer) invincibilitySpawnTimer.remove();
+  invincibilitySpawnTimer = this.time.delayedCall(
     delay,
-    spawnSprintPowerUp,
+    spawnInvincibilityPowerUp,
     [],
     this
   );
 }
-function spawnSprintPowerUp() {
+function spawnInvincibilityPowerUp() {
   if (isGameOver) return;
   const gameWidth = config.width;
   const spawnX = gameWidth + 50;
-  const spawnY = GROUND_LEVEL - SPRINT_POWERUP_SIZE * 1.5;
+  const spawnY = GROUND_LEVEL - INVINCIBILITY_POWERUP_SIZE * 1.5;
 
   const powerUp = this.add.rectangle(
     spawnX,
     spawnY,
-    SPRINT_POWERUP_SIZE,
-    SPRINT_POWERUP_SIZE,
-    SPRINT_POWERUP_COLOR
+    INVINCIBILITY_POWERUP_SIZE,
+    INVINCIBILITY_POWERUP_SIZE,
+    INVINCIBILITY_POWERUP_COLOR
   );
-  sprintPowerUps.add(powerUp);
+  invincibilityPowerUps.add(powerUp);
   if (!powerUp.body) {
     this.physics.world.enable(powerUp);
   }
-  powerUp.body.setSize(SPRINT_POWERUP_SIZE, SPRINT_POWERUP_SIZE);
+  powerUp.body.setSize(INVINCIBILITY_POWERUP_SIZE, INVINCIBILITY_POWERUP_SIZE);
   powerUp.body.setAllowGravity(false);
-  scheduleNextSprintPowerUp.call(this);
+  scheduleNextInvincibilityPowerUp.call(this);
 }
 
 // --- Collision Handlers ---
-// (Keep hitWeb, hitSpider as they are)
 function hitWeb(player, web) {
+  if (isInvincible) {
+    web.destroy(); // Destroy webs when invincible
+    return;
+  }
   if (webSlowState === "none") {
     webSlowState = "entering";
     webSlowTimer = 0;
@@ -579,93 +649,81 @@ function hitWeb(player, web) {
   if (player && player.body && player.body.velocity.y < 0) {
     player.body.setVelocityY(0);
   }
-  if (isSprinting) {
-    endSprint.call(this);
-  }
 }
 function hitSpider(player, spider) {
+  if (isInvincible) {
+    if (spider.webLine) spider.webLine.destroy();
+    spider.destroy(); // Destroy spiders when invincible
+    return;
+  }
   if (!isGameOver) {
     gameOver.call(this);
   }
 }
 
-// MODIFIED: Show sprint button on collect
-function collectSprintPowerUp(player, powerUp) {
+function collectInvincibilityPowerUp(player, powerUp) {
   if (
     isGameOver ||
-    hasSprintPowerUp ||
-    isSprinting
+    hasInvincibilityPowerUp ||
+    isInvincible
   ) {
     powerUp.destroy();
     return;
   }
-  hasSprintPowerUp = true;
-  // No indicator icon to show
-  // Visibility handled in update loop now
+  hasInvincibilityPowerUp = true;
   powerUp.destroy();
 }
 
-// --- Sprint Activation/Deactivation --- START ---
-// MODIFIED: Add button visual feedback on start, hide button on start
-function startSprint() {
+// --- Invincibility Activation/Deactivation ---
+function startInvincibility() {
   if (
     isGameOver ||
-    !hasSprintPowerUp ||
-    isSprinting ||
+    !hasInvincibilityPowerUp ||
+    isInvincible ||
     !player ||
     !player.body
   ) {
     return;
   }
-  if (player.x > PLAYER_MAX_X - 30) {
-    return;
-  }
 
-  console.log("Sprint Activated!");
-  hasSprintPowerUp = false; // Consume the power-up
-  isSprinting = true;
-  // Hide the button immediately when sprint starts
-  // sprintButton.setVisible(false); // Visibility handled in update loop
-  // sprintButtonText.setVisible(false);
+  console.log("Invincibility Activated!");
+  hasInvincibilityPowerUp = false; // Consume the power-up
+  isInvincible = true;
 
-  player.body.setVelocityX(SPRINT_FORWARD_VELOCITY);
-
-  // Visual feedback: flash player
+  // Visual feedback: flash player yellow/white
   if (player.setFillStyle) {
-    player.setFillStyle(0xffffff); // White flash
-    this.time.delayedCall(SPRINT_DURATION, () => {
+    this.tweens.add({
+      targets: player,
+      fillColor: { from: 0xffff00, to: 0xffffff },
+      duration: 200,
+      yoyo: true,
+      repeat: Math.floor(INVINCIBILITY_DURATION / 400),
+      onComplete: () => {
         if (player && player.active && player.setFillStyle) {
-            player.setFillStyle(PLAYER_COLOR); // Reset color after duration
+          player.setFillStyle(PLAYER_COLOR);
         }
+      }
     });
   }
-  // Visual feedback: flash sprint button briefly on activation
-  if (sprintButton.visible) { // Check visible in case called by keyboard
-      sprintButton.fillAlpha = BUTTON_ACTIVE_ALPHA;
-      this.time.delayedCall(100, () => {
-          // Alpha will be reset by visibility logic in update anyway
-          sprintButton.fillAlpha = BUTTON_ALPHA;
-      });
-  }
 
+  player.body.setVelocityX(INVINCIBILITY_FORWARD_VELOCITY);
 
-  if (sprintDurationTimer) sprintDurationTimer.remove();
-  sprintDurationTimer = this.time.delayedCall(
-    SPRINT_DURATION,
-    endSprint,
+  if (invincibilityDurationTimer) invincibilityDurationTimer.remove();
+  invincibilityDurationTimer = this.time.delayedCall(
+    INVINCIBILITY_DURATION,
+    endInvincibility,
     [],
     this
   );
 }
 
-// MODIFIED: Ensure cooldown starts
-function endSprint() {
-  if (!isSprinting || !player || !player.body) {
+function endInvincibility() {
+  if (!isInvincible || !player || !player.body) {
     return;
   }
 
-  console.log("Sprint Ended.");
-  isSprinting = false;
+  console.log("Invincibility Ended.");
+  isInvincible = false;
 
   if (player.body.velocity.x > 0) {
     player.body.setVelocityX(0);
@@ -673,12 +731,10 @@ function endSprint() {
 
   if (player.setFillStyle) player.setFillStyle(PLAYER_COLOR);
 
-  sprintDurationTimer = null;
+  invincibilityDurationTimer = null;
 }
-// --- Sprint Activation/Deactivation --- END ---
 
 // --- Game Over ---
-// MODIFIED: Remove sprint indicator logic
 function gameOver() {
   if (isGameOver) {
     return;
@@ -686,16 +742,16 @@ function gameOver() {
   isGameOver = true;
   console.log("Game Over sequence started.");
 
-  if (isSprinting) {
-    endSprint.call(this);
+  if (isInvincible) {
+    endInvincibility.call(this);
   }
-  if (sprintDurationTimer) {
-    sprintDurationTimer.remove(false);
-    sprintDurationTimer = null;
+  if (invincibilityDurationTimer) {
+    invincibilityDurationTimer.remove(false);
+    invincibilityDurationTimer = null;
   }
-  hasSprintPowerUp = false;
-  isSprinting = false;
-  // No sprint indicator to hide
+
+  hasInvincibilityPowerUp = false;
+  isInvincible = false;
 
   if (player && player.body) {
     player.body.stop();
@@ -708,8 +764,8 @@ function gameOver() {
 
   if (webSpawnTimer) webSpawnTimer.remove(false);
   if (spiderSpawnTimer) spiderSpawnTimer.remove(false);
-  if (sprintSpawnTimer) sprintSpawnTimer.remove(false);
-  webSpawnTimer = spiderSpawnTimer = sprintSpawnTimer = null;
+  if (invincibilitySpawnTimer) invincibilitySpawnTimer.remove(false);
+  webSpawnTimer = spiderSpawnTimer = invincibilitySpawnTimer = null;
 
   if (duckTween) duckTween.stop();
   this.tweens.killTweensOf(player);
@@ -720,7 +776,7 @@ function gameOver() {
     if (obj?.webLine) obj.webLine.destroy();
     obj.webLine = null;
   });
-  sprintPowerUps.children.iterate((obj) => obj?.body?.stop());
+  invincibilityPowerUps.children.iterate((obj) => obj?.body?.stop());
   console.log("Obstacles and Powerups stopped.");
 
   this.physics.pause();
@@ -728,6 +784,12 @@ function gameOver() {
 
   gameOverText.setVisible(true);
   console.log("Game Over text visible.");
+
+  // Update high score display only (saving is handled in update)
+  if (score > highScore) {
+    highScore = Math.floor(score);
+    highScoreText.setText("HIGH: " + highScore);
+  }
 }
 
 // --- Update Loop ---
@@ -832,7 +894,7 @@ function update(time, delta) {
     isSlowed &&
     player &&
     player.body &&
-    (!isSprinting || player.body.velocity.x <= 0)
+    (!isInvincible || player.body.velocity.x <= 0)
   ) {
     const pushbackAmount =
       scrollSpeed * WADING_PUSHBACK_FACTOR * webSlowAmount * deltaFactor;
@@ -930,44 +992,113 @@ function update(time, delta) {
       spiders.remove(spider, true, true);
     }
   });
-  sprintPowerUps.children.iterate((powerUp) => {
+  invincibilityPowerUps.children.iterate((powerUp) => {
     if (powerUp && powerUp.body) {
       powerUp.body.setVelocityX(objectVelocityX);
       if (powerUp.x + powerUp.width < -50) {
-        sprintPowerUps.remove(powerUp, true, true);
+        invincibilityPowerUps.remove(powerUp, true, true);
       }
     } else if (powerUp) {
       powerUp.x -= baseScrollDelta;
       if (powerUp.x + powerUp.width < -50)
-        sprintPowerUps.remove(powerUp, true, true);
+        invincibilityPowerUps.remove(powerUp, true, true);
     }
   });
 
-  // --- Score Update --- (Keep as is)
+  // --- Score Update ---
   score += ((isSlowed ? 0.7 : 1) * (1 - 0.5 * webSlowAmount)) * delta * 0.01;
-  scoreText.setText("SCORE: " + Math.floor(score));
+  const currentScore = Math.floor(score);
+  scoreText.setText("SCORE: " + currentScore);
 
-  // --- Sprint Button Visibility --- NEW ---
-  // Show the button if we have the powerup and are not currently sprinting
-  const showSprintButton = hasSprintPowerUp && !isSprinting;
-  if (sprintButton.visible !== showSprintButton) {
-      sprintButton.setVisible(showSprintButton);
-      sprintButtonText.setVisible(showSprintButton);
+  // Update and save high score in real-time if exceeded
+  if (currentScore > highScore) {
+    highScore = currentScore;
+    highScoreText.setText("HIGH: " + highScore);
+    // Save immediately when we have a new high score
+    try {
+      localStorage.setItem('HighScore', highScore.toString());
+    } catch (e) {
+      console.error('Failed to save high score:', e);
+    }
   }
 
+  // --- Invincibility Button Visibility ---
+  const showInvincibilityButton = hasInvincibilityPowerUp && !isInvincible;
+  if (sprintButton.visible !== showInvincibilityButton) {
+      sprintButton.setVisible(showInvincibilityButton);
+      sprintButtonText.setVisible(showInvincibilityButton);
+  }
 
-  // --- Player Controls & State Update ---
+  // --- Double Jump Cooldown Bar Visual ---
+  if (doubleJumpCooldownActive) {
+    doubleJumpCooldownBar.setFillStyle(COOLDOWN_BAR_COOLDOWN_COLOR);
+    doubleJumpCooldownBarTimer += delta;
+    const progress = Math.min(doubleJumpCooldownBarTimer / DOUBLE_JUMP_COOLDOWN_DURATION, 1);
+    const barWidth = 60 * (1 - progress); // Calculate remaining width
+    
+    // Center the bar as it shrinks
+    doubleJumpCooldownBar.setSize(barWidth, 8);
+    doubleJumpCooldownBar.x = doubleJumpCooldownBarBg.x - (60 - barWidth) / 2;
+  } else {
+    doubleJumpCooldownBar.setFillStyle(COOLDOWN_BAR_READY_COLOR);
+    doubleJumpCooldownBar.setSize(60, 8);
+    doubleJumpCooldownBar.x = doubleJumpCooldownBarBg.x;
+  }
+
+  // --- Player Controls ---
   if (player && player.body && player.active) {
     const isTouchingGround = player.body.blocked.down;
 
-    // --- Input States ---
-    const jumpKeyPressed = cursors.up.isDown || spaceKey.isDown;
-    const duckKeyPressed = cursors.down.isDown;
-    const sprintKeyPressed = cursors.right.isDown;
+    // --- Input States with JustDown ---
+    const upArrowPressed = Phaser.Input.Keyboard.JustDown(cursors.up);
+    const spacePressed = Phaser.Input.Keyboard.JustDown(spaceKey);
+    const canJump = !isDucking && webSlowState !== "entering" && webSlowState !== "stuck";
 
-    // --- Stop Sprint if Moving Backwards --- (Keep as is)
-    if (isSprinting && player.body.velocity.x < 0) {
-      endSprint.call(this);
+    // --- Jumping Logic ---
+    if (canJump) {
+      // Handle all jump inputs together
+      if ((spacePressed || upArrowPressed || jumpInputFlag) && (isTouchingGround || (jumpsAvailable > 0 && !doubleJumpCooldownActive && canDoubleJump))) {
+        if (isTouchingGround) {
+          // Normal jump from ground
+          player.body.setVelocityY(JUMP_VELOCITY);
+          jumpsAvailable = 1;
+          canDoubleJump = true;
+        } else {
+          // Double jump in air
+          player.body.setVelocityY(DOUBLE_JUMP_VELOCITY);
+          jumpsAvailable = 0;
+          canDoubleJump = false;
+          doubleJumpCooldownActive = true;
+          doubleJumpCooldownBarTimer = 0;
+          
+          if (doubleJumpCooldownTimer) doubleJumpCooldownTimer.remove();
+          doubleJumpCooldownTimer = this.time.delayedCall(
+            DOUBLE_JUMP_COOLDOWN_DURATION,
+            () => {
+              doubleJumpCooldownActive = false;
+              doubleJumpCooldownTimer = null;
+              if (player.body.blocked.down) {
+                jumpsAvailable = 2;
+                canDoubleJump = true;
+              }
+            },
+            [],
+            this
+          );
+        }
+      }
+    }
+    jumpInputFlag = false;
+
+    // Reset jumps when landing (if cooldown is over)
+    if (isTouchingGround && !wasTouchingGround && !doubleJumpCooldownActive) {
+      jumpsAvailable = 2;
+      canDoubleJump = true;
+    }
+
+    // --- Stop Invincibility if Moving Backwards ---
+    if (isInvincible && player.body.velocity.x < 0) {
+      endInvincibility.call(this);
     }
 
     // --- Player Position Clamping --- (Keep as is)
@@ -977,25 +1108,10 @@ function update(time, delta) {
     }
     if (player.x > PLAYER_MAX_X) {
       player.x = PLAYER_MAX_X;
-      if (isSprinting && player.body.velocity.x > 0) {
+      if (isInvincible && player.body.velocity.x > 0) {
         player.body.setVelocityX(0);
       }
     }
-
-    // --- Jumping (Keyboard + Touch Button) --- MODIFIED
-    if (
-      (jumpKeyPressed || jumpInputFlag) && // Combine keyboard and touch flag
-      isTouchingGround &&
-      !isDucking &&
-      webSlowState !== "entering" &&
-      webSlowState !== "stuck"
-    ) {
-      player.body.setVelocityY(JUMP_VELOCITY);
-      // Reset touch flag immediately after use
-      // jumpInputFlag = false; // Moved reset below
-    }
-    // Reset jump flag at the end of the player control block for this frame
-    jumpInputFlag = false;
 
     // --- Gravity Management --- MODIFIED
     if (player.body.allowGravity) {
@@ -1003,8 +1119,8 @@ function update(time, delta) {
     }
 
     // --- Ducking (Keyboard + Touch Button) --- MODIFIED
-    const shouldDuck = duckKeyPressed || isDuckButtonPressed;
-    const canDuck = isTouchingGround && !isSprinting; // Can only duck on ground and not sprinting
+    const shouldDuck = cursors.down.isDown || isDuckButtonPressed;
+    const canDuck = isTouchingGround && !isInvincible; // Can only duck on ground and not invincible
 
     if (shouldDuck && canDuck && !isDucking) {
         // Start Ducking
@@ -1041,15 +1157,15 @@ function update(time, delta) {
         });
     }
 
-    // --- Sprint Activation (Keyboard) --- MODIFIED
+    // --- Invincibility Activation (Keyboard) ---
     // Touch activation is handled by the button listener directly
-    if (sprintKeyPressed) {
-        // Attempt to sprint if key is pressed (conditions checked in startSprint)
-        startSprint.call(this);
+    if (cursors.right.isDown) {
+        // Attempt to activate invincibility if key is pressed (conditions checked in startInvincibility)
+        startInvincibility.call(this);
     }
 
     // --- Update Ground Status for Next Frame ---
-    wasTouchingGround = isTouchingGround;
+    wasTouchingGround = isTouchingGround; // IMPORTANT: Keep this at the end
   } // End player control check
 
   // --- Difficulty Increase --- (Keep as is)
@@ -1060,3 +1176,4 @@ function update(time, delta) {
     gameOver.call(this);
   }
 } // End update
+
