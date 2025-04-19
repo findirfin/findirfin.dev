@@ -123,11 +123,17 @@ const SPIDER_SPAWN_DELAY_MAX = 6000;
 const SPIDER_HORIZONTAL_SPEED_FACTOR = 1.3;
 const SPIDER_FALL_SPEED = 150;
 const SPIDER_VERTICAL_TRACKING_SPEED = 120;
-const SPIDER_TRACKING_X_THRESHOLD = 30;
+const SPIDER_TRACKING_X_THRESHOLD = 60;  // Increased from 30
 const SPIDER_WEB_LINE_COLOR = 0xffffff;
 const SPIDER_WEB_LINE_WIDTH = 1;
-const SPIDER_TRACKING_X_RANDOM_RANGE = SPIDER_TRACKING_X_THRESHOLD;
-const SPIDER_TRACKING_Y_RANDOM_RANGE = 18;
+const SPIDER_TRACKING_X_RANDOM_RANGE = 80; // Increased for wider movement
+const SPIDER_TRACKING_Y_RANDOM_RANGE = 30; // Increased vertical range
+const SPIDER_RANDOM_JUMP_CHANCE = 0.01;    // 1% chance to jump per frame when tracking
+const SPIDER_JUMP_VELOCITY = -350;         // Adjusted for better feel
+const SPIDER_MOVEMENT_SMOOTHING = 0.05;  // Made smoother
+const SPIDER_MAX_JUMP_HEIGHT = 140;      // Slightly higher jumps allowed
+const SPIDER_JUMP_MIN_DIST = 20;         // NEW: Minimum distance before spider jump when tracking
+const POWERUP_WEB_SAFE_DISTANCE = 100; // NEW: Minimum distance from webs
 
 // --- Invincibility Power-up Variables & Constants --- START ---
 let invincibilityPowerUps;
@@ -142,6 +148,7 @@ const INVINCIBILITY_SPAWN_DELAY_MIN = 10000;
 const INVINCIBILITY_SPAWN_DELAY_MAX = 20000;
 const INVINCIBILITY_DURATION = 750;
 const INVINCIBILITY_FORWARD_VELOCITY = 300;
+const POWERUP_RETRY_DELAY = 1000; // NEW: Shorter delay for retry when blocked by webs
 // --- Invincibility Power-up Variables & Constants --- END ---
 
 // --- UI Constants ---
@@ -678,6 +685,25 @@ function spawnInvincibilityPowerUp() {
   const spawnX = gameWidth + 50;
   const spawnY = GROUND_LEVEL - INVINCIBILITY_POWERUP_SIZE * 1.5;
 
+  // Check for nearby webs
+  let tooCloseToWeb = false;
+  webs.children.iterate((web) => {
+    if (web && web.active) {
+      const distance = Math.abs(web.x - spawnX);
+      if (distance < POWERUP_WEB_SAFE_DISTANCE) {
+        tooCloseToWeb = true;
+        return false;
+      }
+    }
+  });
+
+  if (tooCloseToWeb) {
+    // Retry sooner when blocked by webs
+    if (invincibilitySpawnTimer) invincibilitySpawnTimer.remove();
+    invincibilitySpawnTimer = this.time.delayedCall(POWERUP_RETRY_DELAY, spawnInvincibilityPowerUp, [], this);
+    return;
+  }
+
   const powerUp = this.add.rectangle(
     spawnX,
     spawnY,
@@ -996,69 +1022,74 @@ function update(time, delta) {
   });
   spiders.children.iterate((spider) => {
     if (!spider || !spider.body || !spider.active) return;
+    
+    // Update web line if present
     if (spider.webLine?.active) {
-      spider.webLine.setTo(spider.x, 0, spider.x, spider.y);
-    } else if (spider.webLine) {
-      spider.webLine = null;
+        spider.webLine.setTo(spider.x, 0, spider.x, spider.y);
     }
+    
+    // Initialize spider properties if not set
+    if (!spider.hasOwnProperty('jumpCooldown')) {
+        spider.jumpCooldown = 0;
+        spider.targetX = spider.x;
+        spider.targetY = spider.y;
+        spider.individualOffset = Math.random() * Math.PI * 2; // Random starting phase
+        spider.movementSpeed = 0.001 + Math.random() * 0.001; // Random speed
+        spider.preferredX = SPIDER_TRACKING_X_THRESHOLD + 
+            (Math.random() - 0.5) * SPIDER_TRACKING_X_RANDOM_RANGE;
+    }
+
     if (!spider.isOnGround) {
-      if (spider.y + SPIDER_SIZE / 2 >= GROUND_LEVEL) {
-        spider.isOnGround = true;
-        spider.y = GROUND_LEVEL - SPIDER_SIZE / 2;
-        spider.body.velocity.y = 0;
+        // Apply gravity when falling
+        spider.body.velocity.y += 15;
+        if (spider.body.velocity.y > SPIDER_FALL_SPEED) {
+            spider.body.velocity.y = SPIDER_FALL_SPEED;
+        }
+
+        if (spider.y + SPIDER_SIZE / 2 >= GROUND_LEVEL) {
+            spider.isOnGround = true;
+            spider.y = GROUND_LEVEL - SPIDER_SIZE / 2;
+            spider.body.velocity.y = 0;
+            if (spider.webLine?.active) spider.webLine.destroy();
+            spider.webLine = null;
+        }
+    } else {
+        if (spider.y !== GROUND_LEVEL - SPIDER_SIZE / 2) {
+            spider.y = GROUND_LEVEL - SPIDER_SIZE / 2;
+        }
+        if (spider.body.velocity.y !== 0) {
+            spider.body.velocity.y = 0;
+        }
+
+        if (!spider.isTracking && spider.x <= SPIDER_TRACKING_X_THRESHOLD * 1.5) {
+            spider.isTracking = true;
+        }
+
+        if (spider.isTracking) {
+            spider.targetX = spider.preferredX +
+                Math.sin(time * spider.movementSpeed + spider.individualOffset) *
+                (SPIDER_TRACKING_X_RANDOM_RANGE * 0.5);
+
+            const distanceToTarget = spider.targetX - spider.x;
+            const desiredVelocityX = distanceToTarget * 5;
+            const maxTrackingSpeed = 120;
+            const clampedDesiredVelocityX = Phaser.Math.Clamp(desiredVelocityX, -maxTrackingSpeed, maxTrackingSpeed);
+
+            // Apply smoothing to horizontal movement
+            spider.body.velocity.x = Phaser.Math.Linear(
+                spider.body.velocity.x,
+                clampedDesiredVelocityX,
+                SPIDER_MOVEMENT_SMOOTHING
+            );
+        } else {
+            spider.body.velocity.x = objectVelocityX * SPIDER_HORIZONTAL_SPEED_FACTOR;
+        }
+    }
+
+    if (spider.x < -SPIDER_SIZE * 2) {
         if (spider.webLine?.active) spider.webLine.destroy();
         spider.webLine = null;
-        spider.body.velocity.x =
-          objectVelocityX * SPIDER_HORIZONTAL_SPEED_FACTOR;
-      } else {
-        spider.body.velocity.x = 0;
-        spider.body.velocity.y = SPIDER_FALL_SPEED;
-      }
-    } else {
-      if (!spider.isTracking) {
-        if (spider.x <= SPIDER_TRACKING_X_THRESHOLD) {
-          spider.isTracking = true;
-          spider.trackingTransition = true;
-        } else {
-          spider.y = GROUND_LEVEL - SPIDER_SIZE / 2;
-          spider.body.velocity.y = 0;
-          spider.body.velocity.x =
-            objectVelocityX * SPIDER_HORIZONTAL_SPEED_FACTOR;
-        }
-      }
-      if (spider.isTracking) {
-        const targetX =
-          SPIDER_TRACKING_X_THRESHOLD + (spider.trackingMobOffsetX || 0);
-        const targetY =
-          GROUND_LEVEL - SPIDER_SIZE / 2 + (spider.trackingMobOffsetY || 0);
-        if (spider.trackingTransition) {
-          const lerpFactor = 0.18;
-          spider.x += (targetX - spider.x) * lerpFactor;
-          spider.y += (targetY - spider.y) * lerpFactor;
-          if (
-            Math.abs(spider.x - targetX) < 1 &&
-            Math.abs(spider.y - targetY) < 1
-          ) {
-            spider.x = targetX;
-            spider.y = targetY;
-            spider.trackingTransition = false;
-          }
-        } else {
-          spider.x = targetX;
-          spider.y = targetY;
-        }
-        spider.body.velocity.x = 0;
-        spider.body.velocity.y = 0;
-      }
-    }
-    if (
-      spider.x < -SPIDER_SIZE * 2 ||
-      spider.y > config.height + SPIDER_SIZE * 2 ||
-      spider.y < -SPIDER_SIZE * 4
-    ) {
-      if (spider.webLine?.active) spider.webLine.destroy();
-      spider.webLine = null;
-      spiders.remove(spider, true, true);
+        spiders.remove(spider, true, true);
     }
   });
   invincibilityPowerUps.children.iterate((powerUp) => {
