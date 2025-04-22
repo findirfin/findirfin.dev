@@ -68,12 +68,23 @@ let jumpInputFlag = false; // Still used for touch jump button
 let doubleJumpCooldownBarBg = null; // NEW: Cooldown bar background
 let doubleJumpCooldownBar = null;   // NEW: Cooldown bar fill
 let doubleJumpCooldownBarTimer = 0; // NEW: For animation
+let startMenuContainer = null; // NEW: Start menu UI container
+let isGameStarted = false;     // NEW: Track if game has started
 
 // --- Player Constants & State ---
 const PLAYER_START_Y = config.height * 0.85;
-const PLAYER_NORMAL_HEIGHT = 50;
-const PLAYER_DUCK_HEIGHT = 25;
-const PLAYER_NORMAL_WIDTH = 30;
+const PLAYER_SPRITE_WIDTH = 48;
+const PLAYER_SPRITE_HEIGHT = 48;
+// --- Make hitbox smaller and tighter to sprite, but scale sprite up ---
+const PLAYER_PHYSICS_NORMAL_WIDTH = 18;
+const PLAYER_PHYSICS_NORMAL_HEIGHT = 38;
+// Make duck hitbox about 2/3 of standing height (not half)
+const PLAYER_PHYSICS_DUCK_HEIGHT = 25;    // was 18
+// Scale up the player sprite visually (e.g., 66px wide as before)
+const PLAYER_TARGET_SCALED_WIDTH = 66;
+const PLAYER_SCALE_FACTOR = PLAYER_TARGET_SCALED_WIDTH / PLAYER_SPRITE_WIDTH;
+const PLAYER_SCALED_NORMAL_HEIGHT = PLAYER_SPRITE_HEIGHT * PLAYER_SCALE_FACTOR;
+const PLAYER_SCALED_DUCK_HEIGHT = PLAYER_SCALED_NORMAL_HEIGHT / 2;
 const PLAYER_COLOR = 0xf7f7f7;
 const GROUND_LEVEL = config.height * 0.9;
 let scrollSpeed = 3.0;
@@ -115,9 +126,16 @@ const WEB_HEIGHT = WEB_SIZE;
 const WEB_SPAWN_DELAY_MIN = 1500;
 const WEB_SPAWN_DELAY_MAX = 3000;
 
+// --- Web Slowdown After Score 400 ---
+const WEB_SLOWDOWN_START_SCORE = 400;
+const WEB_SLOWDOWN_FACTOR_PER_POINT = 0.0006;
+const MAX_WEB_SLOWDOWN_MULTIPLIER = 1.75;
+
 // --- Spider Constants ---
 const SPIDER_COLOR = 0xff0000;
 const SPIDER_SIZE = 20;
+const SPIDER_DISPLAY_SIZE = 40; // NEW: Size for visual display
+const SPIDER_GROUND_OFFSET = 10; // NEW: How far below ground level spiders should sit
 const SPIDER_SPAWN_DELAY_MIN = 3200;
 const SPIDER_SPAWN_DELAY_MAX = 6000;
 const SPIDER_HORIZONTAL_SPEED_FACTOR = 1.3;
@@ -144,7 +162,7 @@ let invincibilityDurationTimer = null;
 
 const INVINCIBILITY_POWERUP_COLOR = 0xffff00;
 const INVINCIBILITY_POWERUP_SIZE = 25;
-const INVINCIBILITY_SPAWN_DELAY_MIN = 10000;
+const INVINCIBILITY_SPAWN_DELAY_MIN = 5000;
 const INVINCIBILITY_SPAWN_DELAY_MAX = 20000;
 const INVINCIBILITY_DURATION = 750;
 const INVINCIBILITY_FORWARD_VELOCITY = 300;
@@ -222,6 +240,13 @@ window.addEventListener('load', function() {
 
 function preload() {
   console.log("Preloading assets...");
+  this.load.spritesheet('player', 'assets/player_spritesheet.png', {
+    frameWidth: 48,
+    frameHeight: 48
+  });
+  // NEW: Load cobweb image for webs
+  this.load.image('cobweb', 'assets/cobweb.png');
+  this.load.image('spider', 'assets/spider.png'); // <-- Add this line
 }
 
 function create() {
@@ -259,6 +284,8 @@ function create() {
     invincibilityDurationTimer = null;
   }
 
+  isGameStarted = false; // NEW: Not started until menu dismissed
+
   // --- Ground ---
   ground = this.physics.add.staticGroup();
   const groundTileWidth = gameWidth;
@@ -279,24 +306,39 @@ function create() {
   }
 
   // --- Player ---
-  player = this.add.rectangle(
+  // Use sprite with animation
+  player = this.add.sprite(
     gameWidth * 0.45,
     PLAYER_START_Y,
-    PLAYER_NORMAL_WIDTH,
-    PLAYER_NORMAL_HEIGHT,
-    PLAYER_COLOR
+    'player',
+    4
   );
   this.physics.add.existing(player);
   if (player.body) {
     player.body.setGravityY(config.physics.arcade.gravity.y);
     player.body.setCollideWorldBounds(false);
-    player.body.setOffset(0, 0);
+    // --- Set smaller, tighter hitbox ---
+    player.body.setSize(PLAYER_PHYSICS_NORMAL_WIDTH, PLAYER_PHYSICS_NORMAL_HEIGHT);
+    player.body.setOffset(
+      (player.width - PLAYER_PHYSICS_NORMAL_WIDTH) / 2,
+      player.height - PLAYER_PHYSICS_NORMAL_HEIGHT - 6
+    );
     player.body.setMaxVelocityX(INVINCIBILITY_FORWARD_VELOCITY * 1.5);
   } else {
     console.error("Player physics body not created!");
   }
+  player.setScale(PLAYER_SCALE_FACTOR);
   player.setOrigin(0.5, 1);
-  player.y = GROUND_LEVEL;
+  player.y = GROUND_LEVEL + 6;
+
+  // --- Player Animation ---
+  // Right-facing run: row 1 (frames 4,5,6,7)
+  this.anims.create({
+    key: 'player_run',
+    frames: this.anims.generateFrameNumbers('player', { start: 4, end: 7 }),
+    frameRate: 10,
+    repeat: -1
+  });
 
   // --- Webs Group ---
   webs = this.physics.add.group({
@@ -352,7 +394,13 @@ function create() {
   gameOverText.setScrollFactor(0);
 
   // --- Collisions ---
-  this.physics.add.collider(player, ground);
+  this.physics.add.collider(player, ground, () => {
+    // Ensure player stays on ground after landing
+    if (player.body.blocked.down) {
+      player.body.setVelocityY(0);
+      player.body.setAllowGravity(true);
+    }
+  });
   this.physics.add.overlap(player, webs, hitWeb, null, this);
   this.physics.add.overlap(player, spiders, hitSpider, null, this);
   this.physics.add.overlap(
@@ -509,7 +557,7 @@ function create() {
       if (!isTapOnDuckButton && !isTapOnJumpButton && !isTapOnSprintButton) {
         console.log("Restarting game via tap/click...");
         if (duckTween) duckTween.stop();
-        player.displayHeight = PLAYER_NORMAL_HEIGHT;
+        player.displayHeight = PLAYER_PHYSICS_NORMAL_HEIGHT;
         isDucking = false;
         isDuckButtonPressed = false;
         duckTween = null;
@@ -565,18 +613,134 @@ function create() {
     }
   ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(101);
 
+  // --- Start Menu Overlay --- (Simplified)
+  if (!window._dallinGameHasShownMenu) {
+    startMenuContainer = this.add.container(0, 0).setDepth(1000).setScrollFactor(0);
+
+    // Simple dark overlay
+    const menuBg = this.add.rectangle(
+      0, 0, config.width, config.height,
+      0x000000, 0.7
+    ).setOrigin(0, 0);
+
+    // Centered "CLICK ANYWHERE TO START" text
+    const startText = this.add.text(
+      config.width / 2,
+      config.height / 2 - 18,
+      "CLICK ANYWHERE TO START",
+      {
+        fontSize: "28px",
+        fill: "#fff",
+        fontFamily: '"Press Start 2P", monospace',
+        align: "center"
+      }
+    ).setOrigin(0.5);
+
+    // Minimal, smaller, simpler instructions lower down
+    const instructions = this.add.text(
+      config.width / 2,
+      config.height - 54,
+      [
+        "Jump: UP / SPACE / JUMP",
+        "Duck: DOWN / DUCK",
+        "Double Jump: In air, jump again",
+        "Power: Collect, then press RIGHT or POWER"
+      ].join('\n'),
+      {
+        fontSize: "13px",
+        fill: "#cccccc",
+        fontFamily: '"Press Start 2P", monospace',
+        align: "center",
+        lineSpacing: 6,
+        wordWrap: { width: config.width * 0.92 }
+      }
+    ).setOrigin(0.5);
+
+    startMenuContainer.add([menuBg, startText, instructions]);
+
+    // Dismiss menu on any pointerdown
+    this.input.once("pointerdown", () => {
+      startMenuContainer.setVisible(false);
+      isGameStarted = true;
+      spawnTrackingSpiders.call(this, 3);
+      this.physics.resume();
+      window._dallinGameHasShownMenu = true;
+    });
+
+    // Pause physics until game starts
+    this.physics.pause();
+  } else {
+    isGameStarted = true;
+    spawnTrackingSpiders.call(this, 3);
+    this.physics.resume();
+  }
+
   console.log("Game created!");
 }
 
-// --- Helper: Draw Sprint Icon --- REMOVED
+// --- Helper: Spawn spiders already tracking the player --- NEW
+function spawnTrackingSpiders(count) {
+  const startXs = [
+    config.width * 0.05,
+    config.width * 0.12,
+    config.width * 0.19
+  ];
+  for (let i = 0; i < 3; i++) {
+    const spawnX = startXs[i];
+    const spawnY = GROUND_LEVEL - SPIDER_DISPLAY_SIZE / 2 + SPIDER_GROUND_OFFSET;
+    const spider = this.add.image(spawnX, spawnY, 'spider')
+      .setOrigin(0.5, 0.5);
+    spider.displayWidth = SPIDER_DISPLAY_SIZE;
+    spider.displayHeight = SPIDER_DISPLAY_SIZE;
+    spiders.add(spider);
+    if (!spider.body) {
+      this.physics.world.enable(spider);
+    }
+    // --- Hitbox: half as tall, shifted halfway right and halfway down ---
+    const hitboxWidth = 600;
+    const hitboxHeight = 300;
+    spider.body.setSize(hitboxWidth, hitboxHeight);
+    spider.body.setOffset(
+      (spider.displayWidth - hitboxWidth) / 2 + hitboxWidth / 2,
+      (spider.displayHeight - hitboxHeight) / 2 + hitboxHeight / 2
+    );
+    spider.isOnGround = true;
+    spider.isTracking = true;
+    spider.preferredX = Phaser.Math.Between(
+      SPIDER_TRACKING_X_THRESHOLD,
+      SPIDER_TRACKING_X_THRESHOLD * 2
+    );
+    spider.trackingMobOffsetX = Phaser.Math.Between(
+      -SPIDER_TRACKING_X_RANDOM_RANGE,
+      SPIDER_TRACKING_X_RANDOM_RANGE
+    );
+    spider.trackingMobOffsetY = Phaser.Math.Between(
+      -SPIDER_TRACKING_Y_RANDOM_RANGE,
+      SPIDER_TRACKING_Y_RANDOM_RANGE
+    );
+    spider.individualOffset = Math.random() * Math.PI * 2;
+    spider.movementSpeed = 0.001 + Math.random() * 0.001;
+    spider.webLine = null;
+  }
+}
 
-// --- Web Spawning --- (Keep as is)
+// --- Web Spawning ---
 function scheduleNextWebSpawn() {
   if (isGameOver) return;
   const speedFactor = Math.max(scrollSpeed / 3.0, 1);
-  const minDelay = WEB_SPAWN_DELAY_MIN / speedFactor;
-  const maxDelay = WEB_SPAWN_DELAY_MAX / speedFactor;
-  const delay = Phaser.Math.Between(minDelay, maxDelay);
+  const baseMinDelay = WEB_SPAWN_DELAY_MIN / speedFactor;
+  const baseMaxDelay = WEB_SPAWN_DELAY_MAX / speedFactor;
+
+  let scoreSlowdownMultiplier = 1.0;
+  if (score > WEB_SLOWDOWN_START_SCORE) {
+    scoreSlowdownMultiplier = 1.0 + (score - WEB_SLOWDOWN_START_SCORE) * WEB_SLOWDOWN_FACTOR_PER_POINT;
+    scoreSlowdownMultiplier = Math.min(scoreSlowdownMultiplier, MAX_WEB_SLOWDOWN_MULTIPLIER);
+  }
+
+  const finalMinDelay = baseMinDelay * scoreSlowdownMultiplier;
+  const finalMaxDelay = baseMaxDelay * scoreSlowdownMultiplier;
+  const delay = Phaser.Math.Between(finalMinDelay, finalMaxDelay);
+
   if (webSpawnTimer) webSpawnTimer.remove();
   webSpawnTimer = this.time.delayedCall(delay, spawnWeb, [], this);
 }
@@ -589,26 +753,30 @@ function spawnWeb() {
   if (Phaser.Math.Between(0, 1) === 0) {
     webY = GROUND_LEVEL - webHeight / 2;
   } else {
-    webY = GROUND_LEVEL - PLAYER_DUCK_HEIGHT - webHeight / 2 - 15;
+    webY = GROUND_LEVEL - PLAYER_PHYSICS_DUCK_HEIGHT - webHeight / 2 - 15;
   }
-  const web = this.add.rectangle(
+  // --- Use cobweb.png sprite for webs, scale up for margin, fix hitbox ---
+  const SCALE_FACTOR = 1.35;
+  const web = this.add.image(
     spawnX,
     webY,
-    WEB_WIDTH,
-    webHeight,
-    WEB_COLOR
+    'cobweb'
   );
+  web.displayWidth = WEB_WIDTH * SCALE_FACTOR;
+  web.displayHeight = webHeight * SCALE_FACTOR;
+  web.setOrigin(0.5); // Center the sprite's origin
   webs.add(web);
   if (!web.body) {
     this.physics.world.enable(web);
   }
-  web.body.setSize(WEB_WIDTH, webHeight);
+  // Fix: Use hardcoded size that matches original collision box
+  web.body.setSize(800, 800);  // Slightly larger than WEB_SIZE (45) for better gameplay feel
   web.body.setAllowGravity(false);
   web.body.setImmovable(true);
   scheduleNextWebSpawn.call(this);
 }
 
-// --- Spider Spawning --- (Keep as is)
+// --- Spider Spawning ---
 function scheduleNextSpiderSpawn() {
   if (isGameOver) return;
   const delay = Phaser.Math.Between(
@@ -624,19 +792,23 @@ function spawnSpider() {
   const spawnX = Phaser.Math.Between(gameWidth - 150, gameWidth - 30);
   const spawnY = Phaser.Math.Between(-80, -30);
 
-  const spider = this.add.rectangle(
-    spawnX,
-    spawnY,
-    SPIDER_SIZE,
-    SPIDER_SIZE,
-    SPIDER_COLOR
-  );
+  const spider = this.add.image(spawnX, spawnY, 'spider')
+    .setOrigin(0.5, 0.5);
+  spider.displayWidth = SPIDER_DISPLAY_SIZE;
+  spider.displayHeight = SPIDER_DISPLAY_SIZE;
   spiders.add(spider);
   if (!spider.body) {
     this.physics.world.enable(spider);
   }
   if (spider.body) {
-    spider.body.setSize(SPIDER_SIZE, SPIDER_SIZE);
+    // --- Hitbox: half as tall, shifted halfway right and halfway down ---
+    const hitboxWidth = 600;
+    const hitboxHeight = 300;
+    spider.body.setSize(hitboxWidth, hitboxHeight);
+    spider.body.setOffset(
+      (spider.displayWidth - hitboxWidth) / 2 + hitboxWidth / 2,
+      (spider.displayHeight - hitboxHeight) / 2 + hitboxHeight / 2
+    );
     spider.body.setAllowGravity(false);
     spider.body.setVelocity(0, SPIDER_FALL_SPEED);
   } else {
@@ -889,6 +1061,11 @@ function gameOver() {
 
 // --- Update Loop ---
 function update(time, delta) {
+  // --- NEW: Pause update logic until game started ---
+  if (!isGameStarted) {
+    return;
+  }
+
   if (isGameOver) {
     jumpInputFlag = false;
     isDuckButtonPressed = false;
@@ -994,8 +1171,8 @@ function update(time, delta) {
     const pushbackAmount =
       scrollSpeed * WADING_PUSHBACK_FACTOR * webSlowAmount * deltaFactor;
     player.x -= pushbackAmount;
-    if (player.x < PLAYER_NORMAL_WIDTH / 2) {
-      player.x = PLAYER_NORMAL_WIDTH / 2;
+    if (player.x < PLAYER_PHYSICS_NORMAL_WIDTH / 2) {
+      player.x = PLAYER_PHYSICS_NORMAL_WIDTH / 2;
     }
   }
 
@@ -1046,16 +1223,16 @@ function update(time, delta) {
             spider.body.velocity.y = SPIDER_FALL_SPEED;
         }
 
-        if (spider.y + SPIDER_SIZE / 2 >= GROUND_LEVEL) {
+        if (spider.y >= GROUND_LEVEL - SPIDER_DISPLAY_SIZE / 2 + SPIDER_GROUND_OFFSET) {
             spider.isOnGround = true;
-            spider.y = GROUND_LEVEL - SPIDER_SIZE / 2;
+            spider.y = GROUND_LEVEL - SPIDER_DISPLAY_SIZE / 2 + SPIDER_GROUND_OFFSET;
             spider.body.velocity.y = 0;
             if (spider.webLine?.active) spider.webLine.destroy();
             spider.webLine = null;
         }
     } else {
-        if (spider.y !== GROUND_LEVEL - SPIDER_SIZE / 2) {
-            spider.y = GROUND_LEVEL - SPIDER_SIZE / 2;
+        if (spider.y !== GROUND_LEVEL - SPIDER_DISPLAY_SIZE / 2 + SPIDER_GROUND_OFFSET) {
+            spider.y = GROUND_LEVEL - SPIDER_DISPLAY_SIZE / 2 + SPIDER_GROUND_OFFSET;
         }
         if (spider.body.velocity.y !== 0) {
             spider.body.velocity.y = 0;
@@ -1065,7 +1242,10 @@ function update(time, delta) {
             spider.isTracking = true;
         }
 
-        if (spider.isTracking) {
+        if (spider.isTracking && player) {
+            // Flip spider based on player position (INVERTED)
+            spider.setFlipX(spider.x < player.x);
+
             spider.targetX = spider.preferredX +
                 Math.sin(time * spider.movementSpeed + spider.individualOffset) *
                 (SPIDER_TRACKING_X_RANDOM_RANGE * 0.5);
@@ -1202,8 +1382,8 @@ function update(time, delta) {
     }
 
     // --- Player Position Clamping --- (Keep as is)
-    if (player.x < PLAYER_NORMAL_WIDTH / 2) {
-      player.x = PLAYER_NORMAL_WIDTH / 2;
+    if (player.x < PLAYER_PHYSICS_NORMAL_WIDTH / 2) {
+      player.x = PLAYER_PHYSICS_NORMAL_WIDTH / 2;
       if (player.body.velocity.x < 0) player.body.setVelocityX(0);
     }
     if (player.x > PLAYER_MAX_X) {
@@ -1225,34 +1405,48 @@ function update(time, delta) {
     if (shouldDuck && canDuck && !isDucking) {
         // Start Ducking
         isDucking = true;
-        player.body.setSize(PLAYER_NORMAL_WIDTH, PLAYER_DUCK_HEIGHT);
-        player.body.setOffset(0, PLAYER_NORMAL_HEIGHT - PLAYER_DUCK_HEIGHT);
+        // --- Use smaller duck hitbox ---
+        player.body.setSize(PLAYER_PHYSICS_NORMAL_WIDTH, PLAYER_PHYSICS_DUCK_HEIGHT);
+        player.body.setOffset(
+          (player.width - PLAYER_PHYSICS_NORMAL_WIDTH) / 2,
+          player.height - PLAYER_PHYSICS_DUCK_HEIGHT - 6
+        );
         if (duckTween) duckTween.stop();
         this.tweens.killTweensOf(player);
         duckTween = this.tweens.add({
           targets: player,
-          displayHeight: PLAYER_DUCK_HEIGHT,
+          displayHeight: PLAYER_SCALED_DUCK_HEIGHT,
+          y: GROUND_LEVEL + 6,
           duration: 100,
           ease: "Power1",
           onComplete: () => {
             duckTween = null;
+            player.displayHeight = PLAYER_SCALED_DUCK_HEIGHT;
+            player.y = GROUND_LEVEL + 6;
           },
         });
 
     } else if (isDucking && (!shouldDuck || !isTouchingGround)) {
         // Stop Ducking (input released or left ground)
         isDucking = false;
-        player.body.setSize(PLAYER_NORMAL_WIDTH, PLAYER_NORMAL_HEIGHT);
-        player.body.setOffset(0, 0);
+        // --- Restore normal hitbox ---
+        player.body.setSize(PLAYER_PHYSICS_NORMAL_WIDTH, PLAYER_PHYSICS_NORMAL_HEIGHT);
+        player.body.setOffset(
+          (player.width - PLAYER_PHYSICS_NORMAL_WIDTH) / 2,
+          player.height - PLAYER_PHYSICS_NORMAL_HEIGHT - 6
+        );
         if (duckTween) duckTween.stop();
         this.tweens.killTweensOf(player);
         duckTween = this.tweens.add({
           targets: player,
-          displayHeight: PLAYER_NORMAL_HEIGHT,
+          displayHeight: PLAYER_SCALED_NORMAL_HEIGHT,
+          y: GROUND_LEVEL + 6,
           duration: 100,
           ease: "Power1",
           onComplete: () => {
             duckTween = null;
+            player.displayHeight = PLAYER_SCALED_NORMAL_HEIGHT;
+            player.y = GROUND_LEVEL + 6;
           },
         });
     }
@@ -1262,6 +1456,22 @@ function update(time, delta) {
     if (cursors.right.isDown) {
         // Attempt to activate invincibility if key is pressed (conditions checked in startInvincibility)
         startInvincibility.call(this);
+    }
+
+    // --- Animation Control ---
+    if (player.body.blocked.down && !isDucking) {
+      if (player.anims.currentAnim?.key !== 'player_run' || !player.anims.isPlaying) {
+        player.anims.play('player_run', true);
+      }
+    } else if (!isDucking) {
+      // In air, keep running animation playing
+      if (player.anims.currentAnim?.key !== 'player_run' || !player.anims.isPlaying) {
+        player.anims.play('player_run', true);
+      }
+    } else {
+      // Ducking: show standing frame
+      player.anims.stop();
+      player.setFrame(4);
     }
 
     // --- Update Ground Status for Next Frame ---
