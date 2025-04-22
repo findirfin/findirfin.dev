@@ -26,7 +26,7 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 1200 }, // Gravity pulling things down
-      debug: false, // SET TO true TO SEE HITBOXES FOR DEBUGGING
+      debug: true, // SET TO true TO SEE HITBOXES FOR DEBUGGING
     },
   },
   scene: {
@@ -76,7 +76,7 @@ const PLAYER_START_Y = config.height * 0.85;
 const PLAYER_SPRITE_WIDTH = 48;
 const PLAYER_SPRITE_HEIGHT = 48;
 // --- Make hitbox smaller and tighter to sprite, but scale sprite up ---
-const PLAYER_PHYSICS_NORMAL_WIDTH = 18;
+const PLAYER_PHYSICS_NORMAL_WIDTH = 12; // Was 18, now thinner
 const PLAYER_PHYSICS_NORMAL_HEIGHT = 38;
 // Make duck hitbox about 2/3 of standing height (not half)
 const PLAYER_PHYSICS_DUCK_HEIGHT = 25;    // was 18
@@ -155,26 +155,30 @@ const POWERUP_WEB_SAFE_DISTANCE = 100; // NEW: Minimum distance from webs
 
 // --- Invincibility Power-up Variables & Constants --- START ---
 let invincibilityPowerUps;
-let invincibilitySpawnTimer;
 let hasInvincibilityPowerUp = false;
 let isInvincible = false;
 let invincibilityDurationTimer = null;
 
 const INVINCIBILITY_POWERUP_COLOR = 0xffff00;
 const INVINCIBILITY_POWERUP_SIZE = 25;
-const INVINCIBILITY_SPAWN_DELAY_MIN = 5000;
-const INVINCIBILITY_SPAWN_DELAY_MAX = 20000;
+const INVINCIBILITY_DISTANCE_MIN = 1200; // Minimum distance between spawns (pixels)
+const INVINCIBILITY_DISTANCE_MAX = 3000; // Maximum distance between spawns (pixels)
+let invincibilityDistanceThreshold = 0; // Distance to next spawn
+let invincibilityDistanceSinceLast = 0; // Distance since last spawn
 const INVINCIBILITY_DURATION = 750;
 const INVINCIBILITY_FORWARD_VELOCITY = 300;
 const POWERUP_RETRY_DELAY = 1000; // NEW: Shorter delay for retry when blocked by webs
 // --- Invincibility Power-up Variables & Constants --- END ---
 
 // --- UI Constants ---
-const BUTTON_SIZE = 60;
+const BUTTON_SIZE = 70; // Slightly larger
 const BUTTON_MARGIN = 20;
-const BUTTON_COLOR = 0xaaaaaa;
-const BUTTON_ALPHA = 0.7;
-const BUTTON_ACTIVE_ALPHA = 0.9;
+const BUTTON_COLOR = 0x444444; // Darker base color
+const BUTTON_ALPHA = 0.85; // More opaque
+const BUTTON_ACTIVE_ALPHA = 1;
+const BUTTON_BORDER_COLOR = 0x666666;
+const BUTTON_BORDER_WIDTH = 2;
+const BUTTON_RADIUS = 16; // Rounded corners
 
 // --- Game Instance ---
 const game = new Phaser.Game(config);
@@ -247,6 +251,8 @@ function preload() {
   // NEW: Load cobweb image for webs
   this.load.image('cobweb', 'assets/cobweb.png');
   this.load.image('spider', 'assets/spider.png'); // <-- Add this line
+  // Add single arrow icon
+  this.load.image('arrow', 'assets/arrow.png');
 }
 
 function create() {
@@ -317,7 +323,7 @@ function create() {
   if (player.body) {
     player.body.setGravityY(config.physics.arcade.gravity.y);
     player.body.setCollideWorldBounds(false);
-    // --- Set smaller, tighter hitbox ---
+    // --- Set smaller, centered hitbox ---
     player.body.setSize(PLAYER_PHYSICS_NORMAL_WIDTH, PLAYER_PHYSICS_NORMAL_HEIGHT);
     player.body.setOffset(
       (player.width - PLAYER_PHYSICS_NORMAL_WIDTH) / 2,
@@ -417,121 +423,107 @@ function create() {
   spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
   // --- Touch Input Setup ---
-  // Duck Button (Bottom Left)
-  duckButton = this.add
-    .rectangle(
-      BUTTON_MARGIN + BUTTON_SIZE / 2,
-      gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
-      BUTTON_SIZE,
-      BUTTON_SIZE,
-      BUTTON_COLOR,
-      BUTTON_ALPHA
-    )
-    .setInteractive()
-    .setScrollFactor(0)
-    .setDepth(10);
-  this.add
-    .text(duckButton.x, duckButton.y, "DUCK", {
-      fontSize: "14px",
-      fill: "#000000",
-    })
-    .setOrigin(0.5)
-    .setScrollFactor(0)
-    .setDepth(11);
+  const createGameButton = (scene, x, y, color) => {
+    const button = scene.add.container(x, y).setDepth(10).setScrollFactor(0);
+    
+    const bg = scene.add.rectangle(0, 0, BUTTON_SIZE, BUTTON_SIZE, color, BUTTON_ALPHA)
+        .setInteractive()
+        .setOrigin(0.5);
+    
+    // Add rounded corners and border
+    bg.setStrokeStyle(BUTTON_BORDER_WIDTH, BUTTON_BORDER_COLOR);
+    bg.radius = BUTTON_RADIUS;
+    bg.iterations = 32; // Smooth corners
+    
+    button.add(bg);
+    button.bg = bg;
+    return button;
+  };
 
-  // Jump Button (Bottom Right) - NEW
-  jumpButton = this.add
-    .rectangle(
-      gameWidth - BUTTON_MARGIN - BUTTON_SIZE / 2, // Position where sprint was
-      gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
-      BUTTON_SIZE,
-      BUTTON_SIZE,
-      BUTTON_COLOR,
-      BUTTON_ALPHA
-    )
-    .setInteractive()
-    .setScrollFactor(0)
-    .setDepth(10);
-  this.add
-    .text(jumpButton.x, jumpButton.y, "JUMP", {
-      fontSize: "14px",
-      fill: "#000000",
-    })
-    .setOrigin(0.5)
-    .setScrollFactor(0)
-    .setDepth(11);
+  // Duck Button
+  duckButton = createGameButton(
+    this,
+    BUTTON_MARGIN + BUTTON_SIZE / 2,
+    gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
+    BUTTON_COLOR
+  );
+  const downArrow = this.add.image(0, 0, 'arrow')
+      .setScale(0.25) // Reduced from 0.4
+      .setTint(0xFFFFFF)
+      .setAngle(180); // Flip arrow to point down
+  duckButton.add(downArrow);
 
-  // Sprint Button (Next to Jump Button, initially hidden) - MODIFIED
+  // Jump Button
+  jumpButton = createGameButton(
+    this,
+    gameWidth - BUTTON_MARGIN - BUTTON_SIZE / 2,
+    gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
+    BUTTON_COLOR
+  );
+  const upArrow = this.add.image(0, 0, 'arrow')
+      .setScale(0.25) // Reduced from 0.4
+      .setTint(0xFFFFFF);
+  jumpButton.add(upArrow);
+
+  // Sprint/Power Button
   const sprintButtonX =
     jumpButton.x - BUTTON_SIZE - BUTTON_MARGIN / 2; // Position left of Jump
-  sprintButton = this.add
-    .rectangle(
-      sprintButtonX,
-      gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
-      BUTTON_SIZE,
-      BUTTON_SIZE,
-      BUTTON_COLOR,
-      BUTTON_ALPHA
-    )
-    .setInteractive()
-    .setScrollFactor(0)
-    .setDepth(10)
-    .setVisible(false); // Initially hidden
-
-  sprintButtonText = this.add
-    .text(sprintButton.x, sprintButton.y, "POWER", {
-      fontSize: "14px",
-      fill: "#000000",
-    })
-    .setOrigin(0.5)
-    .setScrollFactor(0)
-    .setDepth(11)
-    .setVisible(false); // Initially hidden
+  sprintButton = createGameButton(
+    this,
+    sprintButtonX,
+    gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
+    BUTTON_COLOR // Changed from 0xffcc00 to match other buttons
+  );
+  sprintButtonText = this.add.text(0, 0, "⚡", {
+      fontSize: "24px", // Smaller than before (was 32px)
+      fill: "#ffcc00", // Golden color moved to text instead of button
+      alpha: 0.9, // Slightly transparent
+  }).setOrigin(0.5);
+  sprintButton.add(sprintButtonText);
+  sprintButton.setVisible(false);
 
   // Duck Button Listeners
-  duckButton.on("pointerdown", () => {
+  duckButton.bg.on("pointerdown", () => {
     isDuckButtonPressed = true;
-    duckButton.fillAlpha = BUTTON_ACTIVE_ALPHA;
+    duckButton.bg.setAlpha(BUTTON_ACTIVE_ALPHA);
   });
-  duckButton.on("pointerout", () => {
+  duckButton.bg.on("pointerout", () => {
     isDuckButtonPressed = false;
-    duckButton.fillAlpha = BUTTON_ALPHA;
+    duckButton.bg.setAlpha(BUTTON_ALPHA);
   });
   // Global pointer up handles duck release as well
   this.input.on("pointerup", (pointer) => {
     // Check if the pointer that went up was the one pressing the duck button
     if (
-      pointer.downX >= duckButton.getBounds().x &&
-      pointer.downX <= duckButton.getBounds().right &&
-      pointer.downY >= duckButton.getBounds().y &&
-      pointer.downY <= duckButton.getBounds().bottom
+      pointer.downX >= duckButton.x - BUTTON_SIZE / 2 &&
+      pointer.downX <= duckButton.x + BUTTON_SIZE / 2 &&
+      pointer.downY >= duckButton.y - BUTTON_SIZE / 2 &&
+      pointer.downY <= duckButton.y + BUTTON_SIZE / 2
     ) {
       isDuckButtonPressed = false;
-      duckButton.fillAlpha = BUTTON_ALPHA;
+      duckButton.bg.setAlpha(BUTTON_ALPHA);
     }
     // Reset jump button visual if pointer up happens anywhere
-    if (jumpButton.fillAlpha === BUTTON_ACTIVE_ALPHA) {
-        jumpButton.fillAlpha = BUTTON_ALPHA;
+    if (jumpButton.bg.alpha === BUTTON_ACTIVE_ALPHA) {
+        jumpButton.bg.setAlpha(BUTTON_ALPHA);
     }
   });
 
-  // Jump Button Listener (Tap to Jump) - NEW
-  jumpButton.on("pointerdown", () => {
+  // Jump Button Listener (Tap to Jump)
+  jumpButton.bg.on("pointerdown", () => {
     jumpInputFlag = true; // Signal a jump attempt for the update loop
     // Visual feedback for tap
-    jumpButton.fillAlpha = BUTTON_ACTIVE_ALPHA;
-    // No need for delayedCall to reset alpha, pointerup handles it
+    jumpButton.bg.setAlpha(BUTTON_ACTIVE_ALPHA);
   });
   // Make sure releasing *off* the button also resets alpha
-  jumpButton.on("pointerout", () => {
-      if (jumpButton.fillAlpha === BUTTON_ACTIVE_ALPHA) {
-          jumpButton.fillAlpha = BUTTON_ALPHA;
+  jumpButton.bg.on("pointerout", () => {
+      if (jumpButton.bg.alpha === BUTTON_ACTIVE_ALPHA) {
+          jumpButton.bg.setAlpha(BUTTON_ALPHA);
       }
   });
 
-
-  // Sprint Button Listener (Tap to Activate Invincibility) - MODIFIED
-  sprintButton.on("pointerdown", () => {
+  // Sprint Button Listener (Tap to Activate Invincibility)
+  sprintButton.bg.on("pointerdown", () => {
     // Only try to activate if the button is actually visible and conditions met
     if (sprintButton.visible) {
       startInvincibility.call(this); // startInvincibility already checks conditions
@@ -539,7 +531,7 @@ function create() {
     }
   });
 
-  // Global Tap/Click Listener (Restart Only) - MODIFIED
+  // Global Tap/Click Listener (Restart Only)
   this.input.on("pointerdown", (pointer) => {
     if (isGameOver) {
       // Check if the tap started on one of the UI buttons
@@ -577,7 +569,10 @@ function create() {
   // --- Spawning Timers ---
   scheduleNextWebSpawn.call(this);
   scheduleNextSpiderSpawn.call(this);
-  scheduleNextInvincibilityPowerUp.call(this);
+
+  // --- Power-up Distance-based Spawning ---
+  invincibilityDistanceSinceLast = 0;
+  invincibilityDistanceThreshold = Phaser.Math.Between(INVINCIBILITY_DISTANCE_MIN, INVINCIBILITY_DISTANCE_MAX);
 
   // --- Initialize Player State ---
   wasTouchingGround = false; // Initialize wasTouchingGround
@@ -837,20 +832,6 @@ function spawnSpider() {
 }
 
 // --- Invincibility Power-up Spawning ---
-function scheduleNextInvincibilityPowerUp() {
-  if (isGameOver) return;
-  const delay = Phaser.Math.Between(
-    INVINCIBILITY_SPAWN_DELAY_MIN,
-    INVINCIBILITY_SPAWN_DELAY_MAX
-  );
-  if (invincibilitySpawnTimer) invincibilitySpawnTimer.remove();
-  invincibilitySpawnTimer = this.time.delayedCall(
-    delay,
-    spawnInvincibilityPowerUp,
-    [],
-    this
-  );
-}
 function spawnInvincibilityPowerUp() {
   if (isGameOver) return;
   const gameWidth = config.width;
@@ -870,9 +851,7 @@ function spawnInvincibilityPowerUp() {
   });
 
   if (tooCloseToWeb) {
-    // Retry sooner when blocked by webs
-    if (invincibilitySpawnTimer) invincibilitySpawnTimer.remove();
-    invincibilitySpawnTimer = this.time.delayedCall(POWERUP_RETRY_DELAY, spawnInvincibilityPowerUp, [], this);
+    // Try again next frame by not resetting the distance counter
     return;
   }
 
@@ -889,7 +868,10 @@ function spawnInvincibilityPowerUp() {
   }
   powerUp.body.setSize(INVINCIBILITY_POWERUP_SIZE, INVINCIBILITY_POWERUP_SIZE);
   powerUp.body.setAllowGravity(false);
-  scheduleNextInvincibilityPowerUp.call(this);
+
+  // Reset distance counter and pick a new threshold
+  invincibilityDistanceSinceLast = 0;
+  invincibilityDistanceThreshold = Phaser.Math.Between(INVINCIBILITY_DISTANCE_MIN, INVINCIBILITY_DISTANCE_MAX);
 }
 
 // --- Collision Handlers ---
@@ -1031,8 +1013,7 @@ function gameOver() {
 
   if (webSpawnTimer) webSpawnTimer.remove(false);
   if (spiderSpawnTimer) spiderSpawnTimer.remove(false);
-  if (invincibilitySpawnTimer) invincibilitySpawnTimer.remove(false);
-  webSpawnTimer = spiderSpawnTimer = invincibilitySpawnTimer = null;
+  webSpawnTimer = spiderSpawnTimer = null;
 
   if (duckTween) duckTween.stop();
   this.tweens.killTweensOf(player);
@@ -1285,6 +1266,16 @@ function update(time, delta) {
     }
   });
 
+  // --- Power-up Distance-based Spawning ---
+  if (!isGameOver && isGameStarted) {
+    invincibilityDistanceSinceLast += baseScrollDelta;
+    if (invincibilityDistanceSinceLast >= invincibilityDistanceThreshold) {
+      spawnInvincibilityPowerUp.call(this);
+      // If spawn was blocked by a web, don't reset the distance counter, so it will try again next frame
+      // (handled in spawnInvincibilityPowerUp)
+    }
+  }
+
   // --- Score Update ---
   score += ((isSlowed ? 0.7 : 1) * (1 - 0.5 * webSlowAmount)) * delta * 0.01;
   const currentScore = Math.floor(score);
@@ -1403,7 +1394,6 @@ function update(time, delta) {
     const canDuck = isTouchingGround && !isInvincible; // Can only duck on ground and not invincible
 
     if (shouldDuck && canDuck && !isDucking) {
-        // Start Ducking
         isDucking = true;
         // --- Use smaller duck hitbox ---
         player.body.setSize(PLAYER_PHYSICS_NORMAL_WIDTH, PLAYER_PHYSICS_DUCK_HEIGHT);
@@ -1427,7 +1417,6 @@ function update(time, delta) {
         });
 
     } else if (isDucking && (!shouldDuck || !isTouchingGround)) {
-        // Stop Ducking (input released or left ground)
         isDucking = false;
         // --- Restore normal hitbox ---
         player.body.setSize(PLAYER_PHYSICS_NORMAL_WIDTH, PLAYER_PHYSICS_NORMAL_HEIGHT);
