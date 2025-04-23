@@ -1269,6 +1269,24 @@ function update(time, delta) {
         spider.movementSpeed = 0.001 + Math.random() * 0.001; // Random speed
         spider.preferredX = SPIDER_TRACKING_X_THRESHOLD + 
             (Math.random() - 0.5) * SPIDER_TRACKING_X_RANDOM_RANGE;
+        // --- Add scuttle phase for rocking ---
+        spider.scuttlePhase = Math.random() * Math.PI * 2;
+    }
+
+    // --- SCUTTLE EFFECT: Rocking motion ---
+    // Parameters for scuttle
+    const SCUTTLE_AMPLITUDE = 4; // pixels
+    const SCUTTLE_FREQUENCY = 0.05; // radians/ms (about 1.5Hz)
+    const SCUTTLE_ROTATE_AMPLITUDE = 0.13; // radians (~7.5deg)
+
+    // Calculate scuttle offset and rotation
+    const scuttleOsc = Math.sin(time * SCUTTLE_FREQUENCY + spider.scuttlePhase);
+    const scuttleX = scuttleOsc * SCUTTLE_AMPLITUDE;
+    const scuttleRot = scuttleOsc * SCUTTLE_ROTATE_AMPLITUDE;
+
+    if (spider._baseX === undefined) spider._baseX = spider.x;
+    if (spider.x > -SPIDER_SIZE * 2) {
+        spider._baseX = spider.x - (spider.isOnGround ? scuttleX : 0);
     }
 
     if (!spider.isOnGround) {
@@ -1285,6 +1303,10 @@ function update(time, delta) {
             if (spider.webLine?.active) spider.webLine.destroy();
             spider.webLine = null;
         }
+
+        // --- No scuttle effect while falling ---
+        spider.x = spider._baseX;
+        spider.rotation = 0;
     } else {
         if (spider.y !== GROUND_LEVEL - SPIDER_DISPLAY_SIZE / 2 + SPIDER_GROUND_OFFSET) {
             spider.y = GROUND_LEVEL - SPIDER_DISPLAY_SIZE / 2 + SPIDER_GROUND_OFFSET;
@@ -1319,6 +1341,10 @@ function update(time, delta) {
         } else {
             spider.body.velocity.x = objectVelocityX * SPIDER_HORIZONTAL_SPEED_FACTOR;
         }
+
+        // --- Apply scuttle effect visually only when on ground ---
+        spider.x = spider._baseX + scuttleX;
+        spider.rotation = scuttleRot;
     }
 
     if (spider.x < -SPIDER_SIZE * 2) {
