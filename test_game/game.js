@@ -26,7 +26,7 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: { y: 1200 }, // Gravity pulling things down
-      debug: true, // SET TO true TO SEE HITBOXES FOR DEBUGGING
+      debug: false, // SET TO true TO SEE HITBOXES FOR DEBUGGING
     },
   },
   scene: {
@@ -61,7 +61,7 @@ let isGameOver = false;
 // let sprintIndicatorIcon; // REMOVED
 let duckButton;
 let sprintButton;
-let sprintButtonText; // NEW: Need separate reference for text visibility
+let sprintButtonText = null; // REMOVED text reference
 let jumpButton; // NEW: On-screen jump button
 let isDuckButtonPressed = false;
 let jumpInputFlag = false; // Still used for touch jump button
@@ -243,6 +243,9 @@ window.addEventListener('load', function() {
 // --- Scene Functions ---
 
 function preload() {
+  // Ensure VT323 font is loaded before creating text
+  this.load.script('webfont', 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js');
+  
   console.log("Preloading assets...");
   this.load.spritesheet('player', 'assets/player_spritesheet.png', {
     frameWidth: 48,
@@ -250,427 +253,498 @@ function preload() {
   });
   // NEW: Load cobweb image for webs
   this.load.image('cobweb', 'assets/cobweb.png');
-  this.load.image('spider', 'assets/spider.png'); // <-- Add this line
-  // Add single arrow icon
+  this.load.image('spider', 'assets/spider.png');
   this.load.image('arrow', 'assets/arrow.png');
+  // --- NEW: Load power-up icon ---
+  this.load.image('power', 'assets/power.png');
 }
 
 function create() {
-  // Add this to ensure proper scaling on orientation changes
-  this.scale.on('resize', (gameSize, baseSize, displaySize, resolution) => {
-      this.cameras.main.setViewport(0, 0, gameSize.width, gameSize.height);
-  });
-
-  console.log("Creating game objects...");
-  const gameWidth = config.width;
-  const gameHeight = config.height;
-  isGameOver = false;
-  isSlowed = false;
-  webSlowState = "none";
-  webSlowTimer = 0;
-  webSlowAmount = 0;
-  scrollSpeed = 3.0;
-  score = 0;
-  hasInvincibilityPowerUp = false;
-  isInvincible = false;
-  isDuckButtonPressed = false;
-  jumpInputFlag = false;
-  // Reset double jump state
-  jumpsAvailable = 2;
-  doubleJumpCooldownActive = false;
-  canDoubleJump = true; // Reset double jump availability
-  if (doubleJumpCooldownTimer) {
-    doubleJumpCooldownTimer.remove();
-    doubleJumpCooldownTimer = null;
-  }
-
-
-  if (invincibilityDurationTimer) {
-    invincibilityDurationTimer.remove();
-    invincibilityDurationTimer = null;
-  }
-
-  isGameStarted = false; // NEW: Not started until menu dismissed
-
-  // --- Ground ---
-  ground = this.physics.add.staticGroup();
-  const groundTileWidth = gameWidth;
-  const groundHeight = 3;
-  numTiles = 2;
-  totalGroundWidth = numTiles * groundTileWidth;
-  for (let i = 0; i < numTiles; i++) {
-    const tile = this.add.rectangle(
-      i * groundTileWidth,
-      GROUND_LEVEL + groundHeight / 2,
-      groundTileWidth,
-      groundHeight,
-      PLAYER_COLOR
-    );
-    tile.setOrigin(0, 0.5);
-    ground.add(tile);
-    tile.body.setSize(groundTileWidth, groundHeight).setOffset(0, 0);
-  }
-
-  // --- Player ---
-  // Use sprite with animation
-  player = this.add.sprite(
-    gameWidth * 0.45,
-    PLAYER_START_Y,
-    'player',
-    4
-  );
-  this.physics.add.existing(player);
-  if (player.body) {
-    player.body.setGravityY(config.physics.arcade.gravity.y);
-    player.body.setCollideWorldBounds(false);
-    // --- Set smaller, centered hitbox ---
-    player.body.setSize(PLAYER_PHYSICS_NORMAL_WIDTH, PLAYER_PHYSICS_NORMAL_HEIGHT);
-    player.body.setOffset(
-      (player.width - PLAYER_PHYSICS_NORMAL_WIDTH) / 2,
-      player.height - PLAYER_PHYSICS_NORMAL_HEIGHT - 6
-    );
-    player.body.setMaxVelocityX(INVINCIBILITY_FORWARD_VELOCITY * 1.5);
-  } else {
-    console.error("Player physics body not created!");
-  }
-  player.setScale(PLAYER_SCALE_FACTOR);
-  player.setOrigin(0.5, 1);
-  player.y = GROUND_LEVEL + 6;
-
-  // --- Player Animation ---
-  // Right-facing run: row 1 (frames 4,5,6,7)
-  this.anims.create({
-    key: 'player_run',
-    frames: this.anims.generateFrameNumbers('player', { start: 4, end: 7 }),
-    frameRate: 10,
-    repeat: -1
-  });
-
-  // --- Webs Group ---
-  webs = this.physics.add.group({
-    allowGravity: false,
-    immovable: true,
-  });
-
-  // --- Spiders Group ---
-  spiders = this.physics.add.group({
-    allowGravity: false,
-  });
-
-  // --- Invincibility Power-up Group ---
-  invincibilityPowerUps = this.physics.add.group({
-    allowGravity: false,
-    immovable: false,
-  });
-
-  // --- Score ---
-  // Just update the display
-  highScoreText = this.add.text(config.width - 300, 20, "HIGH: " + Math.floor(highScore), {
-    fontSize: "18px",
-    fill: "#f7f7f7",
-    fontFamily: '"Press Start 2P", monospace',
-  });
-  highScoreText.setOrigin(0, 0).setDepth(5).setScrollFactor(0);
-
-  // Current score on the right
-  scoreText = this.add.text(config.width - 150, 20, "SCORE: 0", {
-    fontSize: "18px",
-    fill: "#f7f7f7",
-    fontFamily: '"Press Start 2P", monospace',
-  });
-  scoreText.setOrigin(0, 0).setDepth(5).setScrollFactor(0);
-
-  // --- Sprint Indicator Icon --- REMOVED
-
-  // --- Game Over Text ---
-  gameOverText = this.add.text(
-    gameWidth / 2,
-    gameHeight / 2,
-    "GAME OVER\nTap/Click to Restart", // Updated text
-    {
-      fontSize: "32px",
-      fill: "#ff0000",
-      fontFamily: '"Press Start 2P", monospace',
-      align: "center",
-    }
-  );
-  gameOverText.setOrigin(0.5);
-  gameOverText.setVisible(false);
-  gameOverText.setDepth(10);
-  gameOverText.setScrollFactor(0);
-
-  // --- Collisions ---
-  this.physics.add.collider(player, ground, () => {
-    // Ensure player stays on ground after landing
-    if (player.body.blocked.down) {
-      player.body.setVelocityY(0);
-      player.body.setAllowGravity(true);
+  // Load VT323 font before creating any text
+  WebFont.load({
+    google: {
+      families: ['VT323']
+    },
+    active: () => {
+      // Continue with game creation after font is loaded
+      this.events.emit('fontsloaded');
     }
   });
-  this.physics.add.overlap(player, webs, hitWeb, null, this);
-  this.physics.add.overlap(player, spiders, hitSpider, null, this);
-  this.physics.add.overlap(
-    player,
-    invincibilityPowerUps,
-    collectInvincibilityPowerUp,
-    null,
-    this
-  );
 
-  // --- Input ---
-  // Keyboard Input Setup (RE-ADDED)
-  cursors = this.input.keyboard.createCursorKeys();
-  spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+  this.events.once('fontsloaded', () => {
+    // Add this to ensure proper scaling on orientation changes
+    this.scale.on('resize', (gameSize, baseSize, displaySize, resolution) => {
+        this.cameras.main.setViewport(0, 0, gameSize.width, gameSize.height);
+    });
 
-  // --- Touch Input Setup ---
-  const createGameButton = (scene, x, y, color) => {
-    const button = scene.add.container(x, y).setDepth(10).setScrollFactor(0);
-    
-    const bg = scene.add.rectangle(0, 0, BUTTON_SIZE, BUTTON_SIZE, color, BUTTON_ALPHA)
-        .setInteractive()
-        .setOrigin(0.5);
-    
-    // Add rounded corners and border
-    bg.setStrokeStyle(BUTTON_BORDER_WIDTH, BUTTON_BORDER_COLOR);
-    bg.radius = BUTTON_RADIUS;
-    bg.iterations = 32; // Smooth corners
-    
-    button.add(bg);
-    button.bg = bg;
-    return button;
-  };
-
-  // Duck Button
-  duckButton = createGameButton(
-    this,
-    BUTTON_MARGIN + BUTTON_SIZE / 2,
-    gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
-    BUTTON_COLOR
-  );
-  const downArrow = this.add.image(0, 0, 'arrow')
-      .setScale(0.25) // Reduced from 0.4
-      .setTint(0xFFFFFF)
-      .setAngle(180); // Flip arrow to point down
-  duckButton.add(downArrow);
-
-  // Jump Button
-  jumpButton = createGameButton(
-    this,
-    gameWidth - BUTTON_MARGIN - BUTTON_SIZE / 2,
-    gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
-    BUTTON_COLOR
-  );
-  const upArrow = this.add.image(0, 0, 'arrow')
-      .setScale(0.25) // Reduced from 0.4
-      .setTint(0xFFFFFF);
-  jumpButton.add(upArrow);
-
-  // Sprint/Power Button
-  const sprintButtonX =
-    jumpButton.x - BUTTON_SIZE - BUTTON_MARGIN / 2; // Position left of Jump
-  sprintButton = createGameButton(
-    this,
-    sprintButtonX,
-    gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
-    BUTTON_COLOR // Changed from 0xffcc00 to match other buttons
-  );
-  sprintButtonText = this.add.text(0, 0, "⚡", {
-      fontSize: "24px", // Smaller than before (was 32px)
-      fill: "#ffcc00", // Golden color moved to text instead of button
-      alpha: 0.9, // Slightly transparent
-  }).setOrigin(0.5);
-  sprintButton.add(sprintButtonText);
-  sprintButton.setVisible(false);
-
-  // Duck Button Listeners
-  duckButton.bg.on("pointerdown", () => {
-    isDuckButtonPressed = true;
-    duckButton.bg.setAlpha(BUTTON_ACTIVE_ALPHA);
-  });
-  duckButton.bg.on("pointerout", () => {
+    console.log("Creating game objects...");
+    const gameWidth = config.width;
+    const gameHeight = config.height;
+    isGameOver = false;
+    isSlowed = false;
+    webSlowState = "none";
+    webSlowTimer = 0;
+    webSlowAmount = 0;
+    scrollSpeed = 3.0;
+    score = 0;
+    hasInvincibilityPowerUp = false;
+    isInvincible = false;
     isDuckButtonPressed = false;
-    duckButton.bg.setAlpha(BUTTON_ALPHA);
-  });
-  // Global pointer up handles duck release as well
-  this.input.on("pointerup", (pointer) => {
-    // Check if the pointer that went up was the one pressing the duck button
-    if (
-      pointer.downX >= duckButton.x - BUTTON_SIZE / 2 &&
-      pointer.downX <= duckButton.x + BUTTON_SIZE / 2 &&
-      pointer.downY >= duckButton.y - BUTTON_SIZE / 2 &&
-      pointer.downY <= duckButton.y + BUTTON_SIZE / 2
-    ) {
+    jumpInputFlag = false;
+    // Reset double jump state
+    jumpsAvailable = 2;
+    doubleJumpCooldownActive = false;
+    canDoubleJump = true; // Reset double jump availability
+    if (doubleJumpCooldownTimer) {
+      doubleJumpCooldownTimer.remove();
+      doubleJumpCooldownTimer = null;
+    }
+
+
+    if (invincibilityDurationTimer) {
+      invincibilityDurationTimer.remove();
+      invincibilityDurationTimer = null;
+    }
+
+    isGameStarted = false; // NEW: Not started until menu dismissed
+
+    // --- Ground ---
+    ground = this.physics.add.staticGroup();
+    const groundTileWidth = gameWidth;
+    const groundHeight = 3;
+    numTiles = 2;
+    totalGroundWidth = numTiles * groundTileWidth;
+    for (let i = 0; i < numTiles; i++) {
+      const tile = this.add.rectangle(
+        i * groundTileWidth,
+        GROUND_LEVEL + groundHeight / 2,
+        groundTileWidth,
+        groundHeight,
+        PLAYER_COLOR
+      );
+      tile.setOrigin(0, 0.5);
+      ground.add(tile);
+      tile.body.setSize(groundTileWidth, groundHeight).setOffset(0, 0);
+    }
+
+    // --- Player ---
+    // Use sprite with animation
+    player = this.add.sprite(
+      gameWidth * 0.45,
+      PLAYER_START_Y,
+      'player',
+      4
+    );
+    this.physics.add.existing(player);
+    if (player.body) {
+      player.body.setGravityY(config.physics.arcade.gravity.y);
+      player.body.setCollideWorldBounds(false);
+      // --- Set smaller, centered hitbox ---
+      player.body.setSize(PLAYER_PHYSICS_NORMAL_WIDTH, PLAYER_PHYSICS_NORMAL_HEIGHT);
+      player.body.setOffset(
+        (player.width - PLAYER_PHYSICS_NORMAL_WIDTH) / 2,
+        player.height - PLAYER_PHYSICS_NORMAL_HEIGHT - 6
+      );
+      player.body.setMaxVelocityX(INVINCIBILITY_FORWARD_VELOCITY * 1.5);
+    } else {
+      console.error("Player physics body not created!");
+    }
+    player.setScale(PLAYER_SCALE_FACTOR);
+    player.setOrigin(0.5, 1);
+    player.y = GROUND_LEVEL + 6;
+
+    // --- Player Animation ---
+    // Right-facing run: row 1 (frames 4,5,6,7)
+    this.anims.create({
+      key: 'player_run',
+      frames: this.anims.generateFrameNumbers('player', { start: 4, end: 7 }),
+      frameRate: 10,
+      repeat: -1
+    });
+
+    // --- Webs Group ---
+    webs = this.physics.add.group({
+      allowGravity: false,
+      immovable: true,
+    });
+
+    // --- Spiders Group ---
+    spiders = this.physics.add.group({
+      allowGravity: false,
+    });
+
+    // --- Invincibility Power-up Group ---
+    invincibilityPowerUps = this.physics.add.group({
+      allowGravity: false,
+      immovable: false,
+    });
+
+    // --- Score ---
+    // Just update the display
+    highScoreText = this.add.text(config.width - 300, 20, "HIGH: " + Math.floor(highScore), {
+      fontSize: "24px",
+      fill: "#f7f7f7",
+      fontFamily: "VT323"
+    });
+    highScoreText.setOrigin(0, 0).setDepth(5).setScrollFactor(0);
+
+    // Current score on the right
+    scoreText = this.add.text(config.width - 150, 20, "SCORE: 0", {
+      fontSize: "24px",
+      fill: "#f7f7f7",
+      fontFamily: "VT323"
+    });
+    scoreText.setOrigin(0, 0).setDepth(5).setScrollFactor(0);
+
+    // --- Sprint Indicator Icon --- REMOVED
+
+    // --- Game Over Text ---
+    gameOverText = this.add.text(
+      gameWidth / 2,
+      gameHeight / 2,
+      "GAME OVER\nTap/Click to Restart", // Updated text
+      {
+        fontSize: "48px",
+        fill: "#ff0000",
+        fontFamily: "VT323",
+        align: "center",
+      }
+    );
+    gameOverText.setOrigin(0.5);
+    gameOverText.setVisible(false);
+    gameOverText.setDepth(10);
+    gameOverText.setScrollFactor(0);
+
+    // --- Collisions ---
+    this.physics.add.collider(player, ground, () => {
+      // Ensure player stays on ground after landing
+      if (player.body.blocked.down) {
+        player.body.setVelocityY(0);
+        player.body.setAllowGravity(true);
+      }
+    });
+    this.physics.add.overlap(player, webs, hitWeb, null, this);
+    this.physics.add.overlap(player, spiders, hitSpider, null, this);
+    this.physics.add.overlap(
+      player,
+      invincibilityPowerUps,
+      collectInvincibilityPowerUp,
+      null,
+      this
+    );
+
+    // --- Input ---
+    // Keyboard Input Setup (RE-ADDED)
+    cursors = this.input.keyboard.createCursorKeys();
+    spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+    // --- Touch Input Setup ---
+    const createGameButton = (scene, x, y, color, iconKey) => {
+      const button = scene.add.container(x, y).setDepth(10).setScrollFactor(0);
+
+      const bg = scene.add.rectangle(0, 0, BUTTON_SIZE, BUTTON_SIZE, color, BUTTON_ALPHA)
+          .setInteractive()
+          .setOrigin(0.5);
+
+      // Add rounded corners and border
+      bg.setStrokeStyle(BUTTON_BORDER_WIDTH, BUTTON_BORDER_COLOR);
+      bg.radius = BUTTON_RADIUS;
+      bg.iterations = 32; // Smooth corners
+
+      button.add(bg);
+      button.bg = bg;
+
+      // --- Add icon if provided ---
+      if (iconKey) {
+        const icon = scene.add.image(0, 0, iconKey)
+          .setScale(0.25) // Set to 0.25 as requested
+          .setOrigin(0.5);
+        button.add(icon);
+        button.icon = icon;
+      }
+
+      return button;
+    };
+
+    // Duck Button
+    duckButton = createGameButton(
+      this,
+      BUTTON_MARGIN + BUTTON_SIZE / 2,
+      gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
+      BUTTON_COLOR,
+      'arrow'
+    );
+    duckButton.icon.setAngle(180); // Flip arrow to point down
+
+    // Jump Button
+    jumpButton = createGameButton(
+      this,
+      gameWidth - BUTTON_MARGIN - BUTTON_SIZE / 2,
+      gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
+      BUTTON_COLOR,
+      'arrow'
+    );
+    // Up arrow (default orientation)
+
+    // Sprint/Power Button (now gray, not yellow, and uses power icon)
+    const sprintButtonX =
+      jumpButton.x - BUTTON_SIZE - BUTTON_MARGIN / 2; // Position left of Jump
+    sprintButton = createGameButton(
+      this,
+      sprintButtonX,
+      gameHeight - BUTTON_MARGIN - BUTTON_SIZE / 2,
+      BUTTON_COLOR, // Use BUTTON_COLOR (gray), not yellow
+      'power'
+    );
+    sprintButtonText = null;
+    sprintButton.setVisible(false);
+
+    // Duck Button Listeners
+    duckButton.bg.on("pointerdown", () => {
+      isDuckButtonPressed = true;
+      // --- Tween: scale up and fade in alpha ---
+      duckButton.bg.setAlpha(BUTTON_ACTIVE_ALPHA);
+      duckButton.setScale(1.13);
+      this.tweens.add({
+        targets: duckButton,
+        scale: 1.0,
+        duration: 120,
+        ease: "Back.easeOut"
+      });
+      this.tweens.add({
+        targets: duckButton.bg,
+        alpha: BUTTON_ACTIVE_ALPHA,
+        duration: 60,
+        yoyo: true,
+        repeat: 0
+      });
+      // // Play sound here if available:
+      // this.sound.play('button_press');
+    });
+    duckButton.bg.on("pointerout", () => {
       isDuckButtonPressed = false;
       duckButton.bg.setAlpha(BUTTON_ALPHA);
-    }
-    // Reset jump button visual if pointer up happens anywhere
-    if (jumpButton.bg.alpha === BUTTON_ACTIVE_ALPHA) {
-        jumpButton.bg.setAlpha(BUTTON_ALPHA);
-    }
-  });
-
-  // Jump Button Listener (Tap to Jump)
-  jumpButton.bg.on("pointerdown", () => {
-    jumpInputFlag = true; // Signal a jump attempt for the update loop
-    // Visual feedback for tap
-    jumpButton.bg.setAlpha(BUTTON_ACTIVE_ALPHA);
-  });
-  // Make sure releasing *off* the button also resets alpha
-  jumpButton.bg.on("pointerout", () => {
+      duckButton.setScale(1.0);
+    });
+    // Global pointer up handles duck release as well
+    this.input.on("pointerup", (pointer) => {
+      // Check if the pointer that went up was the one pressing the duck button
+      if (
+        pointer.downX >= duckButton.x - BUTTON_SIZE / 2 &&
+        pointer.downX <= duckButton.x + BUTTON_SIZE / 2 &&
+        pointer.downY >= duckButton.y - BUTTON_SIZE / 2 &&
+        pointer.downY <= duckButton.y + BUTTON_SIZE / 2
+      ) {
+        isDuckButtonPressed = false;
+        duckButton.bg.setAlpha(BUTTON_ALPHA);
+        duckButton.setScale(1.0);
+      }
+      // Reset jump button visual if pointer up happens anywhere
       if (jumpButton.bg.alpha === BUTTON_ACTIVE_ALPHA) {
           jumpButton.bg.setAlpha(BUTTON_ALPHA);
+          jumpButton.setScale(1.0);
       }
-  });
+    });
 
-  // Sprint Button Listener (Tap to Activate Invincibility)
-  sprintButton.bg.on("pointerdown", () => {
-    // Only try to activate if the button is actually visible and conditions met
-    if (sprintButton.visible) {
-      startInvincibility.call(this); // startInvincibility already checks conditions
-      // Visual feedback handled within startInvincibility if successful
-    }
-  });
+    // Jump Button Listener (Tap to Jump)
+    jumpButton.bg.on("pointerdown", () => {
+      jumpInputFlag = true; // Signal a jump attempt for the update loop
+      // --- Tween: scale up and fade in alpha ---
+      jumpButton.bg.setAlpha(BUTTON_ACTIVE_ALPHA);
+      jumpButton.setScale(1.13);
+      this.tweens.add({
+        targets: jumpButton,
+        scale: 1.0,
+        duration: 120,
+        ease: "Back.easeOut"
+      });
+      this.tweens.add({
+        targets: jumpButton.bg,
+        alpha: BUTTON_ACTIVE_ALPHA,
+        duration: 60,
+        yoyo: true,
+        repeat: 0
+      });
+      // // Play sound here if available:
+      // this.sound.play('button_press');
+    });
+    jumpButton.bg.on("pointerout", () => {
+        if (jumpButton.bg.alpha === BUTTON_ACTIVE_ALPHA) {
+            jumpButton.bg.setAlpha(BUTTON_ALPHA);
+        }
+        jumpButton.setScale(1.0);
+    });
 
-  // Global Tap/Click Listener (Restart Only)
-  this.input.on("pointerdown", (pointer) => {
-    if (isGameOver) {
-      // Check if the tap started on one of the UI buttons
-      const isTapOnDuckButton = duckButton
-        .getBounds()
-        .contains(pointer.x, pointer.y);
-      const isTapOnJumpButton = jumpButton
-        .getBounds()
-        .contains(pointer.x, pointer.y);
-      const isTapOnSprintButton =
-        sprintButton.visible &&
-        sprintButton.getBounds().contains(pointer.x, pointer.y);
-
-      // Only restart if tap is NOT on an active button
-      if (!isTapOnDuckButton && !isTapOnJumpButton && !isTapOnSprintButton) {
-        console.log("Restarting game via tap/click...");
-        if (duckTween) duckTween.stop();
-        player.displayHeight = PLAYER_PHYSICS_NORMAL_HEIGHT;
-        isDucking = false;
-        isDuckButtonPressed = false;
-        duckTween = null;
-        spiders.children.iterate((spider) => {
-          if (spider && spider.webLine) {
-            spider.webLine.destroy();
-            spider.webLine = null;
-          }
+    // Sprint Button Listener (Tap to Activate Invincibility)
+    sprintButton.bg.on("pointerdown", () => {
+      // Only try to activate if the button is actually visible and conditions met
+      if (sprintButton.visible) {
+        // --- Tween: scale up and fade in alpha ---
+        sprintButton.bg.setAlpha(BUTTON_ACTIVE_ALPHA);
+        sprintButton.setScale(1.13);
+        this.tweens.add({
+          targets: sprintButton,
+          scale: 1.0,
+          duration: 120,
+          ease: "Back.easeOut"
         });
-        this.scene.restart();
+        this.tweens.add({
+          targets: sprintButton.bg,
+          alpha: BUTTON_ACTIVE_ALPHA,
+          duration: 60,
+          yoyo: true,
+          repeat: 0
+        });
+        // // Play sound here if available:
+        // this.sound.play('button_press');
+        startInvincibility.call(this); // startInvincibility already checks conditions
       }
-      // If game over and tap *was* on a button, do nothing extra here
-    }
-    // Removed jump logic from global tap
-  });
+    });
+    sprintButton.bg.on("pointerout", () => {
+      sprintButton.setScale(1.0);
+    });
 
-  // --- Spawning Timers ---
-  scheduleNextWebSpawn.call(this);
-  scheduleNextSpiderSpawn.call(this);
+    // Global Tap/Click Listener (Restart Only)
+    this.input.on("pointerdown", (pointer) => {
+      if (isGameOver) {
+        // Check if the tap started on one of the UI buttons
+        const isTapOnDuckButton = duckButton
+          .getBounds()
+          .contains(pointer.x, pointer.y);
+        const isTapOnJumpButton = jumpButton
+          .getBounds()
+          .contains(pointer.x, pointer.y);
+        const isTapOnSprintButton =
+          sprintButton.visible &&
+          sprintButton.getBounds().contains(pointer.x, pointer.y);
 
-  // --- Power-up Distance-based Spawning ---
-  invincibilityDistanceSinceLast = 0;
-  invincibilityDistanceThreshold = Phaser.Math.Between(INVINCIBILITY_DISTANCE_MIN, INVINCIBILITY_DISTANCE_MAX);
+        // Only restart if tap is NOT on an active button
+        if (!isTapOnDuckButton && !isTapOnJumpButton && !isTapOnSprintButton) {
+          console.log("Restarting game via tap/click...");
+          if (duckTween) duckTween.stop();
+          player.displayHeight = PLAYER_PHYSICS_NORMAL_HEIGHT;
+          isDucking = false;
+          isDuckButtonPressed = false;
+          duckTween = null;
+          spiders.children.iterate((spider) => {
+            if (spider && spider.webLine) {
+              spider.webLine.destroy();
+              spider.webLine = null;
+            }
+          });
+          this.scene.restart();
+        }
+        // If game over and tap *was* on a button, do nothing extra here
+      }
+      // Removed jump logic from global tap
+    });
 
-  // --- Initialize Player State ---
-  wasTouchingGround = false; // Initialize wasTouchingGround
+    // --- Spawning Timers ---
+    scheduleNextWebSpawn.call(this);
+    scheduleNextSpiderSpawn.call(this);
 
-  // --- Double Jump Cooldown Bar (indicator) ---
-  doubleJumpCooldownBarBg = this.add.rectangle(
-    jumpButton.x,
-    jumpButton.y - BUTTON_SIZE / 2 - 15, // Position ABOVE jump button
-    60,
-    8,
-    COOLDOWN_BAR_BG_COLOR,
-    0.7
-  ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(100).setVisible(true);
+    // --- Power-up Distance-based Spawning ---
+    invincibilityDistanceSinceLast = 0;
+    invincibilityDistanceThreshold = Phaser.Math.Between(INVINCIBILITY_DISTANCE_MIN, INVINCIBILITY_DISTANCE_MAX);
 
-  doubleJumpCooldownBar = this.add.rectangle(
-    jumpButton.x,
-    jumpButton.y - BUTTON_SIZE / 2 - 15, // Match background position
-    60,
-    8,
-    COOLDOWN_BAR_READY_COLOR,
-    0.85
-  ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(101).setVisible(true);
+    // --- Initialize Player State ---
+    wasTouchingGround = false; // Initialize wasTouchingGround
 
-  // Add "DOUBLE JUMP" text below the cooldown bar
-  this.add.text(
-    jumpButton.x,
-    jumpButton.y - BUTTON_SIZE / 2 - 25, // Position above the bar
-    "DOUBLE JUMP",
-    {
-      fontSize: "12px",
-      fill: "#ffffff",
-      fontStyle: "bold"
-    }
-  ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(101);
+    // --- Double Jump Cooldown Bar (indicator) ---
+    doubleJumpCooldownBarBg = this.add.rectangle(
+      jumpButton.x,
+      jumpButton.y - BUTTON_SIZE / 2 - 15, // Position ABOVE jump button
+      60,
+      8,
+      COOLDOWN_BAR_BG_COLOR,
+      0.7
+    ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(100).setVisible(true);
 
-  // --- Start Menu Overlay --- (Simplified)
-  if (!window._dallinGameHasShownMenu) {
-    startMenuContainer = this.add.container(0, 0).setDepth(1000).setScrollFactor(0);
+    doubleJumpCooldownBar = this.add.rectangle(
+      jumpButton.x,
+      jumpButton.y - BUTTON_SIZE / 2 - 15, // Match background position
+      60,
+      8,
+      COOLDOWN_BAR_READY_COLOR,
+      0.85
+    ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(101).setVisible(true);
 
-    // Simple dark overlay
-    const menuBg = this.add.rectangle(
-      0, 0, config.width, config.height,
-      0x000000, 0.7
-    ).setOrigin(0, 0);
-
-    // Centered "CLICK ANYWHERE TO START" text
-    const startText = this.add.text(
-      config.width / 2,
-      config.height / 2 - 18,
-      "CLICK ANYWHERE TO START",
+    // Add "DOUBLE JUMP" text below the cooldown bar
+    this.add.text(
+      jumpButton.x,
+      jumpButton.y - BUTTON_SIZE / 2 - 25, // Position above the bar
+      "DOUBLE JUMP",
       {
-        fontSize: "28px",
-        fill: "#fff",
-        fontFamily: '"Press Start 2P", monospace',
-        align: "center"
+        fontSize: "16px",
+        fill: "#ffffff",
+        fontFamily: "VT323"
       }
-    ).setOrigin(0.5);
+    ).setOrigin(0.5, 0.5).setScrollFactor(0).setDepth(101);
 
-    // Minimal, smaller, simpler instructions lower down
-    const instructions = this.add.text(
-      config.width / 2,
-      config.height - 54,
-      [
-        "Jump: UP / SPACE / JUMP",
-        "Duck: DOWN / DUCK",
-        "Double Jump: In air, jump again",
-        "Power: Collect, then press RIGHT or POWER"
-      ].join('\n'),
-      {
-        fontSize: "13px",
-        fill: "#cccccc",
-        fontFamily: '"Press Start 2P", monospace',
-        align: "center",
-        lineSpacing: 6,
-        wordWrap: { width: config.width * 0.92 }
-      }
-    ).setOrigin(0.5);
+    // --- Start Menu Overlay --- (Simplified)
+    if (!window._dallinGameHasShownMenu) {
+      startMenuContainer = this.add.container(0, 0).setDepth(1000).setScrollFactor(0);
 
-    startMenuContainer.add([menuBg, startText, instructions]);
+      // Simple dark overlay
+      const menuBg = this.add.rectangle(
+        0, 0, config.width, config.height,
+        0x000000, 0.7
+      ).setOrigin(0, 0);
 
-    // Dismiss menu on any pointerdown
-    this.input.once("pointerdown", () => {
-      startMenuContainer.setVisible(false);
+      // Centered "CLICK ANYWHERE TO START" text
+      const startText = this.add.text(
+        config.width / 2,
+        config.height / 2 - 18,
+        "CLICK ANYWHERE TO START",
+        {
+          fontSize: "28px",
+          fill: "#fff",
+          fontFamily: '"Press Start 2P", monospace',
+          align: "center"
+        }
+      ).setOrigin(0.5);
+
+      // Minimal, smaller, simpler instructions lower down
+      const instructions = this.add.text(
+        config.width / 2,
+        config.height - 54,
+        [
+          "Jump: UP / SPACE / JUMP",
+          "Duck: DOWN / DUCK",
+          "Double Jump: In air, jump again",
+          "Power: Collect, then press RIGHT or POWER"
+        ].join('\n'),
+        {
+          fontSize: "13px",
+          fill: "#cccccc",
+          fontFamily: '"Press Start 2P", monospace',
+          align: "center",
+          lineSpacing: 6,
+          wordWrap: { width: config.width * 0.92 }
+        }
+      ).setOrigin(0.5);
+
+      startMenuContainer.add([menuBg, startText, instructions]);
+
+      // Dismiss menu on any pointerdown
+      this.input.once("pointerdown", () => {
+        startMenuContainer.setVisible(false);
+        isGameStarted = true;
+        spawnTrackingSpiders.call(this, 3);
+        this.physics.resume();
+        window._dallinGameHasShownMenu = true;
+      });
+
+      // Pause physics until game starts
+      this.physics.pause();
+    } else {
       isGameStarted = true;
       spawnTrackingSpiders.call(this, 3);
       this.physics.resume();
-      window._dallinGameHasShownMenu = true;
-    });
+    }
 
-    // Pause physics until game starts
-    this.physics.pause();
-  } else {
-    isGameStarted = true;
-    spawnTrackingSpiders.call(this, 3);
-    this.physics.resume();
-  }
-
-  console.log("Game created!");
+    console.log("Game created!");
+  });
 }
 
 // --- Helper: Spawn spiders already tracking the player --- NEW
@@ -855,13 +929,14 @@ function spawnInvincibilityPowerUp() {
     return;
   }
 
-  const powerUp = this.add.rectangle(
+  // --- Use power.png icon for power-up ---
+  const powerUp = this.add.image(
     spawnX,
     spawnY,
-    INVINCIBILITY_POWERUP_SIZE,
-    INVINCIBILITY_POWERUP_SIZE,
-    INVINCIBILITY_POWERUP_COLOR
+    'power'
   );
+  powerUp.displayWidth = INVINCIBILITY_POWERUP_SIZE;
+  powerUp.displayHeight = INVINCIBILITY_POWERUP_SIZE;
   invincibilityPowerUps.add(powerUp);
   if (!powerUp.body) {
     this.physics.world.enable(powerUp);
@@ -1052,7 +1127,6 @@ function update(time, delta) {
     isDuckButtonPressed = false;
     // Ensure buttons are hidden on game over screen if they were visible
     if (sprintButton.visible) sprintButton.setVisible(false);
-    if (sprintButtonText.visible) sprintButtonText.setVisible(false);
     return;
   }
 
@@ -1297,7 +1371,6 @@ function update(time, delta) {
   const showInvincibilityButton = hasInvincibilityPowerUp && !isInvincible;
   if (sprintButton.visible !== showInvincibilityButton) {
       sprintButton.setVisible(showInvincibilityButton);
-      sprintButtonText.setVisible(showInvincibilityButton);
   }
 
   // --- Double Jump Cooldown Bar Visual ---
